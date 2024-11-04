@@ -55,14 +55,16 @@
         <nav class="navbar navbar-expand-lg navbar-custom-color">
             <div class="container-fluid">
                 <!-- Logo -->
-                <a class="navbar-brand logo-custom" href=""><strong>SignCoding</strong>
-                </a>
+                <a class="navbar-brand logo-custom" href=""><strong>SignCoding</strong></a>
                 <!-- Menu toggler -->
                 <button class="navbar-toggler ms-auto custom-toggler text-light" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                    aria-label="Toggle navigation" id="menuButton">
+                    <div class="line line-1"></div>
+                    <div class="line line-2"></div>
+                    <div class="line line-3"></div>
                 </button>
+                <!-- Collapsible menu items -->
                 <div class="collapse navbar-collapse text-end" id="navbarNav">
                     <!-- Page links -->
                     <ul class="navbar-nav nav-underline ms-auto">
@@ -70,26 +72,24 @@
                         <!-- Do not show the Home link for logged-in users -->
                         {% else %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == addlater %}active" aria-current="page{% endif %}"
-                                href="">Home</a>
+                            <a class="nav-link {% if request.path == addlater %}active{% endif %}" href="">Home</a>
                         </li>
                         {% endif %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == addlater %}active" aria-current="page{% endif %}"
-                                href="">Find a Tutor</a>
+                            <a class="nav-link {% if request.path == addlater %}active{% endif %}" href="">Find a
+                                Tutor</a>
                         </li>
                         <!-- My booking only appears for registered users -->
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == addlater %}active" aria-current="page{% endif %}"
-                                href="">My Bookings</a>
+                            <a class="nav-link {% if request.path == addlater %}active{% endif %}" href="">My
+                                Bookings</a>
                         </li>
                         {% endif %}
                     </ul>
                     <!-- Sign Out button appears once registered user is logged in -->
                     {% if user.is_authenticated %}
-                    <a class=" btn btn-outline-light signlog-button" role="button" href="">Sign
-                        Out</a>
+                    <a class="btn btn-outline-light signlog-button" role="button" href="">Sign Out</a>
                     {% else %}
                     <a class="btn btn-warning signlog-button" role="button" href="">Register</a>
                     <a class="btn btn-outline-light signlog-button-sm" role="button" href="">Login</a>
@@ -112,28 +112,54 @@
     </main>
 
     <footer class="footer-custom-color py-3 px-3">
-        <!-- <div class="row">
-            <ul class="nav justify-content-end list-unstyled">
-                <li class="ms-3">
-                    <a target="_blank" href="https://www.facebook.com/">
-                        <i class="fa-brands fa-facebook" aria-hidden="true"></i>
-                        <span class="sr-only">Facebook</span>
-                    </a>
-                </li>
-                <li class="ms-3">
-                    <a target="_blank" href="https://www.instagram.com/">
-                        <i class="fa-brands fa-instagram" aria-hidden="true"></i>
-                        <span class="sr-only">Instagram</span>
-                    </a>
-                </li>
-                <li class="ms-3">
-                    <a target="_blank" href="https://x.com/">
-                        <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
-                        <span class="sr-only">X</span>
-                    </a>
-                </li>
-            </ul>
-        </div> -->
+        <div class="row">
+            <div class="col-sm-4 col-xs-12">
+                <h6 class="custom-text-h6"><strong>Site Navigation:</strong></h6>
+                <div class="col">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a href="" class="nav-link nav-footer-custom">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link nav-footer-custom">Tutor</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link nav-footer-custom">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="horizontal-rule"></div>
+            <div class="col-sm-4 col-xs-12 newsletter-footer-column">
+                <h6 class="custom-text-h6 newsletter-footer-h6"><strong>Sign up to our newsletters for discount
+                        coupons!</strong></h6>
+            </div>
+            <div class="horizontal-rule"></div>
+            <div class="col-sm-4 col-xs-12">
+                <h6 class="custom-text-h6 custom-socmed-links-h6"><strong>Social Media:</strong></h6>
+                <ul class="nav flex-column custom-socmed-links">
+                    <li class="nav-item">
+                        <a target="_blank" href="https://www.facebook.com/" class="nav-link">
+                            <i class="fa-brands fa-facebook social-media-custom" aria-hidden="true"></i>
+                            <span class="sr-only">Facebook</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a target="_blank" href="https://www.instagram.com/" class="nav-link">
+                            <i class="fa-brands fa-instagram social-media-custom" aria-hidden="true"></i>
+                            <span class="sr-only">Instagram</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a target="_blank" href="https://x.com/" class="nav-link">
+                            <i class="fa-brands fa-x-twitter social-media-custom" aria-hidden="true"></i>
+                            <span class="sr-only">X</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <hr class="responsive-line-horizontal">
         <div class="row text-center">
             <div class="col">
                 <a class="navbar-brand foot-logo" href=""><strong>© SignCoding 2024</strong></a>
@@ -142,6 +168,13 @@
     </footer>
 
     {% block postloadjs %}
+    <script>
+        const menuButton = document.getElementById('menuButton');
+
+        menuButton.addEventListener('click', function () {
+            menuButton.classList.toggle('close');
+        });
+    </script>
     {% endblock %}
 </body>
 
