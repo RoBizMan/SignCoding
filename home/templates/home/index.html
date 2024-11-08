@@ -1,6 +1,77 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+{% endblock %}
+
 {% block content %}
-<h1 class="display-4 text-success">It works!</h1>
+<div class="container mt-3 p-3">
+    <div class="row">
+        <section class="col-sm-12 col-lg-8">
+            <h1 class="mb-3"><i class="fa-solid fa-unlock-keyhole land-icon"></i> Unlock Your Potential with
+                SignCoding</h1>
+            <h4 class="landing-h4 mb-3">Where Programming Meets Sign Language Tutoring</h2>
+                <p class="landing-p">At SignCoding, we bridge the gap between ambition and achievement. Our dedicated
+                    sign
+                    language tutors empower aspiring programmers to learn in an inclusive environment tailored to your
+                    unique needs. Whether you are starting your coding journey or looking to enhance your skills, we are
+                    here to ensure that communication is seamless and effective. Join us today and transform your
+                    learning experience!
+                </p>
+                <div class="row">
+                    <div class="col d-flex justify-content-center align-items-center mb-3">
+                        <a class="btn btn-lg btn-land-color" role="button" href=""><strong>Find a Tutor now! <i
+                                    class="fa-solid fa-magnifying-glass"></i></strong></a>
+                    </div>
+                </div>
+        </section>
+        <aside class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
+            <img src="{% static 'images/stud_comp.jpg' %}" class="img-fluid" alt="Student Computer">
+        </aside>
+    </div>
+    <hr class="hr-land-page">
+</div>
+<div class="container p-3">
+    <div class="row">
+        <aside class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
+            <img src="{% static 'images/asl_comp_2.jpg' %}" class="img-fluid" alt="Student Computer">
+        </aside>
+        <section class="col-sm-12 col-lg-8">
+            <h1 class="mb-3"><i class="fa-solid fa-list-check land-icon"></i> Why Choose SignCoding?</h1>
+            <h4 class="landing-h4 mb-3">Learn Faster with Programming Expert Sign Language Tutors</h4>
+            <p>Our verified sign language tutors are here to help you master programming languages like HTML, CSS,
+                JavaScript, and Python, ensuring you grasp concepts quickly and effectively.</p>
+            <h4 class="landing-h4 mb-3">Inclusive Learning Tailored for You</h4>
+            <p>Experience a supportive environment designed specifically for deaf and hard-of-hearing students, where
+                communication is seamless and learning is empowering. Focus on the programming languages that matter.
+                Our specialised curriculum equips you with the skills needed to thrive in today’s tech landscape.
+            </p>
+        </section>
+    </div>
+    <hr class="hr-land-page">
+</div>
+<div class="container p-3 mb-3">
+    <div class="row">
+        <section class="col-sm-12 col-lg-8">
+            <h1 class="mb-3"><i class="fa-solid fa-road land-icon"></i>Your Journey Starts Here!</h1>
+            <h4 class="landing-h4">Join SignCoding today and unlock your potential in coding. Together, we will turn
+                your aspirations into
+                achievements!
+            </h4>
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-auto">
+                    <a class="btn btn-lg btn-land-color" role="button" href="">Sign
+                        Up</a>
+                </div>
+                <div class="col-md-auto">
+                    <a class="btn btn-lg btnout-land-color" role="button" href="">Login</a>
+                </div>
+            </div>
+        </section>
+        <aside class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
+            <img src="{% static 'images/signing_group_with_laptops.png' %}" class="img-fluid" alt="Student Computer">
+        </aside>
+    </div>
+</div>
 {% endblock %}

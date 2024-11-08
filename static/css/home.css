@@ -1,0 +1,37 @@
+.land-icon {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.landing-h4 {
+    font-style: italic;
+}
+
+.btn-land-color {
+    background-color: #3C0008;
+    color: #F9F6EE;
+}
+
+.btn-land-color:hover {
+    background-color: #F9F6EE;
+    border: 0.1rem solid #3C0008;
+    color: #3C0008;
+}
+
+.btnout-land-color {
+    background-color: #F9F6EE;
+    border: 0.1rem solid #3C0008;
+    color: #3C0008;
+}
+
+.btnout-land-color:hover {
+    background-color: #3C0008;
+    color: #F9F6EE;
+}
+
+.hr-land-page {
+    border: none;
+    height: 0.25rem;
+    background-color: #3C0008;
+    margin: 1rem 0;
+}
