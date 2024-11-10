@@ -1,0 +1,86 @@
+[
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 1,
+        "fields": {
+            "name": "Python"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 2,
+        "fields": {
+            "name": "JavaScript"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 3,
+        "fields": {
+            "name": "Java"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 4,
+        "fields": {
+            "name": "C#"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 5,
+        "fields": {
+            "name": "PHP"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 6,
+        "fields": {
+            "name": "C++"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 7,
+        "fields": {
+            "name": "Ruby"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 8,
+        "fields": {
+            "name": ".NET"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 9,
+        "fields": {
+            "name": "Swift"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 10,
+        "fields": {
+            "name": "Go"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 11,
+        "fields": {
+            "name": "HTML"
+        }
+    },
+    {
+        "model": "tutor.programminglanguage",
+        "pk": 12,
+        "fields": {
+            "name": "CSS"
+        }
+    }
+]

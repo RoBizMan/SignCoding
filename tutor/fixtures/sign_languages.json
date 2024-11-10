@@ -1,0 +1,86 @@
+[
+    {
+        "model": "tutor.signlanguage",
+        "pk": 1,
+        "fields": {
+            "name": "American Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 2,
+        "fields": {
+            "name": "British Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 3,
+        "fields": {
+            "name": "Irish Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 4,
+        "fields": {
+            "name": "International Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 5,
+        "fields": {
+            "name": "French Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 6,
+        "fields": {
+            "name": "German Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 7,
+        "fields": {
+            "name": "Japanese Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 8,
+        "fields": {
+            "name": "Chinese Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 9,
+        "fields": {
+            "name": "Spanish Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 10,
+        "fields": {
+            "name": "Russian Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 11,
+        "fields": {
+            "name": "Indian Sign Language"
+        }
+    },
+    {
+        "model": "tutor.signlanguage",
+        "pk": 12,
+        "fields": {
+            "name": "Polish Sign Language"
+        }
+    }
+]
