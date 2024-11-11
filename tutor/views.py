@@ -3,5 +3,5 @@ from django.shortcuts import render
 # Create your views here.
 
 
-def index(request):
-    return render(request, 'home/tutor.html')
+def tutors(request):
+    return render(request, 'tutor/tutors.html')
