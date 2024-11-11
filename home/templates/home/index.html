@@ -20,8 +20,8 @@
                 </p>
                 <div class="row">
                     <div class="col d-flex justify-content-center align-items-center mb-3">
-                        <a class="btn btn-lg btn-land-color" role="button" href=""><strong>Find a Tutor now! <i
-                                    class="fa-solid fa-magnifying-glass"></i></strong></a>
+                        <a class="btn btn-lg btn-land-color" role="button" href="{% url 'tutors' %}"><strong>Find a
+                                Tutor now! <i class="fa-solid fa-magnifying-glass"></i></strong></a>
                     </div>
                 </div>
         </section>
@@ -59,13 +59,18 @@
                 achievements!
             </p>
             <div class="row justify-content-center mt-5 mb-3">
+                {% if user.is_authenticated %}
                 <div class="col-auto">
-                    <a class="btn btn-lg btn-land-color" role="button" href="">Sign
-                        Up</a>
+                    <a class="btn btn-land-color" role="button" href="">My Bookings</a>
+                </div>
+                {% else %}
+                <div class="col-auto">
+                    <a class="btn btn-lg btn-land-color" role="button" href="{% url 'account_signup' %}">Register</a>
                 </div>
                 <div class="col-auto">
-                    <a class="btn btn-lg btnout-land-color" role="button" href="">Login</a>
+                    <a class="btn btn-lg btnout-land-color" role="button" href="{% url 'account_login' %}">Login</a>
                 </div>
+                {% endif %}
             </div>
         </section>
         <aside class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
