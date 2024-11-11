@@ -151,7 +151,8 @@ main {
 }
 
 /* Override Django's default button */
-button.btn-custom-color {
+button.btn-custom-color,
+.btn-acc-color {
     background-color: #3C0008;
     color: #F9F6EE;
     border: 1px solid #3C0008;
@@ -163,12 +164,12 @@ button.btn-custom-color {
     transition: background-color 0.3s ease;
 }
 
-button.btn-custom-color:hover {
+button.btn-custom-color:hover,
+.btn-acc-color:hover {
     background-color: #F9F6EE;
     color: #3C0008;
     border: 1px solid #3C0008;
 }
-
 
 /* Media query for higher-res smartphone and larger screens (576px and up) */
 @media screen and (min-width: 576px) {
