@@ -150,6 +150,26 @@ main {
     margin: 1.5rem 0;
 }
 
+/* Override Django's default button */
+button.btn-custom-color {
+    background-color: #3C0008;
+    color: #F9F6EE;
+    border: 1px solid #3C0008;
+    padding: 0.8rem;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+button.btn-custom-color:hover {
+    background-color: #F9F6EE;
+    color: #3C0008;
+    border: 1px solid #3C0008;
+}
+
+
 /* Media query for higher-res smartphone and larger screens (576px and up) */
 @media screen and (min-width: 576px) {
 
