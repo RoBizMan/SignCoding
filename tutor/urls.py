@@ -23,6 +23,8 @@ urlpatterns = [
     path('', views.tutors, name='tutors'),
     path('tutor/<int:tutor_id>/', views.tutor_profile, name='tutor_profile'),
     path('add/', views.add_tutor, name='add_tutor'),
+    path('tutor/<int:tutor_id>/edit/', views.edit_tutor, name='edit_tutor'),
+    path('tutor/<int:tutor_id>/delete/', views.delete_tutor, name='delete_tutor'),
 ]
 
 if settings.DEBUG:

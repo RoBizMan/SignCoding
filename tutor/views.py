@@ -98,3 +98,60 @@ def add_tutor(request):
         form = TutorForm()
 
     return render(request, 'tutor/tutors_add.html', {'form': form})
+
+def edit_tutor(request, tutor_id):
+    """
+    Allows a superuser to edit an existing tutor's profile.
+    
+    The view is similar to the 'add_tutor' view, but it works on an existing tutor record.
+    If the tutor exists, it pre-populates the form with the tutor's current data and allows the user
+    to make changes. If the form is valid, it saves the changes to the tutor's profile.
+    
+    Args:
+        request: The HTTP request object containing the data submitted via the form.
+        tutor_id: The unique ID of the tutor whose profile is to be edited.
+
+    Returns:
+        A rendered page ('tutors_edit.html') with the tutor's data pre-filled in the form.
+        If successful, it redirects to the tutor's profile page or list of tutors.
+    """
+    tutor = get_object_or_404(Tutor, id=tutor_id)
+
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        raise PermissionDenied("You do not have permission to access this page.")
+
+    if request.method == "POST":
+        form = TutorForm(request.POST, request.FILES, instance=tutor)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Tutor profile updated successfully!")
+            return redirect('tutor_profile', tutor_id=tutor.id)
+        else:
+            print("Form errors:", form.errors)
+    else:
+        form = TutorForm(instance=tutor)
+
+    return render(request, 'tutor/tutors_edit.html', {'form': form, 'tutor': tutor})
+
+def delete_tutor(request, tutor_id):
+    """
+    Allows a superuser to delete an existing tutor's profile.
+
+    If the tutor exists and the user is a superuser, it removes the tutor from the database.
+    Upon successful deletion, redirects to the tutors list page with a success message.
+
+    Args:
+        request: The HTTP request object containing the user and session information.
+        tutor_id: The unique ID of the tutor to be deleted.
+
+    Returns:
+        A redirect to the list of tutors with a success message.
+    """
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        raise PermissionDenied("You do not have permission to delete this profile.")
+    
+    tutor = get_object_or_404(Tutor, id=tutor_id)
+    tutor.delete()
+    messages.success(request, "Tutor profile deleted successfully.")
+    return redirect('tutors')

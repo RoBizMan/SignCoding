@@ -15,7 +15,7 @@
 <div class="container mt-3 mb-3">
     <div class="card p-4 shadow-lg min-vw-20 max-vw-40">
         <div class="card-body">
-            <h1 class="text-center mt-2 mb-2"><strong><i class="fa-solid fa-user-plus"></i> Add a New Tutor</strong>
+            <h1 class="text-center mt-2 mb-2"><strong><i class="fa-solid fa-pen"></i> Edit a Tutor</strong>
             </h1>
 
             <form method="post" enctype="multipart/form-data">
@@ -167,19 +167,19 @@
                 </div>
                 <div class="row d-flex justify-content-center align-items-center mb-3">
                     <div class="col-auto text-center">
-                        <button type="submit" class="btn btn-profile-color">Add Tutor <i
-                                class="fa-solid fa-square-plus"></i></button>
+                        <button type="submit" class="btn btn-profile-color">Update <i
+                                class="fa-solid fa-square-caret-up"></i></button>
                     </div>
                 </div>
             </form>
-            <div class="row d-flex justify-content-center align-items-center"></div>
-            <div class="col-auto text-center">
-                <a href="{% url 'tutors' %}" class="btn btn-canc-color"><i class="fa-regular fa-rectangle-xmark"></i>
-                    Cancel</a>
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-auto text-center">
+                    <a href="{% url 'tutor_profile' tutor.id %}" class="btn btn-canc-color"><i
+                            class="fa-regular fa-rectangle-xmark"></i> Cancel</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 </div>
 

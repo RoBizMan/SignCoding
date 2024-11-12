@@ -1,4 +1,4 @@
-/* View profile button */
+/* View profile button & Add and Update a Tutor button */
 .btn-profile-color {
     background-color: #3C0008;
     color: #F9F6EE;
@@ -8,6 +8,18 @@
     background-color: #F9F6EE;
     border: 0.1rem solid #3C0008;
     color: #3C0008;
+}
+
+/* Cancel Button for Add or Update a Tutor */
+.btn-canc-color {
+    background-color: #F9F6EE;
+    border: 0.1rem solid #3C0008;
+    color: #3C0008;
+}
+
+.btn-canc-color:hover {
+    background-color: #3C0008;
+    color: #F9F6EE;
 }
 
 /* Availability calendar */
@@ -36,6 +48,11 @@
     background-color: #f0f0f0;
 }
 
+/* Force Select2 to take full width */
+.select2-container {
+    width: 100% !important;
+}
+
 /* Multi-select dropdown */
 select[multiple] {
     width: 100%;
@@ -48,11 +65,6 @@ select[multiple] {
     /* Padding inside the dropdown */
     box-sizing: border-box;
     /* Ensures padding is included in width/height */
-}
-
-.select2-container {
-    width: 100% !important;
-    /* Force Select2 to take full width */
 }
 
 /* Styles for larger screens */
