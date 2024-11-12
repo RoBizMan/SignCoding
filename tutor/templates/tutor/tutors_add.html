@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/tutor.css' %}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3 mb-3">
+    <div class="card p-4 shadow-lg min-vw-20 max-vw-40">
+        <div class="card-body">
+            <h1 class="text-center mt-2 mb-2"><strong><i class="fa-solid fa-user-plus"></i> Add a New Tutor</strong>
+            </h1>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+
+                <!-- Profile Picture Preview -->
+                <div class="col d-flex justify-content-center align-items-center">
+                    <img id="profile-pic-preview"
+                        src="{% if form.instance.photo %}{{ form.instance.photo.url }}{% else %}{{ MEDIA_URL }}{{ form.photo.initial }}{% endif %}"
+                        alt="Profile Picture Preview" class="img-fluid rounded-circle mt-2 mb-2"
+                        style="width: 150px; height: 150px; object-fit: cover;">
+                </div>
+                <div class="mb-3">
+                    <label for="id_photo" class="form-label">Upload Your Profile Picture:</label>
+                    <input type="file" id="id_photo" name="photo" accept="image/*" class="form-control"
+                        onchange="previewImage(event)">
+                    <!-- Error Message for Profile Picture -->
+                    {% if form.photo.errors %}
+                    <div class="text-danger mt-2">
+                        {% for error in form.photo.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Tutor's First Name -->
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="id_tutor_firstname" class="form-label">First Name:</label>
+                        <input type="text" name="tutor_firstname" id="id_tutor_firstname" class="form-control"
+                            placeholder="Please enter your first name"
+                            value="{{ form.tutor_firstname.value|default:'' }}" required>
+                        {% if form.tutor_firstname.errors %}
+                        <div class="text-danger">
+                            {% for error in form.tutor_firstname.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Tutor's Last Name -->
+                    <div class="mb-3">
+                        <label for="id_tutor_lastname" class="form-label">Last Name:</label>
+                        <input type="text" name="tutor_lastname" id="id_tutor_lastname" class="form-control"
+                            placeholder="Enter your last name" value="{{ form.tutor_lastname.value|default:'' }}"
+                            required>
+                        {% if form.tutor_lastname.errors %}
+                        <div class="text-danger">
+                            {% for error in form.tutor_lastname.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Tutor's Email Address -->
+                    <div class="mb-3">
+                        <label for="id_tutor_email" class="form-label">Email Address:</label>
+                        <input type="email" name="tutor_email" id="id_tutor_email" class="form-control"
+                            placeholder="Enter your email address" value="{{ form.tutor_email.value|default:'' }}"
+                            required>
+                        {% if form.tutor_email.errors %}
+                        <div class="text-danger">
+                            {% for error in form.tutor_email.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Tutor's Knowledge of Programming Languages -->
+                    <div>
+                        <label for="id_programming_languages" class="form-label">Programming Languages:</label>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.programming_languages }}
+                        {% if form.programming_languages.errors %}
+                        <div class="text-danger">
+                            {% for error in form.programming_languages.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Tutor's Knowledge of Sign Languages -->
+                    <div>
+                        <label for="id_sign_languages" class="form-label">Sign Languages:</label>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.sign_languages }}
+                        {% if form.sign_languages.errors %}
+                        <div class="text-danger">
+                            {% for error in form.sign_languages.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Tutor's Day Availability -->
+                    <div>
+                        <label for="id_day_availability" class="form-label">Available Days:</label>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.day_availability }}
+                        {% if form.day_availability.errors %}
+                        <div class="text-danger">
+                            {% for error in form.day_availability.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Tutor's Time Availability -->
+                    <div>
+                        <label for="id_time_availability" class="form-label">Available Time Slots:</label>
+                    </div>
+                    <div class="mb-3">
+                        {{ form.time_availability }}
+                        {% if form.time_availability.errors %}
+                        <div class="text-danger">
+                            {% for error in form.time_availability.errors %}
+                            <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Tutor's Price per hour -->
+                    <div>
+                        <label for="id_price" class="form-label">Price per Hour:</label>
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">€</span>
+                        {{ form.price }}
+                    </div>
+                    {% if form.price.errors %}
+                    <div class="text-danger">
+                        {% for error in form.price.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="row d-flex justify-content-center align-items-center">
+                    <div class="col-auto text-center">
+                        <button type="submit" class="btn btn-profile-color">Add Tutor</button>
+                    </div>
+                </div>
+        </div>
+        </form>
+    </div>
+</div>
+</div>
+
+<script>
+    function previewImage(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const preview = document.getElementById('profile-pic-preview');
+            preview.src = e.target.result;
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+    $(document).ready(function () {
+        $('#id_programming_languages').select2({
+            placeholder: "Select programming languages",
+            allowClear: true
+        });
+        $('#id_sign_languages').select2({
+            placeholder: "Select sign languages",
+            allowClear: true
+        });
+        $('#id_day_availability').select2({
+            placeholder: "Select tutor's day available",
+            allowClear: true
+        });
+        $('#id_time_availability').select2({
+            placeholder: "Select tutor's available time slots",
+            allowClear: true
+        });
+    });
+    document.addEventListener('DOMContentLoaded', function () {
+        const priceInput = document.querySelector('.price-input');
+
+        if (priceInput) { // Check if the element exists
+            // Format on blur
+            priceInput.addEventListener('blur', function () {
+                // Remove any non-numeric characters except for decimal point
+                let value = this.value.replace(/[^0-9.]/g, '');
+
+                // Parse the value as a float
+                let floatValue = parseFloat(value);
+
+                // If it's a valid number, format it
+                if (!isNaN(floatValue)) {
+                    // Format to two decimal places
+                    this.value = floatValue.toFixed(2);
+                } else {
+                    // If not a valid number, clear the input
+                    this.value = '';
+                }
+            });
+        } else {
+            console.error("Price input not found.");
+        }
+    });
+</script>
+{% endblock %}

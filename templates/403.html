@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div style="text-align: center; margin-top: 50px;">
+    <h1>403 Forbidden</h1>
+    <p>You do not have permission to access this page.</p>
+    <a href="{% url 'tutors' %}">Back to Tutors List</a>
+</div>
+{% endblock %}

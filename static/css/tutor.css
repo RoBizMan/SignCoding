@@ -36,6 +36,25 @@
     background-color: #f0f0f0;
 }
 
+/* Multi-select dropdown */
+select[multiple] {
+    width: 100%;
+    /* Make it responsive */
+    height: 150px;
+    /* Adjust height as needed */
+    margin-top: 10px;
+    /* Space above the dropdown */
+    padding: 5px;
+    /* Padding inside the dropdown */
+    box-sizing: border-box;
+    /* Ensures padding is included in width/height */
+}
+
+.select2-container {
+    width: 100% !important;
+    /* Force Select2 to take full width */
+}
+
 /* Styles for larger screens */
 @media (min-width: 768px) {
 

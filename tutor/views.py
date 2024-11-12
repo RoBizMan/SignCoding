@@ -1,11 +1,30 @@
-from django.shortcuts import render, get_object_or_404
-from .models import Tutor, DayAvailability, TimeSlot
+from django.shortcuts import render, get_object_or_404, redirect
+from django.http import HttpResponse
 from django.core.paginator import Paginator
+from django.core.exceptions import PermissionDenied
+from django.contrib import messages
+from .models import Tutor, DayAvailability, TimeSlot
+from .forms import TutorForm
 
 def tutors(request):
+    """
+    Retrieves and displays a paginated list of all tutors.
+    
+    The view limits the display of programming languages and sign languages for each tutor.
+    For programming languages, a maximum of 4 are shown, and for sign languages, a maximum of 2 are shown.
+    The remaining count of each is calculated and made available for use in the template.
+    
+    Pagination is applied to the list of tutors to ensure only 5 tutors are displayed per page.
+
+    Args:
+        request: The HTTP request object, typically containing GET or POST data and user session data.
+
+    Returns:
+        A rendered page ('tutors.html') with the list of tutors and pagination data.
+    """
     tutors_list = Tutor.objects.all()
 
-    # Limit pills of sign languages to two plus more in a pill in the frontend view
+    # Limit pills of programming languages and sign languages in the frontend view
     for tutor in tutors_list:
         programming_languages = tutor.programming_languages.all()
         sign_languages = tutor.sign_languages.all()
@@ -19,8 +38,20 @@ def tutors(request):
 
     return render(request, 'tutor/tutors.html', {'page_obj': page_obj})
 
-
 def tutor_profile(request, tutor_id):
+    """
+    Displays the detailed profile of a specific tutor.
+    
+    The view retrieves a tutor by ID and also provides the available days of the week and time slots
+    for the tutor's availability.
+    
+    Args:
+        request: The HTTP request object.
+        tutor_id: The unique ID of the tutor whose profile is to be displayed.
+
+    Returns:
+        A rendered page ('tutors_profile.html') showing the tutor's profile details.
+    """
     # Retrieve the data stored in the database
     tutor = get_object_or_404(Tutor, id=tutor_id)
     days_of_week = DayAvailability.objects.all()
@@ -32,3 +63,38 @@ def tutor_profile(request, tutor_id):
         'time_slots': time_slots,
     }
     return render(request, 'tutor/tutors_profile.html', context)
+
+
+def add_tutor(request):
+    """
+    Handles the form submission for adding a new tutor to the system.
+    
+    This view is only accessible to authenticated superusers.
+    If the request method is POST, it processes the form data and attempts to save a new tutor.
+    If the form is valid, the tutor is saved, a success message is displayed, and the user is redirected
+    to the tutors list page.
+    
+    If the form is not valid, errors are printed for debugging purposes, and the form is redisplayed.
+    
+    Args:
+        request: The HTTP request object containing POST data and user session data.
+
+    Returns:
+        A rendered page ('tutors_add.html') containing the tutor form, with possible validation errors.
+    """
+    if not request.user.is_authenticated or not request.user.is_superuser:
+        raise PermissionDenied("You do not have permission to access this page.")
+
+    if request.method == "POST":
+        form = TutorForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Tutor added successfully!")
+            return redirect('tutors')
+        else:
+            print("Form errors:", form.errors)
+    else:
+        form = TutorForm()
+
+    return render(request, 'tutor/tutors_add.html', {'form': form})

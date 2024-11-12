@@ -97,7 +97,7 @@
                     <!-- Sign Out button appears once registered user is logged in -->
                     {% if user.is_authenticated %}
                     {% if user.is_superuser %}
-                    <a class="btn btn-warning signlog-button" role="button" href=""><i
+                    <a class="btn btn-warning signlog-button" role="button" href="{% url 'add_tutor' %}"><i
                             class="fa-solid fa-user-plus"></i> Add a New Tutor</a>
                     {% endif %}
                     <a class="btn btn-outline-light signlog-button" role="button" href="{% url 'account_logout' %}">Sign
