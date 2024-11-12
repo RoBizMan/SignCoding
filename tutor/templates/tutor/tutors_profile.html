@@ -7,7 +7,7 @@
 
 {% block content %}
 <div class="container mt-3">
-    <h1 class="text-center mt-5 mb-5"><strong>Tutor Profile</strong></h1>
+    <h1 class="text-center mt-5 mb-5"><strong>Tutor Profile <i class="fa-solid fa-id-card-clip"></i> </strong></h1>
 
     <!-- Profile Card -->
     <div class="card mb-3">
@@ -24,7 +24,7 @@
                     <h5 class="card-title">{{ tutor.tutor_firstname }} {{ tutor.tutor_lastname|slice:":1" }}.</h5>
 
                     <!-- Full List of Programming Languages -->
-                    <p class="mb-0"><strong>Programming Languages:</strong></p>
+                    <p class="mb-0"><strong><i class="fa-solid fa-code"></i> Programming Languages:</strong></p>
                     <div>
                         {% for language in tutor.programming_languages.all %}
                         <span class="badge bg-primary">{{ language.name }}</span>
@@ -32,7 +32,7 @@
                     </div>
 
                     <!-- Full List of Sign Languages -->
-                    <p class="mt-3 mb-0"><strong>Sign Languages:</strong></p>
+                    <p class="mt-3 mb-0"><strong><i class="fa-solid fa-hands"></i> Sign Languages:</strong></p>
                     <div>
                         {% for sign_language in tutor.sign_languages.all %}
                         <span class="badge bg-success">{{ sign_language.name }}</span>
@@ -50,7 +50,8 @@
                         <a class="btn btn-profile-color mb-3" role="button" href="">Book Now!</a>
                         {% else %}
                         <a class="btn btn-profile-color mb-3" role="button"
-                            href="{% url 'account_login' %}?next={{ request.path }}">Please
+                            href="{% url 'account_login' %}?next={{ request.path }}"><i
+                                class="fa-solid fa-right-to-bracket"></i> Please
                             Login First</a>
                         {% endif %}
                     </div>
@@ -60,7 +61,7 @@
     </div>
 
     <!-- Availability Calendar -->
-    <h4 class="mt-4">Day Availability</h4>
+    <h4 class="mt-4"><i class="fa-solid fa-calendar-week"></i> Day Availability</h4>
     <div class="availability-calendar">
         {% for day in days_of_week %}
         <div class="{% if day in tutor.day_availability.all %}day-available{% else %}day-unavailable{% endif %}">
@@ -70,7 +71,7 @@
     </div>
 
     <!-- Time Availability Table -->
-    <h4 class="mt-4">Time Availability</h4>
+    <h4 class="mt-4"><i class="fa-regular fa-clock"></i> Time Availability</h4>
     <table class="table table-bordered mt-3">
         <thead>
             <tr>

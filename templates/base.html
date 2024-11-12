@@ -66,9 +66,9 @@
                 <button class="navbar-toggler ms-auto custom-toggler text-light" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                     aria-label="Toggle navigation" id="menuButton">
-                    <div class="line line-1"></div>
-                    <div class="line line-2"></div>
-                    <div class="line line-3"></div>
+                    <span class="line line-1"></span>
+                    <span class="line line-2"></span>
+                    <span class="line line-3"></span>
                 </button>
                 <!-- Collapsible menu items -->
                 <div class="collapse navbar-collapse text-end" id="navbarNav">
@@ -97,15 +97,16 @@
                     <!-- Sign Out button appears once registered user is logged in / Add a New Tutor button for superuser -->
                     {% if user.is_authenticated %}
                     {% if user.is_superuser %}
-                    <a class="btn btn-warning signlog-button" role="button" href="">Add a New Tutor</a>
+                    <a class="btn btn-warning signlog-button" role="button" href=""><i
+                            class="fa-solid fa-user-plus"></i> Add a New Tutor</a>
                     {% endif %}
                     <a class="btn btn-outline-light signlog-button" role="button" href="{% url 'account_logout' %}">Sign
-                        Out</a>
+                        Out <i class="fa-solid fa-right-from-bracket"></i></a>
                     {% else %}
-                    <a class="btn btn-warning signlog-button" role="button"
-                        href="{% url 'account_signup' %}">Register</a>
-                    <a class="btn btn-outline-light signlog-button-sm" role="button"
-                        href="{% url 'account_login' %}">Login</a>
+                    <a class="btn btn-warning signlog-button" role="button" href="{% url 'account_signup' %}"><i
+                            class="fa-solid fa-id-card"></i> Register</a>
+                    <a class="btn btn-outline-light signlog-button-sm" role="button" href="{% url 'account_login' %}"><i
+                            class="fa-solid fa-right-to-bracket"></i> Login</a>
                     {% endif %}
                 </div>
             </div>
