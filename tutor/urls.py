@@ -19,4 +19,5 @@ from . import views
 
 urlpatterns = [
     path('', views.tutors, name='tutors'),
+    path('tutor/<int:tutor_id>/', views.tutor_profile, name='tutor_profile'),
 ]

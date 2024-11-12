@@ -86,7 +86,7 @@
                             <a class="nav-link {% if request.path == tutor_url %}active" aria-current="page{% endif %}"
                                 href="{% url 'tutors' %}">Find a Tutor</a>
                         </li>
-                        <!-- My booking only appears for registered users -->
+                        <!-- My booking only appears for registered users but not for superuser -->
                         {% if user.is_authenticated and not user.is_superuser %}
                         <li class="nav-item">
                             <a class="nav-link {% if request.path == addlater %}active{% endif %}" href="">My
@@ -94,7 +94,7 @@
                         </li>
                         {% endif %}
                     </ul>
-                    <!-- Sign Out button appears once registered user is logged in -->
+                    <!-- Sign Out button appears once registered user is logged in / Add a New Tutor button for superuser -->
                     {% if user.is_authenticated %}
                     {% if user.is_superuser %}
                     <a class="btn btn-warning signlog-button" role="button" href="">Add a New Tutor</a>
@@ -113,7 +113,14 @@
     </header>
 
     {% if messages %}
-    <div class="message-container"></div>
+    <div class="message-container">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
     {% endif %}
 
     {% block page_header %}
@@ -182,11 +189,25 @@
 
     {% block postloadjs %}
     <script>
+        // Menu button toggle functionality
         const menuButton = document.getElementById('menuButton');
+        if (menuButton) {
+            menuButton.addEventListener('click', function () {
+                menuButton.classList.toggle('close');
+            });
+        }
 
-        menuButton.addEventListener('click', function () {
-            menuButton.classList.toggle('close');
-        });
+        // Auto-dismiss messages after 5 seconds
+        setTimeout(function () {
+            const messageContainers = document.querySelectorAll('.alert');
+            messageContainers.forEach(function (container) {
+                container.style.transition = 'opacity 1s ease-out';
+                container.style.opacity = 0;
+                setTimeout(function () {
+                    container.remove();
+                }, 1000); // Remove after fade-out transition
+            });
+        }, 5000); // Wait 5 seconds before starting to fade out
     </script>
     {% endblock %}
 </body>

@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import Tutor
+from django.shortcuts import render, get_object_or_404
+from .models import Tutor, DayAvailability, TimeSlot
 from django.core.paginator import Paginator
 
 def tutors(request):
@@ -18,3 +18,17 @@ def tutors(request):
     page_obj = paginator.get_page(page_number)
 
     return render(request, 'tutor/tutors.html', {'page_obj': page_obj})
+
+
+def tutor_profile(request, tutor_id):
+    # Retrieve the data stored in the database
+    tutor = get_object_or_404(Tutor, id=tutor_id)
+    days_of_week = DayAvailability.objects.all()
+    time_slots = TimeSlot.objects.all()
+
+    context = {
+        'tutor': tutor,
+        'days_of_week': days_of_week,
+        'time_slots': time_slots,
+    }
+    return render(request, 'tutor/tutors_profile.html', context)

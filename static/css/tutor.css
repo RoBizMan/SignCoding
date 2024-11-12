@@ -9,3 +9,38 @@
     border: 0.1rem solid #3C0008;
     color: #3C0008;
 }
+
+/* Availability calendar */
+.availability-calendar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.availability-calendar>div {
+    flex: 1 0 100%;
+    /* Full width on small screens */
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.day-available {
+    background-color: #28a745;
+    color: white;
+}
+
+.day-unavailable {
+    background-color: #f0f0f0;
+}
+
+/* Styles for larger screens */
+@media (min-width: 768px) {
+
+    /* Availability calendar */
+    .availability-calendar>div {
+        flex: 1 0 12%;
+    }
+}
