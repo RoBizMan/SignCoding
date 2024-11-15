@@ -37,11 +37,11 @@ class CustomSignupForm(SignupForm):
         legible_first_name = re.sub(r'\s*-\s*', '-', legible_first_name)
 
         # Check if the first name contains only letters, spaces, apostrophes, and hyphens
-        if not re.match("^[A-Za-z\s' -]*$", legible_first_name):
+        if not re.match(r"^[A-Za-z\s' -]*$", legible_first_name):
             raise ValidationError("First name must contain only letters, spaces, apostrophes, and hyphens.")
 
         # Ensure at least one letter is present
-        if not re.search("[A-Za-z]", legible_first_name):
+        if not re.search(r"[A-Za-z]", legible_first_name):
             raise ValidationError("First name must contain at least one letter.")
 
         return legible_first_name
@@ -68,11 +68,11 @@ class CustomSignupForm(SignupForm):
         legible_last_name = re.sub(r'\s*-\s*', '-', legible_last_name)
 
         # Check if the last name contains only letters, spaces, apostrophes, and hyphens
-        if not re.match("^[A-Za-z\s' -]*$", legible_last_name):
+        if not re.match(r"^[A-Za-z\s' -]*$", legible_last_name):
             raise ValidationError("Last name must contain only letters, spaces, apostrophes, and hyphens.")
 
         # Ensure at least one letter is present
-        if not re.search("[A-Za-z]", legible_last_name):
+        if not re.search(r"[A-Za-z]", legible_last_name):
             raise ValidationError("Last name must contain at least one letter.")
 
         return legible_last_name
@@ -85,3 +85,52 @@ class CustomSignupForm(SignupForm):
         user.last_name = self.cleaned_data.get("last_name")
         user.save()
         return user
+
+
+class EditProfileForm(forms.ModelForm):
+    first_name = forms.CharField(max_length=30, required=True, label="First Name")
+    last_name = forms.CharField(max_length=30, required=True, label="Last Name")
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name']
+
+    def clean_first_name(self):
+        """
+        Validates and cleans the user's first name.
+        """
+        first_name = self.cleaned_data.get('first_name')
+        if not first_name:
+            raise ValidationError("First name cannot be empty.")
+        
+        first_name = first_name.strip()
+        first_name = re.sub(r'\s+', ' ', first_name)
+        first_name = re.sub(r'\s*-\s*', '-', first_name)
+
+        if not re.match(r"^[A-Za-z\s' -]*$", first_name):
+            raise ValidationError("First name must contain only letters, spaces, apostrophes, and hyphens.")
+        
+        if not re.search(r"[A-Za-z]", first_name):
+            raise ValidationError("First name must contain at least one letter.")
+        
+        return first_name
+
+    def clean_last_name(self):
+        """
+        Validates and cleans the user's last name.
+        """
+        last_name = self.cleaned_data.get('last_name')
+        if not last_name:
+            raise ValidationError("Last name cannot be empty.")
+        
+        last_name = last_name.strip()
+        last_name = re.sub(r'\s+', ' ', last_name)
+        last_name = re.sub(r'\s*-\s*', '-', last_name)
+
+        if not re.match(r"^[A-Za-z\s' -]*$", last_name):
+            raise ValidationError("Last name must contain only letters, spaces, apostrophes, and hyphens.")
+        
+        if not re.search(r"[A-Za-z]", last_name):
+            raise ValidationError("Last name must contain at least one letter.")
+        
+        return last_name

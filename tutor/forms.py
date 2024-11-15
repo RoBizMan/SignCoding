@@ -140,7 +140,7 @@ class TutorForm(forms.ModelForm):
         legible_firstname = re.sub(r'\s*-\s*', '-', legible_firstname)
 
         # Check if the first name contains only letters, spaces, apostrophes, and hyphens
-        if not re.match("^[A-Za-z\s' -]*$", legible_firstname):
+        if not re.match(r"^[A-Za-z\s' -]*$", legible_firstname):
             raise ValidationError("First name must contain only letters, spaces, apostrophes, and hyphens.")
 
         # Check for empty input after legible first name
@@ -148,7 +148,7 @@ class TutorForm(forms.ModelForm):
             raise ValidationError("First name cannot be empty.")
 
         # Ensure at least one letter is present
-        if not re.search("[A-Za-z]", legible_firstname):
+        if not re.search(r"[A-Za-z]", legible_firstname):
             raise ValidationError("First name must contain at least one letter.")
 
         return legible_firstname  # Return the legible first name
@@ -172,7 +172,7 @@ class TutorForm(forms.ModelForm):
         legible_lastname = re.sub(r'\s*-\s*', '-', legible_lastname)
 
         # Check if the last name contains only letters, spaces, apostrophes, and hyphens
-        if not re.match("^[A-Za-z\s' -]*$", legible_lastname):
+        if not re.match(r"^[A-Za-z\s' -]*$", legible_lastname):
             raise ValidationError("Last name must contain only letters, spaces, apostrophes, and hyphens.")
 
         # Check for empty input after legible first name
@@ -180,7 +180,7 @@ class TutorForm(forms.ModelForm):
             raise ValidationError("Last name cannot be empty.")
 
         # Ensure at least one letter is present
-        if not re.search("[A-Za-z]", legible_lastname):
+        if not re.search(r"[A-Za-z]", legible_lastname):
             raise ValidationError("Last name must contain at least one letter.")
 
         return legible_lastname  # Return the legible last name

@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/personaluser.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3 mb-3">
+    <div class="card p-4 shadow-lg min-vw-20 max-vw-40">
+        <div class="card-body">
+            <h1 class="text-center mt-2 mb-2"><strong><i class="fa-solid fa-pen"></i> Edit Your Profile</strong></h1>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+
+                <!-- User's First Name -->
+                <div class="mb-3">
+                    <label for="id_first_name" class="form-label">First Name:</label>
+                    <input type="text" name="first_name" id="id_first_name" class="form-control"
+                        placeholder="Enter your first name" value="{{ form.first_name.value|default:'' }}" required>
+                    {% if form.first_name.errors %}
+                    <div class="text-danger">
+                        {% for error in form.first_name.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- User's Last Name -->
+                <div class="mb-3">
+                    <label for="id_last_name" class="form-label">Last Name:</label>
+                    <input type="text" name="last_name" id="id_last_name" class="form-control"
+                        placeholder="Enter your last name" value="{{ form.last_name.value|default:'' }}" required>
+                    {% if form.last_name.errors %}
+                    <div class="text-danger">
+                        {% for error in form.last_name.errors %}
+                        <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Save Button -->
+                <div class="row d-flex justify-content-center align-items-center mb-3">
+                    <div class="col-auto text-center">
+                        <button type="submit" class="btn btn-profile-color">Save <i
+                                class="fa-solid fa-square-caret-up"></i></button>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Back to Profile Button -->
+            <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-auto text-center">
+                    <a href="{% url 'user_profile' %}" class="btn btn-canc-color"><i
+                            class="fa-regular fa-rectangle-xmark"></i> Back to My Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

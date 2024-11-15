@@ -21,5 +21,6 @@ from . import views
 
 urlpatterns = [
     path('', views.user_profile, name='user_profile'),
+    path('edit-profile/', views.edit_profile, name='edit_profile'),
     path('delete/', views.delete_account, name='delete_account'),
 ]
