@@ -61,7 +61,8 @@
             <div class="row justify-content-center mt-5 mb-3">
                 {% if user.is_authenticated %}
                 <div class="col-auto">
-                    <a class="btn btn-land-color" role="button" href="">My Bookings</a>
+                    <a class="btn btn-land-color" role="button" href="{% url 'user_profile' %}"><i
+                            class="fa-solid fa-address-card"></i> My Profile</a>
                 </div>
                 {% else %}
                 <div class="col-auto">

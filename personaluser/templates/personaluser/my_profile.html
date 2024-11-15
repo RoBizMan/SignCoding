@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/personaluser.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h1 class="text-center mt-5 mb-5"><strong><i class="fa-solid fa-address-card"></i> User Profile</strong></h1>
+
+    <div class="card mb-3">
+        <div class="row mb-3">
+            <div class="col-md-9">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>First Name:</strong> {{ profile.personal_firstname }}</h5>
+                    <h5 class="card-title"><strong>Last Name:</strong> {{ profile.personal_lastname }}</h5>
+                </div>
+            </div>
+            <div class="col-md-3 d-flex justify-content-center align-items-center">
+                <div class="text-center">
+                    <a class="btn btn-profile-color" href=""><i class="fa-solid fa-pen-to-square"></i> Edit Name</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="row mb-3">
+            <div class="col-md-9">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Userame:</strong> {{ profile.personal_details.username }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="row mb-3">
+            <div class="col-md-9">
+                <div class="card-body">
+                    <h5 class="card-title"><strong>Email:</strong> {{ profile.personal_details.email }}</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3 d-flex justify-content-center align-items-center">
+        <div class="col-auto">
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <i class="fa-solid fa-trash-can"></i> Delete Your Account
+            </button>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Confirm Account Deletion</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete your account? This action cannot be undone.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <!-- Delete Account Form -->
+                    <form method="post" action="{% url 'delete_account' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <h1 class="text-center mt-5 mb-5"><strong><i class="fa-solid fa-receipt"></i> Booking History</strong></h1>
+
+        <div class="card mb-3">
+            <div class="row mb-3">
+                <div class="col-md-9">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>First Name:</strong> {{ profile.personal_firstname }}</h5>
+                        <h5 class="card-title"><strong>Last Name:</strong> {{ profile.personal_lastname }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

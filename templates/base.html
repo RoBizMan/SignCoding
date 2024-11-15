@@ -2,6 +2,7 @@
 
 {% url 'home' as home_url %}
 {% url 'tutors' as tutor_url %}
+{% url 'user_profile' as personaluser_url %}
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}
 {% url 'account_logout' as logout_url %}
@@ -89,8 +90,9 @@
                         <!-- My booking only appears for registered users but not for superuser -->
                         {% if user.is_authenticated and not user.is_superuser %}
                         <li class="nav-item">
-                            <a class="nav-link {% if request.path == addlater %}active{% endif %}" href="">My
-                                Bookings</a>
+                            <a class="nav-link {% if request.path == personaluser_url %}active{% endif %}"
+                                href="{% url 'user_profile' %}">My
+                                Profile</a>
                         </li>
                         {% endif %}
                     </ul>
