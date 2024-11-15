@@ -22,7 +22,7 @@ def tutors(request):
     Returns:
         A rendered page ('tutors.html') with the list of tutors and pagination data.
     """
-    tutors_list = Tutor.objects.all()
+    tutors_list = Tutor.objects.all().order_by('id')
 
     # Limit pills of programming languages and sign languages in the frontend view
     for tutor in tutors_list:
