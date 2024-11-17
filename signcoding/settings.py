@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'home',
     'tutor',
     'personaluser',
+    'booking',
 ]
 
 MIDDLEWARE = [
