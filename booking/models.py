@@ -1,8 +1,8 @@
 from django.db import models
 import uuid
-from tutor.models import Tutor, TimeSlot
+from datetime import date
+from tutor.models import Tutor, TimeSlot, DayAvailability
 from personaluser.models import Profile
-from django.core.exceptions import ValidationError
 
 # Create your models here.
 class Booking(models.Model):
@@ -17,7 +17,7 @@ class Booking(models.Model):
     - tutor (ForeignKey to :model:`tutor.Tutor`): The tutor assigned to the booking.
     - total_price (DecimalField): Total price for the tutoring session.
     - session_date (DateField): The date of the tutoring session.
-    - time_slot (ForeignKey to :model:`tutor.TimeSlot`): The time slot selected for the tutoring session.
+    - session_time (ForeignKey to :model:`tutor.TimeSlot`): The time slot selected for the tutoring session.
     """
     booking_id = models.CharField(max_length=32, unique=True, editable=False, verbose_name="Booking ID")
     booking_date = models.DateTimeField(auto_now_add=True, editable=False, verbose_name="Booking Date")
@@ -26,7 +26,7 @@ class Booking(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.PROTECT, related_name="bookings")
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
     session_date = models.DateField()
-    time_slot = models.ForeignKey(TimeSlot, on_delete=models.PROTECT, related_name="bookings")
+    session_time = models.ForeignKey(TimeSlot, on_delete=models.PROTECT, related_name="bookings")
 
     def _generate_booking_id(self):
         """
@@ -45,3 +45,14 @@ class Booking(models.Model):
 
     def __str__(self):
         return f"Booking Number {self.booking_id}"
+
+    def is_available(tutor, session_date, time_slot):
+        """
+        Check if the tutor is available for the given session date and time slot.
+        """
+        bookings = Booking.objects.filter(
+            tutor=tutor,
+            session_date=session_date,
+            time_slot=time_slot
+        )
+        return not bookings.exists()

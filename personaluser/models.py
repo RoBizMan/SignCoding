@@ -18,7 +18,7 @@ class Profile(models.Model):
     personal_lastname = models.CharField(max_length=50, blank=True, null=True, verbose_name="User's Last Name")
 
     def __str__(self):
-        return f"{self.personal_details.username}'s Profile"
+        return self.personal_details.username
 
 # Signal to create or update Profile instance when User is saved
 @receiver(post_save, sender=User)
