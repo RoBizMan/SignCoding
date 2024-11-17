@@ -21,7 +21,7 @@ class Booking(models.Model):
     """
     booking_id = models.CharField(max_length=32, unique=True, editable=False, verbose_name="Booking ID")
     booking_date = models.DateTimeField(auto_now_add=True, editable=False, verbose_name="Booking Date")
-    stripe_pid = models.CharField(max_length=254, null=False, blank=False, default='', editable=False, verbose_name="Stripe Payment ID")
+    stripe_pid = models.CharField(max_length=254, unique=True, null=False, blank=False, default='', editable=False, verbose_name="Stripe Payment ID")
     user = models.ForeignKey(Profile, on_delete=models.PROTECT, related_name="bookings")
     tutor = models.ForeignKey(Tutor, on_delete=models.PROTECT, related_name="bookings")
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
