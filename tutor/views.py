@@ -54,6 +54,7 @@ def tutor_profile(request, tutor_id):
     """
     # Retrieve the data stored in the database
     tutor = get_object_or_404(Tutor, id=tutor_id)
+    request.session['tutor_id'] = tutor.id
     days_of_week = DayAvailability.objects.all()
     time_slots = TimeSlot.objects.all()
 

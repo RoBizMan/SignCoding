@@ -85,7 +85,8 @@
                     <p class="card-text text-center mt-2"><strong>Price:</strong> €{{ tutor.price }} per hour</p>
                     <div class="col-auto text-center">
                         {% if user.is_authenticated %}
-                        <a class="btn btn-profile-color mb-3" role="button" href="">Book Now!</a>
+                        <a class="btn btn-profile-color mb-3" role="button" href="{% url 'booking_create' %}">Book
+                            Now!</a>
                         {% else %}
                         <a class="btn btn-profile-color mb-3" role="button"
                             href="{% url 'account_login' %}?next={{ request.path }}"><i

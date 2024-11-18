@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
+{% endblock %}
+
+{% block extra_js %}
+{% endblock %}
+
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+    <div class="container mt-3">
+        <h1 class="text-center mt-4 mb-4"><strong>You are booking {{ tutor.tutor_firstname }} {{ tutor.tutor_lastname|slice:":1" }}. <i class="fa-solid fa-person-chalkboard"></i></strong></h1>
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4 d-flex justify-content-center align-items-center">
+                    <img src="{{ tutor.photo.url }}" class="img-fluid rounded-circle mt-2 mb-2" style="width: 150px; height: 150px; object-fit: cover;" alt="Tutor Photo">
+                </div>
+                <div class="col-md-8 justify-content-center align-items-center">
+                    <div class="card-body">
+                        <p class="mb-0"><strong><i class="fa-solid fa-code"></i> Programming Languages:</strong></p>
+                        <div>
+                            {% for language in tutor.programming_languages.all %}
+                                <span class="badge bg-primary">{{ language.name }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <p class="mt-3 mb-0"><strong><i class="fa-solid fa-hands"></i> Sign Languages:</strong></p>
+                        <div>
+                            {% for sign_language in tutor.sign_languages.all %}
+                                <span class="badge bg-success">{{ sign_language.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <h3 class="text-center mt-3 mb-3"><strong>Your details:</strong></h3>
+        <div class="card mb-3 p-3">
+            <h5 class="card-title"><strong>First Name:</strong> {{ profile.personal_firstname }}</h5>
+            <h5 class="card-title"><strong>Last Name:</strong> {{ profile.personal_lastname }}</h5>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <h3 class="text-center mt-3 mb-3"><strong>Your session with your tutor:</strong></h3>
+        <div class="card mb-3 p-3">
+            <h5 class="card-title">Session date:</h5>
+            <h5 class="card-title">Session time slots:</h5>
+            </select>
+        </div>
+    </div>
+
+    <div class="container mt-3">
+        <h3 class="text-center mt-3 mb-3"><strong>Total amount to pay:</strong></h3>
+        <div class="card mb-3 p-3">
+            <h5 class="card-title">Dynamic total pricing based on user's time choice</h5>
+        </div>
+    </div>
+</form>
+{% endblock %}
