@@ -26,7 +26,7 @@ class Booking(models.Model):
     tutor = models.ForeignKey(Tutor, on_delete=models.PROTECT, related_name="bookings")
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
     session_date = models.DateField()
-    session_time = models.ForeignKey(TimeSlot, on_delete=models.PROTECT, related_name="bookings")
+    session_time = models.ManyToManyField(TimeSlot, related_name="bookings")
 
     def _generate_booking_id(self):
         """
@@ -34,13 +34,24 @@ class Booking(models.Model):
         """
         return uuid.uuid4().hex.upper()
 
+    def _generate_stripe_pid(self):
+        """
+        Generate a unique dummy Stripe Payment ID (typically you would get this from Stripe after the payment).
+        """
+        # For the sake of this example, generate a unique UUID as the dummy Stripe PID
+        return uuid.uuid4().hex.upper()
+
     def save(self, *args, **kwargs):
         """
-        Override the save method to set a unique booking ID
-        if it has not been set already.
+        Override the save method to set a unique booking ID and Stripe PID
+        if they have not been set already.
         """
         if not self.booking_id:
             self.booking_id = self._generate_booking_id()
+
+        if not self.stripe_pid:  # Ensure a unique Stripe PID is always generated
+            self.stripe_pid = self._generate_stripe_pid()
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -53,6 +64,6 @@ class Booking(models.Model):
         bookings = Booking.objects.filter(
             tutor=tutor,
             session_date=session_date,
-            time_slot=time_slot
+            session_time=time_slot
         )
         return not bookings.exists()

@@ -6,7 +6,7 @@ class BookingAdmin(admin.ModelAdmin):
     """
     Custom admin configuration for the Booking model.
     """
-    list_display = ('booking_id', 'user', 'tutor', 'total_price', 'session_date', 'session_time', 'booking_date')
+    list_display = ('booking_id', 'booking_date', 'user', 'tutor', 'total_price', 'session_date')
     list_filter = ('session_date', 'booking_date')
     search_fields = ('booking_id', 'user__personal_firstname', 'user__personal_lastname', 'tutor__tutor_firstname', 'tutor__tutor_lastname')
     ordering = ('-booking_date',)
