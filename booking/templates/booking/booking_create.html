@@ -74,11 +74,12 @@
             <h5 class="card-title">Session time slots:</h5>
 
             <!-- Time Slot Dropdown (always visible) -->
-            <select id="time-slots" name="time_slots" multiple style="width: 100%;">
-                {% for time_slot in tutor.time_availability.all %}
-                <option value="{{ time_slot.id }}">{{ time_slot }}</option>
-                {% endfor %}
-            </select>
+            <div id="time-slots-wrapper" style="display: none;"> <!-- Initially hidden -->
+                <select id="time-slots" name="time_slots" multiple style="width: 100%;">
+                    <!-- Options will be dynamically populated -->
+                </select>
+            </div>
+
         </div>
     </div>
 
@@ -112,84 +113,89 @@
 </form>
 
 <script>
-    // Initialize Select2 for time slots
-    $(document).ready(function () {
-        $('#time-slots').select2({
-            placeholder: "Select time slots",
-            allowClear: true
-        });
+$(document).ready(function () {
+    const $timeSlotsWrapper = $('#time-slots-wrapper'); // Wrapper for the dropdown and message
+    const $timeSlots = $('#time-slots'); // Select dropdown
+    const $totalPrice = $('#total-price'); // Total price display
+    const tutorPrice = parseFloat($('#tutor-price').val()); // Tutor's hourly price
 
-        const availableDates = {{ available_dates|safe }};
-    const fullyBookedDates = {{ fully_booked_dates|safe }}; // Add this line to get fully booked dates
+    // Initialize Select2 but keep the wrapper hidden initially
+    $timeSlots.select2({
+        placeholder: "Select time slots",
+        allowClear: true
+    });
+    $timeSlotsWrapper.hide(); // Ensure wrapper is hidden initially
 
+    const availableDates = {{ available_dates|safe }};
+    const fullyBookedDates = {{ fully_booked_dates|safe }};
+
+    // Initialize Flatpickr
     flatpickr("#date-picker", {
         dateFormat: "d-m-Y",
         firstDayOfWeek: 1,
-        locale: {
-            firstDayOfWeek: 1
-        },
+        locale: { firstDayOfWeek: 1 },
         disable: [
             function (date) {
-                // Disable dates that are not in availableDates or are in fullyBookedDates
-                return !availableDates.includes(flatpickr.formatDate(date, "d-m-Y")) ||
-                    fullyBookedDates.includes(flatpickr.formatDate(date, "d-m-Y")); // Disable fully booked dates
+                const formattedDate = flatpickr.formatDate(date, "d-m-Y");
+                return !availableDates.includes(formattedDate) || fullyBookedDates.includes(formattedDate);
             }
         ],
-        onChange: function (selectedDates, dateStr, instance) {
+        onChange: function (selectedDates, dateStr) {
             if (dateStr) {
-                // Update the hidden input with the selected date
-                document.getElementById("hidden-session-date").value = dateStr;
+                $('#hidden-session-date').val(dateStr); // Update hidden input
+                $timeSlotsWrapper.hide(); // Hide wrapper while loading options
+                $totalPrice.text(""); // Reset total price
 
-                // Make an AJAX call to get available time slots
+                // Fetch time slots via AJAX
                 $.ajax({
-                    url: "{% url 'get_available_time_slots' %}",  // Adjust this URL based on your URL configuration
+                    url: "{% url 'get_available_time_slots' %}",
+                    method: "GET",
                     data: {
-                        'tutor_id': "{{ tutor.id }}",  // Pass tutor ID from Django context
-                        'session_date': dateStr,
+                        tutor_id: "{{ tutor.id }}", // Tutor ID from Django context
+                        session_date: dateStr,
                     },
                     success: function (data) {
-                        // Clear existing options in the dropdown
-                        $('#time-slots').empty();
+                        $timeSlots.empty(); // Clear previous options
+                        if (data.length > 0) {
+                            $.each(data, function (index, value) {
+                                $timeSlots.append(new Option(value.name, value.id)); // Add new options
+                            });
 
-                        // Populate dropdown with new options
-                        $.each(data, function (index, value) {
-                            $('#time-slots').append(new Option(value.name, value.id));
-                        });
-
-                        // Reinitialize Select2 if you're using it
-                        $('#time-slots').select2();
+                            // Reinitialize Select2 and show wrapper
+                            $timeSlots.select2();
+                            $timeSlotsWrapper.show();
+                        } else {
+                            alert("No time slots available for the selected date.");
+                        }
                     },
                     error: function (xhr) {
-                        console.log(xhr.responseText); // Handle errors appropriately
+                        console.error(xhr.responseText);
+                        alert("An error occurred while fetching time slots.");
                     }
                 });
             } else {
-                document.getElementById("hidden-session-date").value = '';
-
-                // Optionally handle what happens if no date is selected
+                $('#hidden-session-date').val(""); // Clear date
+                $timeSlotsWrapper.hide(); // Hide wrapper
+                $totalPrice.text(""); // Clear price display
             }
         },
         onDayCreate: function (dObj, dStr, fp, dayElem) {
             if (dayElem.dateObj) {
                 const dateStr = flatpickr.formatDate(dayElem.dateObj, "d-m-Y");
                 if (fullyBookedDates.includes(dateStr)) {
-                    // Highlight fully booked dates (red)
-                    dayElem.classList.add("flatpickr-unavailable"); // Add a class for styling
+                    dayElem.classList.add("flatpickr-unavailable");
                 } else if (availableDates.includes(dateStr)) {
-                    dayElem.classList.add("flatpickr-available"); // Highlight available dates (green)
+                    dayElem.classList.add("flatpickr-available");
                 }
             }
         },
     });
 
-    // Calculate total price based on selected time slots
-    $('#time-slots').on('change', function () {
-        const selectedSlots = $(this).val();
-        const tutorPrice = parseFloat($('#tutor-price').val());
-
+    // Calculate total price when time slots are selected
+    $timeSlots.on('change', function () {
+        const selectedSlots = $(this).val() || [];
         const totalPrice = selectedSlots.length * tutorPrice;
-
-        $('#total-price').text('€' + totalPrice.toFixed(2));
+        $totalPrice.text('€' + totalPrice.toFixed(2));
     });
 });
 </script>
