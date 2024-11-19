@@ -67,9 +67,12 @@
         <div class="card mb-3 p-3">
             <h5 class="card-title">Session date:</h5>
             <!-- Date Picker Input -->
-            <input type="text" id="date-picker" class="mb-3" placeholder="Select Date" required />
-            <!-- Hidden input to hold the selected session date -->
-            <input type="hidden" name="session_date" id="hidden-session-date" />
+            <div class="datepicker-wrapper mb-3">
+                <input type="text" id="date-picker" style="width: 100%;" placeholder="Select Date" required>
+                <!-- Hidden input to hold the selected session date -->
+                <input type="hidden" name="session_date" id="hidden-session-date">
+                <div id="date-error" class="text-danger"></div>
+            </div>
 
             <h5 class="card-title">Session time slots:</h5>
 
@@ -78,6 +81,7 @@
                 <select id="time-slots" name="time_slots" multiple style="width: 100%;">
                     <!-- Options will be dynamically populated -->
                 </select>
+                <div id="time-slots-error" class="text-danger"></div>
             </div>
 
         </div>
@@ -113,21 +117,23 @@
 </form>
 
 <script>
-$(document).ready(function () {
-    const $timeSlotsWrapper = $('#time-slots-wrapper'); // Wrapper for the dropdown and message
-    const $timeSlots = $('#time-slots'); // Select dropdown
-    const $totalPrice = $('#total-price'); // Total price display
-    const tutorPrice = parseFloat($('#tutor-price').val()); // Tutor's hourly price
+    $(document).ready(function () {
+        const $timeSlotsWrapper = $('#time-slots-wrapper'); // Wrapper for the dropdown and message
+        const $timeSlots = $('#time-slots'); // Time slots dropdown
+        const $totalPrice = $('#total-price'); // Total price display
+        const tutorPrice = parseFloat($('#tutor-price').val()); // Tutor's hourly price
+        const $datePicker = $('#date-picker'); // Date picker input
+        const $hiddenSessionDate = $('#hidden-session-date'); // Hidden date input
 
-    // Initialize Select2 but keep the wrapper hidden initially
-    $timeSlots.select2({
-        placeholder: "Select time slots",
-        allowClear: true
-    });
-    $timeSlotsWrapper.hide(); // Ensure wrapper is hidden initially
+        // Initialize Select2 but keep the wrapper hidden initially
+        $timeSlots.select2({
+            placeholder: "Select time slots",
+            allowClear: true
+        });
+        $timeSlotsWrapper.hide(); // Ensure wrapper is hidden initially
 
-    const availableDates = {{ available_dates|safe }};
-    const fullyBookedDates = {{ fully_booked_dates|safe }};
+        const availableDates = {{ available_dates|safe }};
+        const fullyBookedDates = {{ fully_booked_dates|safe }};
 
     // Initialize Flatpickr
     flatpickr("#date-picker", {
@@ -142,7 +148,8 @@ $(document).ready(function () {
         ],
         onChange: function (selectedDates, dateStr) {
             if (dateStr) {
-                $('#hidden-session-date').val(dateStr); // Update hidden input
+                $hiddenSessionDate.val(dateStr); // Update hidden input
+                $('#date-error').text(""); // Clear date error
                 $timeSlotsWrapper.hide(); // Hide wrapper while loading options
                 $totalPrice.text(""); // Reset total price
 
@@ -165,16 +172,16 @@ $(document).ready(function () {
                             $timeSlots.select2();
                             $timeSlotsWrapper.show();
                         } else {
-                            alert("No time slots available for the selected date.");
+                            $('#time-slots-error').text("No time slots available for the selected date."); // Show error
                         }
                     },
                     error: function (xhr) {
                         console.error(xhr.responseText);
-                        alert("An error occurred while fetching time slots.");
+                        $('#time-slots-error').text("An error occurred while fetching time slots.");
                     }
                 });
             } else {
-                $('#hidden-session-date').val(""); // Clear date
+                $hiddenSessionDate.val(""); // Clear date
                 $timeSlotsWrapper.hide(); // Hide wrapper
                 $totalPrice.text(""); // Clear price display
             }
@@ -195,7 +202,37 @@ $(document).ready(function () {
     $timeSlots.on('change', function () {
         const selectedSlots = $(this).val() || [];
         const totalPrice = selectedSlots.length * tutorPrice;
+
+        if (selectedSlots.length > 0) {
+            $('#time-slots-error').text(""); // Clear time slots error
+        }
         $totalPrice.text('€' + totalPrice.toFixed(2));
+    });
+
+    // Form submission validation
+    $('form').on('submit', function (e) {
+        let isValid = true;
+
+        // Validate session date
+        if (!$hiddenSessionDate.val()) {
+            isValid = false;
+            $('#date-error').text("Please select a session date.");
+        } else {
+            $('#date-error').text(""); // Clear previous error
+        }
+
+        // Validate time slots
+        if (!$timeSlots.val() || $timeSlots.val().length === 0) {
+            isValid = false;
+            $('#time-slots-error').text("Please select at least one time slot.");
+        } else {
+            $('#time-slots-error').text(""); // Clear previous error
+        }
+
+        // Prevent form submission if validation fails
+        if (!isValid) {
+            e.preventDefault();
+        }
     });
 });
 </script>
