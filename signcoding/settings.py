@@ -113,7 +113,6 @@ LOGIN_REDIRECT_URL = '/'
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
 ACCOUNT_FORMS = {
     'signup': 'personaluser.forms.CustomSignupForm',
-    'login': 'personaluser.forms.CustomLoginForm',
 }
 
 

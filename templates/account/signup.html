@@ -24,6 +24,14 @@
             <form method="post" action="{{ action_url }}" class="mt-3">
                 {% csrf_token %}
 
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
                 <!-- First Name Field -->
                 <div class="mb-3">
                     <label for="id_first_name" class="form-label">{% trans "First Name:" %}</label>
