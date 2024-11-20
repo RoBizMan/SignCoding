@@ -111,3 +111,6 @@ class Tutor(models.Model):
 
     def __str__(self):
         return f"{self.tutor_firstname} {self.tutor_lastname} | {self.tutor_email}"
+
+    def get_full_name(self):
+        return f"{self.tutor_firstname} {self.tutor_lastname}"

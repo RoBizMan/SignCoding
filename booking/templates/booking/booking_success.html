@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/booking.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center mb-4"><strong>Booking Confirmation <i class="fa-solid fa-check-circle"></i></strong></h1>
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Thank you for your booking, {{ booking.user.get_full_name }}!</h5>
+            <p>Your booking has been successfully processed. Here are your booking details:</p>
+            <ul class="list-group">
+                <li class="list-group-item"><strong>Booking ID:</strong> {{ booking.booking_id }}</li>
+                <li class="list-group-item"><strong>Payment ID:</strong> {{ booking.stripe_pid }}</li>
+                <li class="list-group-item"><strong>Booking Date:</strong> {{ booking.booking_date|date:"d F Y H:i"}}
+                </li>
+                <li class="list-group-item"><strong>User's Full Name:</strong> {{ booking.user.get_full_name }}</li>
+                <li class="list-group-item"><strong>Tutor's Full Name:</strong> {{ booking.tutor.get_full_name }}</li>
+                <li class="list-group-item"><strong>Tutor's Email:</strong> {{ booking.tutor.tutor_email }}</li>
+                <li class="list-group-item"><strong>Session Date:</strong> {{ booking.session_date|date:"d F Y" }}</li>
+                <li class="list-group-item"><strong>Session Time Slots:</strong>
+                    {% for time_slot in booking.session_time.all %}
+                    {{ time_slot.start_time|time:"H:i" }} - {{ time_slot.end_time|time:"H:i" }}
+                    {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </li>
+                <li class="list-group-item"><strong>Total Amount Paid:
+                    </strong> €{{ booking.total_price|floatformat:2 }}
+                </li>
+            </ul>
+
+            <div class="row mt-4 d-flex justify-content-center align-items-center">
+                <h5>Next Steps</h5>
+                <p>If you have any questions or need to make changes to your booking, please contact me at
+                    example@example.com.</p>
+                <div class="col-auto">
+                    <a href="{% url 'home' %}" class="btn btn-profile-color">Return to Home <i
+                            class="fa-solid fa-house"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

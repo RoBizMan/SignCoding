@@ -20,6 +20,9 @@ class Profile(models.Model):
     def __str__(self):
         return self.personal_details.username
 
+    def get_full_name(self):
+        return f"{self.personal_firstname} {self.personal_lastname}"
+
 # Signal to create or update Profile instance when User is saved
 @receiver(post_save, sender=User)
 def create_or_update_user_profile(sender, instance, created, **kwargs):

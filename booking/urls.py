@@ -22,6 +22,7 @@ from . import views
 urlpatterns = [
     path('create/', views.booking_create, name='booking_create'),
     path('get-available-time-slots/', views.get_available_time_slots, name='get_available_time_slots'),
+    path('booking-success/', views.booking_success, name='booking_success'),
 ]
 
 if settings.DEBUG:

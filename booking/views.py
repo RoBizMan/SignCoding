@@ -1,10 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from tutor.models import Tutor, TimeSlot
 from personaluser.models import Profile
 from booking.models import Booking
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, timedelta
 from django.http import JsonResponse
+from django.contrib import messages
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
 
 def get_available_dates(tutor):
     """
@@ -58,9 +61,8 @@ def get_available_time_slots(request):
 def booking_create(request):
     profile = get_object_or_404(Profile, personal_details=request.user)
     tutor_id = request.session.get('tutor_id')
-    
-
-    
+    if not tutor_id:
+        return render(request, 'error.html', {'message': 'No tutor selected. Please select a tutor first.'})
     tutor = get_object_or_404(Tutor, id=tutor_id)
 
     session_date = None
@@ -94,8 +96,18 @@ def booking_create(request):
                 time_slot = get_object_or_404(TimeSlot, id=time_slot_id)
                 booking.session_time.add(time_slot)
 
+            # Add a success message
+            messages.success(request, "Your booking has been successfully created! The booking confirmation has been sent to your email address.")
+
+            # Send confirmation emails
+            send_booking_confirmation_email(profile, booking)
+
+            # Redirect to the success page after saving the booking
+            return redirect('booking_success')
+
         except Exception as e:
             print(f"Error saving booking or adding time slots: {e}")
+            return render(request, 'error.html', {'message': 'An error occurred while processing your booking.'})
 
     available_dates = get_available_dates(tutor)
 
@@ -126,3 +138,48 @@ def booking_create(request):
         'fully_booked_dates': fully_booked_dates,  # Pass this to the template
         'available_time_slots': available_time_slots,
     })
+
+
+@login_required
+def booking_success(request):
+    # Get the user's profile
+    profile = get_object_or_404(Profile, personal_details=request.user)
+    
+    # Retrieve the latest booking for this user
+    latest_booking = Booking.objects.filter(user=profile).order_by('-booking_date').first()
+    
+    if latest_booking:
+        return render(request, 'booking/booking_success.html', {'booking': latest_booking})
+    else:
+        return render(request, 'error.html', {'message': 'No booking found.'})
+
+
+def send_booking_confirmation_email(user_profile, booking):
+    subject_template = 'emails/booking_confirmation_email_subject.txt'
+    body_template = 'emails/booking_confirmation_email_body.html'
+
+    # Render subject and body from templates
+    subject = render_to_string(subject_template, {'booking':booking}).strip()
+    context = {
+        'user': user_profile,
+        'booking': booking,
+    }
+    
+    # Render HTML content from body template
+    html_content = render_to_string(body_template, context)
+
+    # Create email message for user
+    user_email = user_profile.personal_details.email
+    email_to_user = EmailMultiAlternatives(subject, '', 'arsenalpure95@gmail.com', [user_email])
+    email_to_user.attach_alternative(html_content, "text/html")
+    
+    # Send email to user
+    email_to_user.send()
+
+    # Create email message for tutor
+    tutor_email = booking.tutor.tutor_email
+    email_to_tutor = EmailMultiAlternatives(subject, '', 'arsenalpure95@gmail.com', [tutor_email])
+    email_to_tutor.attach_alternative(html_content, "text/html")
+    
+    # Send email to tutor
+    email_to_tutor.send()

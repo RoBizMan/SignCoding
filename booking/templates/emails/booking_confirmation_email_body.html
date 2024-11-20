@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Booking Confirmation</title>
+</head>
+
+<body>
+    <h1>Booking Confirmation</h1>
+    <br>
+    <p>Dear {{ user.get_full_name }},</p>
+    <br>
+    <p>Thank you for your booking with SignCoding!</p>
+    <hr>
+    <br>
+    <h3>Your booking information is below:</h3>
+    <br>
+    <ul>
+        <li><strong>Booking ID:</strong> {{ booking.booking_id }}</li>
+        <li><strong>Payment ID:</strong> {{ booking.stripe_pid }}</li>
+        <li><strong>Booking Date:</strong> {{ booking.booking_date|date:"d-F-Y H:i" }}</li>
+        <li><strong>Tutor's Name:</strong> {{ booking.tutor.get_full_name }}</li>
+        <li><strong>Tutor's Email:</strong> {{ booking.tutor.tutor_email }}</li>
+        <li><strong>Session Date:</strong> {{ booking.session_date|date:"d-F-Y" }}</li>
+        <li><strong>Session Time Slots:</strong></li>
+        <ul>
+            {% for time_slot in booking.session_time.all %}
+            <li>{{ time_slot.start_time|time:"H:i" }} - {{ time_slot.end_time|time:"H:i" }}</li>
+            {% endfor %}
+        </ul>
+        <li><strong>Total Amount Paid:</strong> €{{ booking.total_price|floatformat:2 }}</li>
+    </ul>
+    <hr>
+    <br>
+    <p>If you have any questions, feel free to contact us at arsenalpure95@gmail.com.</p>
+    <br>
+    <p>Thank you again for your booking!</p>
+    <br>
+    <p>Sincerely,</p>
+    <br>
+    <p>SignCoding</p>
+</body>
+
+</html>
