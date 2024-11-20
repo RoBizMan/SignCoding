@@ -2,6 +2,9 @@ from allauth.account.forms import SignupForm
 from django import forms
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import AuthenticationForm
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth import authenticate
 import re
 
 
@@ -14,6 +17,35 @@ class CustomSignupForm(SignupForm):
         if User.objects.filter(email=email).exists():
             raise ValidationError("A user with this email already exists.")
         return email
+
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("A user with this username already exists.")
+        return username
+
+
+class CustomLoginForm(AuthenticationForm):
+    username = forms.CharField(max_length=150, label=_("Username"))
+    password = forms.CharField(label=_("Password"), widget=forms.PasswordInput)
+
+    def clean_username(self):
+        username = self.cleaned_data.get("username")
+        if not User.objects.filter(username=username).exists():
+            raise forms.ValidationError(_("This username does not exist."))
+        return username
+
+    def clean_password(self):
+        password = self.cleaned_data.get("password")
+        username = self.cleaned_data.get("username")
+
+        user = authenticate(username=username, password=password)
+        if user is None:
+            if User.objects.filter(username=username).exists():
+                raise forms.ValidationError(_("Incorrect password."))
+            else:
+                raise forms.ValidationError(_("This username does not exist."))
+        return password
 
     def clean_first_name(self):
         """
