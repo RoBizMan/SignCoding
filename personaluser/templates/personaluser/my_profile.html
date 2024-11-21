@@ -78,17 +78,31 @@
     </div>
 
     <div class="container mt-3">
-        <h1 class="text-center mt-5 mb-5"><strong><i class="fa-solid fa-receipt"></i> Booking History</strong></h1>
+        <h2 class="text-center mt-5 mb-5"><strong><i class="fa-solid fa-receipt"></i> Booking History</strong></h2>
 
         <div class="card mb-3">
-            <div class="row mb-3">
-                <div class="col-md-9">
-                    <div class="card-body">
-                        <h5 class="card-title"><strong>First Name:</strong> {{ profile.personal_firstname }}</h5>
-                        <h5 class="card-title"><strong>Last Name:</strong> {{ profile.personal_lastname }}</h5>
+            {% if bookings %}
+            <div class="row">
+                {% for booking in bookings %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card m-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Booking ID: {{ booking.booking_id }}</h5>
+                            <hr>
+                            <p><strong>Booking Date:</strong> {{ booking.booking_date|date:"d F Y" }}</p>
+                            <p><strong>Tutor:</strong> {{ booking.tutor.tutor_firstname }}
+                                {{ booking.tutor.tutor_lastname|slice:":1" }}</p>
+                            <p><strong>Session Date:</strong> {{ booking.session_date|date:"d F Y" }}</p>
+                            <p><strong>Session Time Slots:</strong> {{ booking.session_time.all|join:", " }}</p>
+                            <p><strong>Total Price:</strong> €{{ booking.total_price }}</p>
+                        </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
+            {% else %}
+            <p>No bookings found.</p>
+            {% endif %}
         </div>
     </div>
 </div>

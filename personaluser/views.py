@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from .models import Profile
+from booking.models import Booking
 from .forms import EditProfileForm
 
 @login_required
@@ -14,7 +15,10 @@ def user_profile(request):
     if request.user != profile.personal_details:
         raise PermissionDenied("You do not have permission to access this page.")
 
-    return render(request, 'personaluser/my_profile.html', {'profile': profile})
+    # Fetch booking history for the logged-in user
+    bookings = Booking.objects.filter(user=profile).order_by('-booking_date')
+
+    return render(request, 'personaluser/my_profile.html', {'profile': profile, 'bookings': bookings})
 
 
 @login_required
