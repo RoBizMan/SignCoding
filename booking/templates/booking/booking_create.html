@@ -11,13 +11,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/en.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/uk.js"></script>
+<script src="https://js.stripe.com/v3/"></script>
 {% endblock %}
 
 {% block content %}
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.non_field_errors }}
+    <input type="hidden" id="stripe_pid" name="stripe_pid" value="">
     <div class="container mt-3">
         <h1 class="text-center mt-4 mb-4"><strong>You are booking {{ tutor.tutor_firstname }}
                 {{tutor.tutor_lastname|slice:":1" }}.
@@ -51,7 +53,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <div class="container mt-3">
@@ -88,8 +89,16 @@
     </div>
 
     <div class="container mt-3">
-        <h3 class="text-center mt-3 mb-3"><strong>Payment:</strong></h3>
+        <h3 class="text-center mt-3 mb-3"><strong>Amount:</strong></h3>
         <div class="card mb-3 p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Hourly rate: </h5>
+                <p>€{{ tutor.price }}</p>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+                <h5>Time slots selected: </h5>
+                <p><span id="time-slots-count">0</span></p>
+            </div>
             <div class="d-flex justify-content-between align-items-center">
                 <h5 class="card-title">Total amount to pay:</h5>
                 <p id="total-price"><strong>€0.00</strong></p>
@@ -97,11 +106,21 @@
         </div>
     </div>
 
+    <div class="container mt-3">
+        <h3 class="text-center mt-3 mb-3"><strong>Payment Details:</strong></h3>
+        <div class="card mb-3 p-3">
+            <div id="card-element" class="card p-3 mb-3" style="border: 1px solid #ddd; padding: 10px;"></div>
+            <div id="card-errors" class="text-danger"></div>
+            <!-- Hidden input field to pass the client_secret -->
+            <input type="hidden" id="client_secret" value="{{ client_secret }}">
+        </div>
+    </div>
+
     <!-- Buttons Section -->
     <div class="row d-flex justify-content-center align-items-center mb-3">
         <div class="col-auto text-center">
             <!-- Submit Button -->
-            <button type="submit" class="btn btn-profile-color">Book Session
+            <button type="submit" id="submit-button" class="btn btn-profile-color">Book Session
                 <i class="fa-solid fa-square-plus"></i></button>
         </div>
     </div>
@@ -115,25 +134,29 @@
         </div>
     </div>
 </form>
+{% endblock %}
 
+{% block postloadjs %}
 <script>
-    $(document).ready(function () {
-        const $timeSlotsWrapper = $('#time-slots-wrapper'); // Wrapper for the dropdown and message
-        const $timeSlots = $('#time-slots'); // Time slots dropdown
-        const $totalPrice = $('#total-price'); // Total price display
-        const tutorPrice = parseFloat($('#tutor-price').val()); // Tutor's hourly price
-        const $datePicker = $('#date-picker'); // Date picker input
-        const $hiddenSessionDate = $('#hidden-session-date'); // Hidden date input
+$(document).ready(function () {
+    const $timeSlotsWrapper = $('#time-slots-wrapper'); // Wrapper for the dropdown and message
+    const $timeSlots = $('#time-slots'); // Time slots dropdown
+    const $totalPrice = $('#total-price'); // Total price display
+    const tutorPrice = parseFloat($('#tutor-price').val()); // Tutor's hourly price
+    const $datePicker = $('#date-picker'); // Date picker input
+    const $hiddenSessionDate = $('#hidden-session-date'); // Hidden date input
+    const $submitButton = $('#submit-button'); // Submit button
+    const $timeSlotsCount = $('#time-slots-count'); // Element to display selected time slots count
 
-        // Initialize Select2 but keep the wrapper hidden initially
-        $timeSlots.select2({
-            placeholder: "Select time slots",
-            allowClear: true
-        });
-        $timeSlotsWrapper.hide(); // Ensure wrapper is hidden initially
+    // Initialize Select2 but keep the wrapper hidden initially
+    $timeSlots.select2({
+        placeholder: "Select time slots",
+        allowClear: true
+    });
+    $timeSlotsWrapper.hide(); // Ensure wrapper is hidden initially
 
-        const availableDates = {{ available_dates|safe }};
-        const fullyBookedDates = {{ fully_booked_dates|safe }};
+    const availableDates = {{ available_dates|safe }};
+    const fullyBookedDates = {{ fully_booked_dates|safe }};
 
     // Initialize Flatpickr
     flatpickr("#date-picker", {
@@ -174,6 +197,7 @@
                         } else {
                             $('#time-slots-error').text("No time slots available for the selected date."); // Show error
                         }
+                        toggleSubmitButton();  // Check if we can enable the button after loading time slots
                     },
                     error: function (xhr) {
                         console.error(xhr.responseText);
@@ -185,6 +209,7 @@
                 $timeSlotsWrapper.hide(); // Hide wrapper
                 $totalPrice.text(""); // Clear price display
             }
+            toggleSubmitButton();  // Check if we can enable the button after date change
         },
         onDayCreate: function (dObj, dStr, fp, dayElem) {
             if (dayElem.dateObj) {
@@ -198,7 +223,29 @@
         },
     });
 
-    // Calculate total price when time slots are selected
+    // Function to enable/disable the submit button based on selections
+    function toggleSubmitButton() {
+        const sessionDateSelected = $hiddenSessionDate.val() !== "";  // Check if a date is selected
+        const timeSlotsSelected = $timeSlots.val() && $timeSlots.val().length > 0;  // Check if any time slot is selected
+
+        if (sessionDateSelected && timeSlotsSelected) {
+            $submitButton.prop('disabled', false);  // Enable button if both are selected
+            $('#date-error').text("");  // Clear any previous errors related to date selection
+            $('#time-slots-error').text("");  // Clear any previous errors related to time slots selection
+        } else {
+            $submitButton.prop('disabled', true);  // Disable button otherwise
+
+            if (!sessionDateSelected) {
+                $('#date-error').text("Please select a session date.");  // Show error for date selection
+            }
+
+            if (!timeSlotsSelected) {
+                $('#time-slots-error').text("Please select at least one time slot.");  // Show error for time slots selection
+            }
+        }
+    }
+
+    // Calculate total price and update count when time slots are selected
     $timeSlots.on('change', function () {
         const selectedSlots = $(this).val() || [];
         const totalPrice = selectedSlots.length * tutorPrice;
@@ -206,33 +253,72 @@
         if (selectedSlots.length > 0) {
             $('#time-slots-error').text(""); // Clear time slots error
         }
+
         $totalPrice.text('€' + totalPrice.toFixed(2));
+        
+        // Update the count of selected time slots
+        $timeSlotsCount.text(selectedSlots.length); 
+
+        toggleSubmitButton();  // Check if we can enable the button after selecting time slots
     });
 
-    // Form submission validation
+    // Initial check on page load to disable the submit button and show error messages if needed.
+    toggleSubmitButton();
+});
+</script>
+<script>
+$(document).ready(function () {
+    const stripe = Stripe('{{ stripe_public_key }}'); // Use your Stripe public key
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
+    cardElement.mount('#card-element');
+
     $('form').on('submit', function (e) {
-        let isValid = true;
+        e.preventDefault(); // Prevent default form submission
 
-        // Validate session date
-        if (!$hiddenSessionDate.val()) {
-            isValid = false;
-            $('#date-error').text("Please select a session date.");
-        } else {
-            $('#date-error').text(""); // Clear previous error
-        }
+        // Disable submit button to prevent multiple clicks
+        $('#submit-button').prop('disabled', true);
 
-        // Validate time slots
-        if (!$timeSlots.val() || $timeSlots.val().length === 0) {
-            isValid = false;
-            $('#time-slots-error').text("Please select at least one time slot.");
-        } else {
-            $('#time-slots-error').text(""); // Clear previous error
-        }
+        // Create a Payment Intent on your server
+        $.ajax({
+            url: '{% url "create_payment_intent" %}', // URL to create payment intent
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}'  // Include CSRF token in headers
+            },
+            data: {
+                total_price: $('#total-price').text().replace('€', '').trim(), // Get total price from display
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            },
+            success: function (data) {
+                const clientSecret = data.client_secret;
 
-        // Prevent form submission if validation fails
-        if (!isValid) {
-            e.preventDefault();
-        }
+                // Confirm card payment with Stripe
+                stripe.confirmCardPayment(clientSecret, {
+                    payment_method: {
+                        card: cardElement,
+                    }
+                }).then(function (result) {
+                    if (result.error) {
+                        // Show error to your customer
+                        $('#card-errors').text(result.error.message);
+                        $('#submit-button').prop('disabled', false); // Re-enable submit button
+                    } else {
+                        if (result.paymentIntent.status === 'succeeded') {
+                            // Set the stripe_pid value in the hidden input
+                            $('#stripe_pid').val(result.paymentIntent.id);
+                            // Now submit the form
+                            $('form').unbind('submit').submit();
+                        }
+                    }
+                });
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                $('#card-errors').text("An error occurred while creating a payment intent.");
+                $('#submit-button').prop('disabled', false); // Re-enable submit button
+            }
+        });
     });
 });
 </script>

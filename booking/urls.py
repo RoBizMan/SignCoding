@@ -18,11 +18,14 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from .webhooks import stripe_webhook
 
 urlpatterns = [
     path('create/', views.booking_create, name='booking_create'),
     path('get-available-time-slots/', views.get_available_time_slots, name='get_available_time_slots'),
-    path('booking-success/', views.booking_success, name='booking_success'),
+    path('create-payment-intent/', views.create_payment_intent, name='create_payment_intent'),
+    path('booking-success/<int:booking_id>', views.booking_success, name='booking_success'),
+    path('wh/stripe/', stripe_webhook, name='stripe-webhook'),
 ]
 
 if settings.DEBUG:

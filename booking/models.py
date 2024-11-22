@@ -17,7 +17,7 @@ class Booking(models.Model):
     - tutor (ForeignKey to :model:`tutor.Tutor`): The tutor assigned to the booking.
     - total_price (DecimalField): Total price for the tutoring session.
     - session_date (DateField): The date of the tutoring session.
-    - session_time (ForeignKey to :model:`tutor.TimeSlot`): The time slot selected for the tutoring session.
+    - session_time (ManyToManyField to :model:`tutor.TimeSlot`): The time slot selected for the tutoring session.
     """
     booking_id = models.CharField(max_length=32, unique=True, editable=False, verbose_name="Booking ID")
     booking_date = models.DateTimeField(auto_now_add=True, editable=False, verbose_name="Booking Date")
@@ -27,6 +27,9 @@ class Booking(models.Model):
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
     session_date = models.DateField()
     session_time = models.ManyToManyField(TimeSlot, related_name="bookings")
+
+    class Meta:
+        ordering = ['-booking_date']
 
     def _generate_booking_id(self):
         """
