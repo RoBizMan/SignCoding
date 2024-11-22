@@ -29,3 +29,24 @@
     background-color: #3C0008;
     color: #F9F6EE;
 }
+
+/* Loading dot blink */
+@keyframes dot-blink {
+
+    0%,
+    20% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+#loadingDots {
+    animation: dot-blink 1s infinite;
+}

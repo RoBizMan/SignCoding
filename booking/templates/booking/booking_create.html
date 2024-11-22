@@ -134,6 +134,18 @@
         </div>
     </div>
 </form>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" role="dialog" aria-labelledby="loadingModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <h5 id="loadingMessage">Processing Payment<span id="loadingDots">...</span></h5>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block postloadjs %}
@@ -279,6 +291,9 @@ $(document).ready(function () {
         // Disable submit button to prevent multiple clicks
         $('#submit-button').prop('disabled', true);
 
+        // Show loading modal
+        $('#loadingModal').modal('show');
+
         // Create a Payment Intent on your server
         $.ajax({
             url: '{% url "create_payment_intent" %}', // URL to create payment intent
@@ -299,6 +314,9 @@ $(document).ready(function () {
                         card: cardElement,
                     }
                 }).then(function (result) {
+                    // Hide loading modal after processing
+                    $('#loadingModal').modal('hide');
+
                     if (result.error) {
                         // Show error to your customer
                         $('#card-errors').text(result.error.message);
@@ -316,6 +334,7 @@ $(document).ready(function () {
             error: function (xhr) {
                 console.error(xhr.responseText);
                 $('#card-errors').text("An error occurred while creating a payment intent.");
+                $('#loadingModal').modal('hide'); // Hide loading modal on error
                 $('#submit-button').prop('disabled', false); // Re-enable submit button
             }
         });

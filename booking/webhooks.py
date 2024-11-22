@@ -9,9 +9,9 @@ from booking.models import Booking
 from django.contrib import messages
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
-endpoint_secret = settings.STRIPE_WH_SECRET  # Your webhook secret from Stripe
+endpoint_secret = settings.STRIPE_WH_SECRET
 
-@csrf_exempt
+@csrf_exempt  # Disable CSRF protection for this view
 @require_http_methods(["POST"])
 def stripe_webhook(request):
     payload = request.body
@@ -41,7 +41,6 @@ def stripe_webhook(request):
 
     return JsonResponse({'status': 'success'}, status=200)
 
-
 def handle_payment_intent_succeeded(event):
     # Retrieve the payment intent and associated metadata
     payment_intent = event['data']['object']  # Contains a stripe.PaymentIntent
@@ -57,8 +56,6 @@ def handle_payment_intent_succeeded(event):
     booking.payment_status = 'paid'
     booking.save()
 
-    # You could also add logic here to send an email or trigger other workflows
-    # Example: send a booking confirmation email here if needed.
     messages.success(booking.user, f"Payment was successful for your session with {tutor_firstname} {tutor_lastname}.")
     print(f"Payment successful for {user_username} with tutor {tutor_firstname} {tutor_lastname}.")
 
