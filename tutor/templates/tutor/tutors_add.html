@@ -25,10 +25,12 @@
                 <!-- Profile Picture Preview -->
                 <div class="col d-flex justify-content-center align-items-center">
                     <img id="profile-pic-preview"
-                        src="{% if form.instance.photo %}{{ form.instance.photo.url }}{% else %}{{ MEDIA_URL }}{{ form.photo.initial }}{% endif %}"
+                        src="{% if form.instance.photo and form.instance.photo.url %}{{ form.instance.photo.url }}{% else %}{% static 'images/default_tutor.jpg' %}{% endif %}"
                         alt="Profile Picture Preview" class="img-fluid rounded-circle mt-2 mb-2"
                         style="width: 150px; height: 150px; object-fit: cover;">
                 </div>
+
+                <!-- Image Upload Input -->
                 <div class="mb-3">
                     <label for="id_photo" class="form-label">Upload Your Profile Picture:</label>
                     <input type="file" id="id_photo" name="photo" accept="image/*" class="form-control"
@@ -42,6 +44,7 @@
                     </div>
                     {% endif %}
                 </div>
+
 
                 <!-- Tutor's First Name -->
                 <div class="row">

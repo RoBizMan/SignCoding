@@ -4,6 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
 from .models import Tutor, ProgrammingLanguage, SignLanguage, DayAvailability, TimeSlot
+from cloudinary.forms import CloudinaryFileField
 import re
 
 class TutorAdminForm(forms.ModelForm):
@@ -83,7 +84,7 @@ class TutorForm(forms.ModelForm):
         })
     )
 
-    photo = forms.ImageField(required=True, error_messages={'required': _("Please upload a profile picture."), 'invalid': _("Invalid image file.")})
+    photo = CloudinaryFileField(required=True, error_messages={'required': _("Please upload a profile picture."), 'invalid': _("Invalid image file.")})
 
     class Meta:
         """

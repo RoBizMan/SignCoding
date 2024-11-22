@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator
+from cloudinary.models import CloudinaryField
 
 
 class ProgrammingLanguage(models.Model):
@@ -107,7 +108,7 @@ class Tutor(models.Model):
     day_availability = models.ManyToManyField(DayAvailability)
     time_availability = models.ManyToManyField(TimeSlot, related_name="tutors")
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    photo = models.ImageField(upload_to='tutor_images/', default='tutor_images/default.jpg')
+    photo = CloudinaryField('profile_picture', default='images/default_tutor.jpg')
 
     def __str__(self):
         return f"{self.tutor_firstname} {self.tutor_lastname} | {self.tutor_email}"

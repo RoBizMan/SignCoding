@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 import os
+import cloudinary
 
 
 if os.path.isfile('env.py'):
@@ -53,11 +54,18 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'cloudinary',
     'home',
     'tutor',
     'personaluser',
     'booking',
 ]
+
+# Cloudinary configuration to ensure that images are loaded in HTTPS
+
+cloudinary.config(
+    secure=True,
+)
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
