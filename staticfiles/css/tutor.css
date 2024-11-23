@@ -1,0 +1,77 @@
+/* View profile button & Add and Update a Tutor button */
+.btn-profile-color {
+    background-color: #3C0008;
+    color: #F9F6EE;
+}
+
+.btn-profile-color:hover {
+    background-color: #F9F6EE;
+    border: 0.1rem solid #3C0008;
+    color: #3C0008;
+}
+
+/* Cancel Button for Add or Update a Tutor */
+.btn-canc-color {
+    background-color: #F9F6EE;
+    border: 0.1rem solid #3C0008;
+    color: #3C0008;
+}
+
+.btn-canc-color:hover {
+    background-color: #3C0008;
+    color: #F9F6EE;
+}
+
+/* Availability calendar */
+.availability-calendar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.availability-calendar>div {
+    flex: 1 0 100%;
+    /* Full width on small screens */
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.day-available {
+    background-color: #28a745;
+    color: white;
+}
+
+.day-unavailable {
+    background-color: #f0f0f0;
+}
+
+/* Force Select2 to take full width */
+.select2-container {
+    width: 100% !important;
+}
+
+/* Multi-select dropdown */
+select[multiple] {
+    width: 100%;
+    /* Make it responsive */
+    height: 150px;
+    /* Adjust height as needed */
+    margin-top: 10px;
+    /* Space above the dropdown */
+    padding: 5px;
+    /* Padding inside the dropdown */
+    box-sizing: border-box;
+    /* Ensures padding is included in width/height */
+}
+
+/* Styles for larger screens */
+@media (min-width: 768px) {
+
+    /* Availability calendar */
+    .availability-calendar>div {
+        flex: 1 0 12%;
+    }
+}

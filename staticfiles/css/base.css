@@ -1,0 +1,213 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+body {
+    background-color: #faf9f6;
+}
+
+main {
+    flex-grow: 1;
+}
+
+/* Navigation bar */
+.logo-custom {
+    font-size: 2rem;
+    font-stretch: expanded;
+    color: #F9F6EE;
+}
+
+.logo-custom:hover {
+    color: yellow;
+}
+
+.navbar-custom-color,
+.footer-custom-color,
+.container-custom-color,
+.btn-custom-color {
+    background-color: #3C0008;
+}
+
+.nav-link {
+    color: #F9F6EE;
+}
+
+.navbar-nav .nav-link.active {
+    position: relative;
+    color: #F9F6EE;
+}
+
+.navbar-nav .nav-link {
+    display: inline-block;
+    position: relative;
+}
+
+.navbar-nav .nav-link:hover {
+    color: yellow;
+}
+
+.navbar-nav .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: #F9F6EE;
+    transition: width 0.3s;
+}
+
+.navbar-nav .nav-link.active::after {
+    width: 100%;
+}
+
+.signlog-button,
+.signlog-button-sm {
+    margin: 0.5rem 0.25rem;
+}
+
+.logbtn-sm {
+    margin-bottom: 10px;
+}
+
+/* Switch between the hamburger icon and the X icon when opening/closing the menu */
+.custom-toggler {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 3rem;
+    height: 3rem;
+    padding: 0.5rem;
+}
+
+.line {
+    width: 100%;
+    height: 0.4rem;
+    background-color: #F9F6EE;
+    transition: all 0.3s ease;
+}
+
+#menuButton.close .line-1 {
+    transform: rotate(45deg) translate(0.45rem, 0.45rem);
+}
+
+#menuButton.close .line-2 {
+    opacity: 0;
+}
+
+#menuButton.close .line-3 {
+    transform: rotate(-45deg) translate(0.45rem, -0.45rem);
+}
+
+.line:not(:last-child) {
+    margin-bottom: 0.25rem;
+}
+
+/* Footer */
+.foot-logo {
+    color: #F9F6EE;
+}
+
+.foot-logo:hover {
+    color: yellow;
+}
+
+.social-media-custom {
+    color: #F9F6EE;
+    font-size: 1.5rem;
+}
+
+.social-media-custom:hover,
+.nav-footer-custom:hover {
+    color: yellow;
+}
+
+.custom-text-h6 {
+    color: #F9F6EE;
+}
+
+.nav-footer-custom {
+    display: inline-block;
+    margin: 0;
+}
+
+.responsive-line-horizontal {
+    border: none;
+    height: 0.25rem;
+    background-color: #F9F6EE;
+    margin: 1.5rem 0;
+}
+
+.horizontal-rule {
+    border: none;
+    height: 0.25rem;
+    background-color: rgba(249, 246, 238, 0.3);
+    margin: 1.5rem 0;
+}
+
+/* Override Django's default button */
+button.btn-custom-color,
+.btn-acc-color {
+    background-color: #3C0008;
+    color: #F9F6EE;
+    border: 1px solid #3C0008;
+    padding: 0.8rem;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+button.btn-custom-color:hover,
+.btn-acc-color:hover {
+    background-color: #F9F6EE;
+    color: #3C0008;
+    border: 1px solid #3C0008;
+}
+
+.alert-error {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+    border-color: #f5c6cb !important;
+}
+
+/* Media query for higher-res smartphone and larger screens (576px and up) */
+@media screen and (min-width: 576px) {
+
+    .custom-socmed-links-h6,
+    .custom-socmed-links {
+        text-align: end;
+    }
+
+    .contact-footer-column {
+        text-align: center;
+    }
+
+    .horizontal-rule {
+        display: none;
+    }
+}
+
+/* Media query for tablets and larger screens (992px and up) */
+@media screen and (min-width: 992px) {
+
+    /* Navbar */
+
+    .signlog-button {
+        margin: 0 10px;
+    }
+
+    .signlog-button-sm {
+        margin: 0;
+    }
+
+    .navbar-nav {
+        justify-content: end;
+    }
+}

@@ -1,0 +1,52 @@
+.flatpickr-available {
+    background-color: rgba(19, 229, 99, 0.2) !important;
+}
+.flatpickr-unavailable {
+    background-color: rgba(229, 19, 19, 0.2) !important;
+    pointer-events: none; /* Prevent clicking */
+}
+
+/* Book Sessions & Cancel buttons */
+.btn-profile-color {
+    background-color: #3C0008;
+    color: #F9F6EE;
+}
+
+.btn-profile-color:hover {
+    background-color: #F9F6EE;
+    border: 0.1rem solid #3C0008;
+    color: #3C0008;
+}
+
+/* Cancel Button for Add or Update a Tutor */
+.btn-canc-color {
+    background-color: #F9F6EE;
+    border: 0.1rem solid #3C0008;
+    color: #3C0008;
+}
+
+.btn-canc-color:hover {
+    background-color: #3C0008;
+    color: #F9F6EE;
+}
+
+/* Loading dot blink */
+@keyframes dot-blink {
+
+    0%,
+    20% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+#loadingDots {
+    animation: dot-blink 1s infinite;
+}
