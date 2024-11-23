@@ -97,22 +97,32 @@ def booking_create(request):
         # Calculate total price
         total_price = len(selected_time_slots) * float(tutor.price)
 
-        # Create a provisional booking
-        booking = Booking(
-            user=profile,
-            tutor=tutor,
-            session_date=session_date,
-            total_price=total_price,
-            stripe_pid=stripe_pid,  # Save the Stripe Payment Intent ID
-        )
-
         try:
+            # Confirm the payment status using Stripe API
+            payment_intent = stripe.PaymentIntent.retrieve(stripe_pid)
+            if payment_intent['status'] != 'succeeded':
+                messages.error(request, "Payment failed. Please try again.")
+                return render(request, 'error.html', {'message': 'Payment was not successful. Booking cannot be confirmed.'})
+
+            # Create a provisional booking only if payment is successful
+            booking = Booking(
+                user=profile,
+                tutor=tutor,
+                session_date=session_date,
+                total_price=total_price,
+                stripe_pid=stripe_pid,  # Save the Stripe Payment Intent ID
+                payment_status='paid'  # Set the payment status to paid
+            )
+
             booking.save()
             for time_slot_id in selected_time_slots:
                 time_slot = get_object_or_404(TimeSlot, id=time_slot_id)
                 booking.session_time.add(time_slot)
 
             messages.success(request, "Your booking has been successfully booked!")
+            
+            # Send confirmation emails
+            send_booking_confirmation_email(profile, booking)
 
             return redirect('booking_success', booking_id=booking.id)
         except Exception as e:
