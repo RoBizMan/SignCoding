@@ -171,6 +171,12 @@ button.btn-custom-color:hover,
     border: 1px solid #3C0008;
 }
 
+.alert-error {
+    background-color: #f8d7da !important;
+    color: #721c24 !important;
+    border-color: #f5c6cb !important;
+}
+
 /* Media query for higher-res smartphone and larger screens (576px and up) */
 @media screen and (min-width: 576px) {
 

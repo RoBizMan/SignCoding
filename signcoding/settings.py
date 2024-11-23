@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'tutor',
     'personaluser',
     'booking',
+    'newsletter',
 ]
 
 # Cloudinary configuration to ensure that images are loaded in HTTPS
