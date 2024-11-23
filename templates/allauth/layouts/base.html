@@ -4,6 +4,7 @@
 {% url 'tutors' as tutor_url %}
 {% url 'user_profile' as personaluser_url %}
 {% url 'booking_create' as bookings_url %}
+{% url 'contact' as contact_url %}
 {% url 'account_login' as login_url %}
 {% url 'account_signup' as signup_url %}
 {% url 'account_logout' as logout_url %}
@@ -152,7 +153,7 @@
                             <a href="{% url 'tutors' %}" class="nav-link nav-footer-custom">Tutor</a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link nav-footer-custom">Contact</a>
+                            <a href="{% url 'contact' %}" class="nav-link nav-footer-custom">Contact</a>
                         </li>
                     </ul>
                 </div>
@@ -160,7 +161,8 @@
             <div class="horizontal-rule"></div>
             <div class="col-sm-4 col-xs-12 contact-footer-column">
                 <h6 class="custom-text-h6">If you have any enquiries, please contact us</h6>
-                <a class="btn btn-warning" role="button" href=""><i class="fa-solid fa-envelope"></i> Contact form</a>
+                <a class="btn btn-warning" role="button" href="{% url 'contact' %}"><i class="fa-solid fa-envelope"></i>
+                    Contact form</a>
             </div>
             <div class="horizontal-rule"></div>
             <div class="col-sm-4 col-xs-12">

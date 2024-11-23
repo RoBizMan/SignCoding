@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/contact.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center min-vh-100 mt-3 mb-3">
+    <div class="card p-4 shadow-lg min-vw-20 max-vw-40">
+        <div class="card-body text-center">
+            <!-- Success Message Heading -->
+            <h2 class="card-title mb-4">
+                Thank You for Reaching Out!
+            </h2>
+
+            <!-- Success Message Content -->
+            <p class="mb-4">
+                Your message has been successfully submitted. Our team will review it and get back to you soon. Below is
+                your ticket ID for reference.
+            </p>
+
+            <!-- Ticket ID Display -->
+            <p class="display-6 font-weight-bold">{{ ticket_id }}</p>
+
+            <!-- Link to Home Button -->
+            <div class="row justify-content-center mt-5 mb-3">
+                <div class="col-auto">
+                    <a href="{% url 'home' %}" class="btn btn-contact-color w-100 mt-4">
+                        Return to Home <i class="fa-solid fa-house"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

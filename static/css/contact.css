@@ -1,0 +1,11 @@
+/* Return to Home button */
+.btn-contact-color {
+    background-color: #3C0008;
+    color: #F9F6EE;
+}
+
+.btn-contact-color:hover {
+    background-color: #F9F6EE;
+    border: 0.1rem solid #3C0008;
+    color: #3C0008;
+}
