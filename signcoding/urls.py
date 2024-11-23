@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from .views import handler400, handler403, handler404, handler500
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +29,11 @@ urlpatterns = [
     path('newsletter/', include('newsletter.urls')),
     path('contact/', include('contact.urls')),
 ]
+
+handler400 = "signcoding.views.handler400"
+handler403 = "signcoding.views.handler403"
+handler404 = "signcoding.views.handler404"
+handler500 = "signcoding.views.handler500"
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
