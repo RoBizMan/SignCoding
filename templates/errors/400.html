@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/error.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="container d-flex justify-content-center align-items-center min-vh-100 mt-3 mb-3">
     <div class="card p-4 shadow-lg min-vw-20 max-vw-40">
@@ -16,7 +20,7 @@
             <!-- Back to Home Link -->
             <div class="row justify-content-center mt-5 mb-3">
                 <div class="col-auto">
-                    <a href="{% url 'home' %}" class="btn btn-custom-color w-100 mt-4">
+                    <a href="{% url 'home' %}" class="btn btn-web-color w-100 mt-4">
                         Return to Home <i class="fa-solid fa-house"></i>
                     </a>
                 </div>
