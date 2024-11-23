@@ -44,13 +44,6 @@ class Booking(models.Model):
         """
         return uuid.uuid4().hex.upper()
 
-    def _generate_stripe_pid(self):
-        """
-        Generate a unique dummy Stripe Payment ID (typically you would get this from Stripe after the payment).
-        """
-        # For the sake of this example, generate a unique UUID as the dummy Stripe PID
-        return uuid.uuid4().hex.upper()
-
     def save(self, *args, **kwargs):
         """
         Override the save method to set a unique booking ID and Stripe PID
