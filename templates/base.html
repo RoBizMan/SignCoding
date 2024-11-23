@@ -158,16 +158,9 @@
                 </div>
             </div>
             <div class="horizontal-rule"></div>
-            <div class="col-sm-4 col-xs-12 newsletter-footer-column">
-                <h6 class="custom-text-h6 newsletter-footer-h6"><strong>Sign up to our newsletters for discount
-                        coupons!</strong></h6>
-                <form method="post" action="{% url 'subscribe_newsletter' %}">
-                    {% csrf_token %}
-                    <div class="input-group">
-                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
-                        <button type="submit" class="btn btn-warning">Subscribe</button>
-                    </div>
-                </form>
+            <div class="col-sm-4 col-xs-12 contact-footer-column">
+                <h6 class="custom-text-h6">If you have any enquiries, please contact us</h6>
+                <a class="btn btn-warning" role="button" href=""><i class="fa-solid fa-envelope"></i> Contact form</a>
             </div>
             <div class="horizontal-rule"></div>
             <div class="col-sm-4 col-xs-12">

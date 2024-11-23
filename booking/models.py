@@ -19,6 +19,12 @@ class Booking(models.Model):
     - session_date (DateField): The date of the tutoring session.
     - session_time (ManyToManyField to :model:`tutor.TimeSlot`): The time slot selected for the tutoring session.
     """
+
+    PAYMENT_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+        ('failed', 'Failed'),
+    ]
     booking_id = models.CharField(max_length=32, unique=True, editable=False, verbose_name="Booking ID")
     booking_date = models.DateTimeField(auto_now_add=True, editable=False, verbose_name="Booking Date")
     stripe_pid = models.CharField(max_length=254, unique=True, null=False, blank=False, default='', editable=False, verbose_name="Stripe Payment ID")
@@ -27,6 +33,7 @@ class Booking(models.Model):
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
     session_date = models.DateField()
     session_time = models.ManyToManyField(TimeSlot, related_name="bookings")
+    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS_CHOICES, default='pending')
 
     class Meta:
         ordering = ['-booking_date']

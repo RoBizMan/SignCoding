@@ -20,6 +20,7 @@
     {% csrf_token %}
     {{ form.non_field_errors }}
     <input type="hidden" id="stripe_pid" name="stripe_pid" value="">
+    <input type="hidden" id="tutor-id" value="{{ tutor.id }}">
     <div class="container mt-3">
         <h1 class="text-center mt-4 mb-4"><strong>You are booking {{ tutor.tutor_firstname }}
                 {{tutor.tutor_lastname|slice:":1" }}.
@@ -294,6 +295,10 @@ $(document).ready(function () {
         // Show loading modal
         $('#loadingModal').modal('show');
 
+        // Get the tutor ID
+        const tutorId = $('#tutor-id').val();
+        console.log("Tutor ID:", tutorId);
+
         // Create a Payment Intent on your server
         $.ajax({
             url: '{% url "create_payment_intent" %}', // URL to create payment intent
@@ -303,6 +308,7 @@ $(document).ready(function () {
             },
             data: {
                 total_price: $('#total-price').text().replace('€', '').trim(), // Get total price from display
+                tutor: $('#tutor-id').val(),  // Assuming you have the tutor ID available in a hidden input or data attribute
                 csrfmiddlewaretoken: '{{ csrf_token }}'
             },
             success: function (data) {

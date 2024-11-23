@@ -48,6 +48,12 @@ h4 {
     margin: 1rem 0;
 }
 
+/* Newsletter border */
+.custom-newsletter {
+    border: solid #3C0008 0.25rem;
+    border-radius: 1rem;
+}
+
 /* Images order in smaller screens */
 .row>section {
     order: 0;

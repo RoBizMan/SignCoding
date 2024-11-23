@@ -40,6 +40,10 @@
 
     <!-- FontAwesome kit -->
     <script src="https://kit.fontawesome.com/be0d508cf4.js" crossorigin="anonymous"></script>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     {% endblock %}
 
     {% block extra_js %}
@@ -154,16 +158,9 @@
                 </div>
             </div>
             <div class="horizontal-rule"></div>
-            <div class="col-sm-4 col-xs-12 newsletter-footer-column">
-                <h6 class="custom-text-h6 newsletter-footer-h6"><strong>Sign up to our newsletters for discount
-                        coupons!</strong></h6>
-                <form method="post" action="{% url 'subscribe_newsletter' %}">
-                    {% csrf_token %}
-                    <div class="input-group">
-                        <input type="email" name="email" class="form-control" placeholder="Enter your email" required>
-                        <button type="submit" class="btn btn-warning">Subscribe</button>
-                    </div>
-                </form>
+            <div class="col-sm-4 col-xs-12 contact-footer-column">
+                <h6 class="custom-text-h6">If you have any enquiries, please contact us</h6>
+                <a class="btn btn-warning" role="button" href=""><i class="fa-solid fa-envelope"></i> Contact form</a>
             </div>
             <div class="horizontal-rule"></div>
             <div class="col-sm-4 col-xs-12">
@@ -208,17 +205,20 @@
             });
         }
 
-        if (!$('.error-page').length) { // Check if we are NOT on the error page
+        // Fade out alert messages after 5 seconds
+        if (!$('.error-page').length) { // Exclude error pages
             setTimeout(function () {
                 const messageContainers = document.querySelectorAll('.alert');
+                console.log("Message containers found:", messageContainers.length); // Debugging
                 messageContainers.forEach(function (container) {
+                    console.log("Fading out message:", container.innerText); // Debugging
                     container.style.transition = 'opacity 1s ease-out';
                     container.style.opacity = 0;
                     setTimeout(function () {
                         container.remove(); // Remove after fade-out transition
-                    }, 1000); // Remove after fade-out transition
+                    }, 1000); // Delay removal
                 });
-            }, 5000); // Wait 5 seconds before starting to fade out
+            }, 5000); // 5-second delay
         }
     </script>
     {% endblock %}

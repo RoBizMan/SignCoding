@@ -68,7 +68,7 @@ def get_available_time_slots(request):
 
 @login_required
 def booking_create(request):
-    """ Handles booking creation and integrates Stripe payment validation. """
+    """Handles booking creation and Stripe payment integration."""
     profile = get_object_or_404(Profile, personal_details=request.user)
     tutor_id = request.session.get('tutor_id')
     
@@ -79,46 +79,30 @@ def booking_create(request):
     session_date = None
 
     if request.method == 'POST':
-        session_date_str = request.POST.get('session_date')  # Get the session date string
+        session_date_str = request.POST.get('session_date')  # Get session date
         selected_time_slots = request.POST.getlist('time_slots')
-        stripe_pid = request.POST.get('stripe_pid')  # Get Stripe Payment Intent ID from the form
+        stripe_pid = request.POST.get('stripe_pid')  # Stripe Payment Intent ID
 
-        # Ensure session_date_str is not empty
         if not session_date_str:
             return render(request, 'error.html', {'message': 'Session date is required.'})
 
-        # Parse the session date string to a datetime object (assuming the format is 'DD-MM-YYYY')
         try:
-            session_date = datetime.strptime(session_date_str, '%d-%m-%Y').date()  # Convert to Date
+            session_date = datetime.strptime(session_date_str, '%d-%m-%Y').date()
         except ValueError:
             return render(request, 'error.html', {'message': 'Invalid session date format.'})
 
-        # Check if any time slots were selected
         if not selected_time_slots:
             return render(request, 'error.html', {'message': 'Please select at least one time slot.'})
 
-        total_price = len(selected_time_slots) * float(tutor.price)  # Calculate total price in euros
-        total_price_cents = int(total_price * 100)  # Convert to cents for Stripe
+        # Calculate total price
+        total_price = len(selected_time_slots) * float(tutor.price)
 
-        # Validate the payment with Stripe
-        try:
-            payment_intent = stripe.PaymentIntent.retrieve(stripe_pid)
-            amount_received = payment_intent['amount_received']  # Amount received in cents
-            
-            # Debugging logs for comparison
-            print(f"Expected amount (cents): {total_price_cents}, Amount received (cents): {amount_received}")
-
-            if amount_received != total_price_cents:  # Compare amounts in cents
-                return render(request, 'error.html', {'message': 'Payment amount does not match.'})
-        except stripe.error.StripeError as e:
-            return render(request, 'error.html', {'message': f'Stripe error: {str(e)}'})
-
-        # Create the booking
+        # Create a provisional booking
         booking = Booking(
             user=profile,
             tutor=tutor,
             session_date=session_date,
-            total_price=total_price,  # Store total price in euros
+            total_price=total_price,
             stripe_pid=stripe_pid,  # Save the Stripe Payment Intent ID
         )
 
@@ -128,32 +112,28 @@ def booking_create(request):
                 time_slot = get_object_or_404(TimeSlot, id=time_slot_id)
                 booking.session_time.add(time_slot)
 
-            messages.success(request, "Your booking has been successfully created! A confirmation email has been sent.")
-            
-            send_booking_confirmation_email(profile, booking)
+            messages.success(request, "Your booking has been successfully booked!")
 
             return redirect('booking_success', booking_id=booking.id)
-
         except Exception as e:
-            print(f"Error saving booking or adding time slots: {e}")
+            print(f"Error saving booking: {e}")
             return render(request, 'error.html', {'message': 'An error occurred while processing your booking.'})
 
     available_dates = get_available_dates(tutor)
-
     available_time_slots = tutor.time_availability.all()
 
-    if session_date:  # Only filter if we have a valid session date
+    if session_date:
         booked_time_slots = Booking.objects.filter(session_date=session_date, tutor=tutor).values_list('session_time', flat=True)
         available_time_slots = available_time_slots.exclude(id__in=booked_time_slots)
 
-    today = datetime.today()  # Define today here
+    today = datetime.today()
     fully_booked_dates = []
-    
+
     for i in range(30):
         current_day = today + timedelta(days=i)
         total_time_slots = tutor.time_availability.count()
         booked_time_slots_count = Booking.objects.filter(session_date=current_day.date(), tutor=tutor).count()
-        
+
         if booked_time_slots_count >= total_time_slots:
             fully_booked_dates.append(current_day.strftime('%d-%m-%Y'))
 
@@ -167,21 +147,41 @@ def booking_create(request):
     })
 
 
-@csrf_protect  # Ensure CSRF protection is enabled
+@csrf_protect
 def create_payment_intent(request):
     if request.method == "POST":
         total_price = request.POST.get('total_price')
-        
+        tutor_id = request.POST.get('tutor')  # Tutor ID sent from the frontend
+
+        # Get the profile of the currently logged-in user
+        user_profile = request.user.profile  # Profile model linked to the logged-in user
+
+        # Ensure that the tutor ID is sent in the request
         try:
+            tutor = Tutor.objects.get(id=tutor_id)  # Fetch the tutor based on ID from the request
+        except Tutor.DoesNotExist:
+            return JsonResponse({'error': 'Tutor not found'}, status=400)
+
+        try:
+            # Access tutor's first name and last name from the Tutor model
+            tutor_first_name = tutor.tutor_firstname
+            tutor_last_name = tutor.tutor_lastname
+            tutor_email = tutor.tutor_email
+
             # Create a Payment Intent with Stripe
             payment_intent = stripe.PaymentIntent.create(
                 amount=int(float(total_price) * 100),  # Convert to cents
                 currency='eur',
-                # Optionally add metadata or other parameters here
+                metadata={
+                    'user': user_profile.personal_details.username,  # Access username via personal_details
+                    'tutor_firstname': tutor_first_name,  # Access first name from Tutor model
+                    'tutor_lastname': tutor_last_name,  # Access last name from Tutor model
+                    'tutor_email': tutor_email,
+                }
             )
             return JsonResponse({'client_secret': payment_intent['client_secret']})
-        
         except Exception as e:
+            print(f"Error creating Payment Intent: {e}")
             return JsonResponse({'error': str(e)}, status=400)
 
 
@@ -190,12 +190,18 @@ def booking_success(request, booking_id):
     """
     Displays booking confirmation details.
     """
-    # Get the specific booking for this user
+    # Retrieve the booking
     booking = get_object_or_404(Booking, id=booking_id)
 
     # Ensure the booking belongs to the logged-in user
     if booking.user != request.user.profile:
         return render(request, 'error.html', {'message': 'Booking not found.'})
+
+    # Check payment status
+    if booking.payment_status == 'paid':
+        messages.success(request, "Your payment was successful! Details of your booking are below.")
+    elif booking.payment_status == 'failed':
+        messages.error(request, "Payment failed. Please retry or contact support.")
 
     return render(request, 'booking/booking_success.html', {'booking': booking})
 

@@ -10,6 +10,7 @@
     <h1 class="text-center mt-5 mb-5"><strong>Find and book a tutor!</strong></h1>
 
     <!-- Display tutors with pagination -->
+    {% if page_obj %}
     {% for tutor in page_obj %}
     <div class="card mb-3">
         <div class="row g-0">
@@ -68,7 +69,7 @@
     {% endfor %}
 
     <!-- Pagination Controls -->
-    {% if page_obj.paginator.num_pages > 1 %}
+    {% if page_obj.paginator.count >= 5 %}
     <nav aria-label="Page navigation example">
         <ul class="pagination justify-content-center">
             {% if page_obj.has_previous %}
@@ -86,8 +87,9 @@
             {% for num in page_obj.paginator.page_range %}
             {% if num == page_obj.number %}
             <li class="page-item active">
-                <a class="page-link" href="#"
-                    style="font-weight: bold; background-color: #3C0008; color: #F9F6EE;">{{ num }}</a>
+                <a class="page-link" href="#" style="font-weight: bold; background-color: #3C0008; color: #F9F6EE;">{{
+                    num
+                    }}</a>
             </li>
             {% else %}
             <li class="page-item">
@@ -108,9 +110,10 @@
             {% endif %}
         </ul>
     </nav>
+    {% endif %}
     {% else %}
     <div class="d-flex justify-content-center mt-4">
-        <span class="page-link" style="font-weight: bold; color: #3C0008;">Page 1</span>
+        <span class="page-link" style="font-weight: bold; color: #3C0008;">No tutor available.</span>
     </div>
     {% endif %}
 </div>
