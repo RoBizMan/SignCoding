@@ -12,7 +12,7 @@ class BookingAdmin(admin.ModelAdmin):
     ordering = ('-booking_date',)
 
     # Read-only fields to prevent modification
-    readonly_fields = ('booking_id', 'booking_date', 'stripe_pid')
+    readonly_fields = ('booking_id', 'booking_date', 'stripe_pid', 'user_fullname', 'user_email', 'tutor_fullname', 'tutor_email', 'total_price', 'session_date', 'session_time')
 
     # Add the ability to filter bookings by user and tutor
     fieldsets = (
