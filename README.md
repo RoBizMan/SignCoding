@@ -138,3 +138,67 @@ The colour palette for SignCoding represents the harmony between coding and sign
 - As a site administrator, I should be able to handle booking requests, so that I can ensure smooth scheduling and session management.
 
 ---
+
+## Wireframes
+
+To follow best practice, wireframes were developed for mobile, tablet, and desktop sizes.
+I've used [Balsamiq](https://balsamiq.com/wireframes) to design my site wireframes.
+
+### Mobile Wireframes
+
+<details>
+<summary> Click here to see the Mobile Wireframes </summary>
+
+Home
+  - ![screenshot](documentation/wireframes/mobile_homepage.png)
+
+Find a Tutor
+  - ![screenshot](documentation/wireframes/mobile_findatutor.png)
+
+Tutor Profile
+  - ![screenshot](documentation/wireframes/mobile_tutorprofile.png)
+
+Contact
+  - ![screenshot](documentation/wireframes/mobile_contact.png)
+
+</details>
+
+### Tablet Wireframes
+
+<details>
+<summary> Click here to see the Tablet Wireframes </summary>
+
+Home
+  - ![screenshot](documentation/wireframes/tablet_homepage.png)
+
+Find a Tutor
+  - ![screenshot](documentation/wireframes/tablet_findatutor.png)
+
+Tutor Profile
+  - ![screenshot](documentation/wireframes/tablet_tutorprofile.png)
+
+Contact
+  - ![screenshot](documentation/wireframes/tablet_contact.png)
+
+</details>
+
+### Desktop Wireframes
+
+<details>
+<summary> Click here to see the Desktop Wireframes </summary>
+
+Home
+  - ![screenshot](documentation/wireframes/desktop_homepage.png)
+
+Find a Tutor
+  - ![screenshot](documentation/wireframes/desktop_findatutor.png)
+
+Tutor Profile
+  - ![screenshot](documentation/wireframes/desktop_tutorprofile.png)
+
+Contact
+  - ![screenshot](documentation/wireframes/desktop_contact.png)
+
+</details>
+
+---
