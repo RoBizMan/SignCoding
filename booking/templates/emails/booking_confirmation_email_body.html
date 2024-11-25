@@ -9,7 +9,7 @@
 <body>
     <h1>Booking Confirmation</h1>
     <br>
-    <p>Dear {{ user.get_full_name }},</p>
+    <p>Dear {{ booking.user_fullname }},</p> <!-- Use user's full name -->
     <br>
     <p>Thank you for your booking with SignCoding!</p>
     <hr>
@@ -20,8 +20,9 @@
         <li><strong>Booking ID:</strong> {{ booking.booking_id }}</li>
         <li><strong>Payment ID:</strong> {{ booking.stripe_pid }}</li>
         <li><strong>Booking Date:</strong> {{ booking.booking_date|date:"d-F-Y H:i" }}</li>
-        <li><strong>Tutor's Name:</strong> {{ booking.tutor.get_full_name }}</li>
-        <li><strong>Tutor's Email:</strong> {{ booking.tutor.tutor_email }}</li>
+        <li><strong>User's Email:</strong> {{ booking.user_fullname }}</li>
+        <li><strong>Tutor's Name:</strong> {{ booking.tutor_fullname }}</li>
+        <li><strong>Tutor's Email:</strong> {{ booking.tutor_email }}</li>
         <li><strong>Session Date:</strong> {{ booking.session_date|date:"d-F-Y" }}</li>
         <li><strong>Session Time Slots:</strong></li>
         <ul>

@@ -15,16 +15,17 @@
 
     <div class="card mb-4">
         <div class="card-body">
-            <h5 class="card-title">Thank you for your booking, {{ booking.user.get_full_name }}!</h5>
+            <h5 class="card-title">Thank you for your booking, {{ booking.user_fullname }}!</h5>
             <p>Your booking has been successfully processed. Here are your booking details:</p>
             <ul class="list-group">
                 <li class="list-group-item"><strong>Booking ID:</strong> {{ booking.booking_id }}</li>
                 <li class="list-group-item"><strong>Payment ID:</strong> {{ booking.stripe_pid }}</li>
-                <li class="list-group-item"><strong>Booking Date:</strong> {{ booking.booking_date|date:"d F Y H:i"}}
+                <li class="list-group-item"><strong>Booking Date:</strong> {{ booking.booking_date|date:"d F Y H:i" }}
                 </li>
-                <li class="list-group-item"><strong>User's Full Name:</strong> {{ booking.user.get_full_name }}</li>
-                <li class="list-group-item"><strong>Tutor's Full Name:</strong> {{ booking.tutor.get_full_name }}</li>
-                <li class="list-group-item"><strong>Tutor's Email:</strong> {{ booking.tutor.tutor_email }}</li>
+                <li class="list-group-item"><strong>User's Full Name:</strong> {{ booking.user_fullname }}</li>
+                <li class="list-group-item"><strong>User's Email:</strong> {{ booking.user_email }}</li>
+                <li class="list-group-item"><strong>Tutor's Full Name:</strong> {{ booking.tutor_fullname }}</li>
+                <li class="list-group-item"><strong>Tutor's Email:</strong> {{ booking.tutor_email }}</li>
                 <li class="list-group-item"><strong>Session Date:</strong> {{ booking.session_date|date:"d F Y" }}</li>
                 <li class="list-group-item"><strong>Session Time Slots:</strong>
                     {% for time_slot in booking.session_time.all %}
@@ -32,8 +33,7 @@
                     {% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 </li>
-                <li class="list-group-item"><strong>Total Amount Paid:
-                    </strong> €{{ booking.total_price|floatformat:2 }}
+                <li class="list-group-item"><strong>Total Amount Paid:</strong> €{{ booking.total_price|floatformat:2 }}
                 </li>
             </ul>
 

@@ -90,8 +90,7 @@
                             <h5 class="card-title">Booking ID: {{ booking.booking_id }}</h5>
                             <hr>
                             <p><strong>Booking Date:</strong> {{ booking.booking_date|date:"d F Y" }}</p>
-                            <p><strong>Tutor:</strong> {{ booking.tutor.tutor_firstname }}
-                                {{ booking.tutor.tutor_lastname|slice:":1" }}</p>
+                            <p><strong>Tutor:</strong> {{ booking.tutor_fullname }}</p>
                             <p><strong>Session Date:</strong> {{ booking.session_date|date:"d F Y" }}</p>
                             <p><strong>Session Time Slots:</strong> {{ booking.session_time.all|join:", " }}</p>
                             <p><strong>Total Price:</strong> €{{ booking.total_price }}</p>

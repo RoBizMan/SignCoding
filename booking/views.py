@@ -114,6 +114,12 @@ def booking_create(request):
                 payment_status='paid'  # Set the payment status to paid
             )
 
+            booking.user_fullname = f"{profile.personal_firstname} {profile.personal_lastname}"
+            booking.user_email = profile.personal_details.email
+
+            booking.tutor_fullname = f"{tutor.tutor_firstname} {tutor.tutor_lastname}"
+            booking.tutor_email = tutor.tutor_email
+
             booking.save()
             for time_slot_id in selected_time_slots:
                 time_slot = get_object_or_404(TimeSlot, id=time_slot_id)

@@ -25,11 +25,16 @@ class Booking(models.Model):
         ('paid', 'Paid'),
         ('failed', 'Failed'),
     ]
+
     booking_id = models.CharField(max_length=32, unique=True, editable=False, verbose_name="Booking ID")
     booking_date = models.DateTimeField(auto_now_add=True, editable=False, verbose_name="Booking Date")
     stripe_pid = models.CharField(max_length=254, unique=True, null=False, blank=False, default='', editable=False, verbose_name="Stripe Payment ID")
-    user = models.ForeignKey(Profile, on_delete=models.PROTECT, related_name="bookings")
-    tutor = models.ForeignKey(Tutor, on_delete=models.PROTECT, related_name="bookings")
+    user = models.ForeignKey(Profile, on_delete=models.SET_NULL, related_name="bookings", null=True)
+    user_fullname = models.CharField(max_length=101, null=True, blank=False)
+    user_email = models.CharField(max_length=254, null=True, blank=False)
+    tutor = models.ForeignKey(Tutor, on_delete=models.SET_NULL, related_name="bookings", null=True)
+    tutor_fullname = models.CharField(max_length=101, null=True, blank=False)
+    tutor_email = models.CharField(max_length=254, null=True, blank=False)
     total_price = models.DecimalField(max_digits=6, decimal_places=2)
     session_date = models.DateField()
     session_time = models.ManyToManyField(TimeSlot, related_name="bookings")
