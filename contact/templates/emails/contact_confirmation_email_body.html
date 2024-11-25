@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Confirmation</title>
+</head>
+
+<body>
+    <h1>Contact Confirmation</h1>
+    <br>
+    <p>Dear {{ contact.full_name }},</p>
+    <br>
+    <p>Thank you for reaching out to SignCoding!</p>
+    <hr>
+    <br>
+    <h3>Your contact information is below:</h3>
+    <br>
+    <ul>
+        <li><strong>Ticket ID:</strong> {{ contact.ticket_id }}</li>
+        <li><strong>Submitted On:</strong> {{ contact.date_submitted|date:"d-F-Y H:i" }}</li>
+        <li><strong>Your Email:</strong> {{ contact.email }}</li>
+        <li><strong>Your Message:</strong> {{ contact.message }}</li>
+    </ul>
+    <hr>
+    <br>
+    <p>If you have any further questions or need assistance, feel free to contact us at arsenalpure95@gmail.com.</p>
+    <br>
+    <p>Thank you for reaching out to us!</p>
+    <br>
+    <p>Sincerely,</p>
+    <br>
+    <p>SignCoding</p>
+</body>
+
+</html>
