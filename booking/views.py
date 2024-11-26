@@ -10,7 +10,8 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 import stripe
 from django.conf import settings
-from django.db import transaction
+from django.db import transaction, models
+from django.db.models import Count
 from decimal import Decimal
 from django.views.decorators.csrf import csrf_protect
 
@@ -37,13 +38,20 @@ def get_available_dates(tutor):
         
         # Check if the current day's weekday is in the set of available weekdays
         if current_day.strftime('%A') in available_weekdays:
-            # Check if all time slots are booked for this date
+            # Check the total time slots for this day
             total_time_slots = tutor.time_availability.count()
-            booked_time_slots_count = Booking.objects.filter(session_date=current_day.date(), tutor=tutor).count()
+
+            # Count how many unique time slots are booked for this day
+            booked_time_slots_count = Booking.objects.filter(session_date=current_day.date(), tutor=tutor).aggregate(
+                total_booked=Count('session_time')
+            )['total_booked'] or 0
             
-            # If not all time slots are booked, add this date to available dates
-            if booked_time_slots_count < total_time_slots:
-                available_dates.append(current_day.strftime('%d-%m-%Y'))  # Format as DD-MM-YYYY
+            # If the number of booked time slots is equal to or greater than the total time slots, it's fully booked
+            if booked_time_slots_count >= total_time_slots:
+                continue  # Skip adding this date as it's fully booked
+
+            # If there are available time slots, add the date to available dates
+            available_dates.append(current_day.strftime('%d-%m-%Y'))
 
     # Filter out dates that are less than 24 hours from now
     available_dates = [date for date in available_dates if (datetime.strptime(date, '%d-%m-%Y') - today).days >= 1]
@@ -79,11 +87,12 @@ def booking_create(request):
     """Handles booking creation and Stripe payment integration."""
     profile = get_object_or_404(Profile, personal_details=request.user)
     tutor_id = request.session.get('tutor_id')
-    
+
     if not tutor_id:
         return render(request, 'error.html', {'message': 'No tutor selected. Please select a tutor first.'})
-    
+
     tutor = get_object_or_404(Tutor, id=tutor_id)
+
     session_date = None
 
     if request.method == 'POST':
@@ -118,8 +127,8 @@ def booking_create(request):
                 tutor=tutor,
                 session_date=session_date,
                 total_price=total_price,
-                stripe_pid=stripe_pid,  # Save the Stripe Payment Intent ID
-                payment_status='paid'  # Set the payment status to paid
+                stripe_pid=stripe_pid, # Save the Stripe Payment Intent ID
+                payment_status='paid' # Set the payment status to paid
             )
 
             booking.user_fullname = f"{profile.personal_firstname} {profile.personal_lastname}"
@@ -128,14 +137,33 @@ def booking_create(request):
             booking.tutor_fullname = f"{tutor.tutor_firstname} {tutor.tutor_lastname}"
             booking.tutor_email = tutor.tutor_email
 
-            booking.save()
+            booking.save()  # Save booking first
+
             for time_slot_id in selected_time_slots:
                 time_slot = get_object_or_404(TimeSlot, id=time_slot_id)
-                booking.session_time.add(time_slot)
+                booking.session_time.add(time_slot)  # Associate time slot with the booking
 
             messages.success(request, "Your booking has been successfully booked!")
+
+            # Recalculate availability after saving booking
+            available_dates = get_available_dates(tutor)  # Re-fetch available dates after booking
             
-            # Send confirmation emails
+            fully_booked_dates = []  # Clear previous fully booked dates
+            
+            today = datetime.today()
+            
+            # Check again for fully booked dates based on all bookings after new booking is saved.
+            for i in range(1, 30):  # Start from 1 to skip today
+                current_day = today + timedelta(days=i)
+                total_time_slots = tutor.time_availability.count()
+
+                booked_time_slots_count = Booking.objects.filter(session_date=current_day.date(), tutor=tutor).aggregate(
+                    total_booked=Count('session_time')
+                )['total_booked'] or 0
+
+                if booked_time_slots_count >= total_time_slots:
+                    fully_booked_dates.append(current_day.strftime('%d-%m-%Y'))
+
             send_booking_confirmation_email(profile, booking)
 
             return redirect('booking_success', booking_id=booking.id)
@@ -153,10 +181,13 @@ def booking_create(request):
     today = datetime.today()
     fully_booked_dates = []
 
-    for i in range(30):
+    for i in range(1, 30):  # Start from 1 to skip today
         current_day = today + timedelta(days=i)
         total_time_slots = tutor.time_availability.count()
-        booked_time_slots_count = Booking.objects.filter(session_date=current_day.date(), tutor=tutor).count()
+
+        booked_time_slots_count = Booking.objects.filter(session_date=current_day.date(), tutor=tutor).aggregate(
+            total_booked=Count('session_time')
+        )['total_booked'] or 0
 
         if booked_time_slots_count >= total_time_slots:
             fully_booked_dates.append(current_day.strftime('%d-%m-%Y'))
