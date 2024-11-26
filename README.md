@@ -202,3 +202,101 @@ Contact
 </details>
 
 ---
+
+## Features
+
+### Existing Features
+
+- **The Home Page**
+  - The Home Page is the first contact users will encounter when visiting this website. The page appears with the title welcoming users to the website. It details what the website is all about. The button leads users to the Find a Tutor page. Also, if a user scrolls down to the bottom, two buttons lead users either to Register (Sign Up) or Login. Once a user is logged in, these two buttons will be replaced with a single button, "My Profile", that leads users to their profile page. [Click here to view the home page](https://signcoding-d529cc1ebf99.herokuapp.com)
+
+![screenshot](documentation/features/features1a.png)
+![screenshot](documentation/features/features1b.png)
+![screenshot](documentation/features/features1c.png)
+![screenshot](documentation/features/features1d.png)
+
+- **Header**
+  - At the top of the website is the header, where users can see the company's brand on the left and the fixed navigation menu on the right side, which was made to be fully responsive across different device sizes. In addition, the navigation menu is hidden on a mobile device, and the hamburger icon allows users to open and close the navigation menu. Also, the Add a New Tutor or My Profile link is hidden when a user or superuser is not logged in. The Add a New Tutor link will only appear if the user is a superuser or has admin privilege. Otherwise, the My Profile link will be displayed for users with no admin privilege. The Register and Login buttons will be replaced with the Sign Out button once a user is logged in. These features will return to the original once a user is logged out.
+
+![screenshot](documentation/features/features2a.png)
+![screenshot](documentation/features/features2b.png)
+![screenshot](documentation/features/features2c.png)
+![screenshot](documentation/features/features2d.png)
+![screenshot](documentation/features/features2e.png)
+
+- **Footer**
+	The footer is at the bottom of the website, where users can visit the company's social media presence. The site navigation allows users to find the exact page they want quickly. Finally, the Contact Form button lets users contact the website owner quickly. The copyright message is located at the bottom of the website body, and clicking it redirects users to the Home Page.
+
+![screenshot](documentation/features/features3a.png)
+![screenshot](documentation/features/features3b.png)
+
+- **The Alert Message**
+  - The alert message appears below the navigation bar to inform a user of their action, such as successfully logging in or logging out and updating their post successfully.
+
+![screenshot](documentation/features/features4a.png)
+![screenshot](documentation/features/features4b.png)
+
+- **Newsletter**
+	- The newsletter is located above the Home Page footer, allowing users to sign up for the newsletter to receive future discount offers or the latest news about the website.
+
+![screenshot](documentation/features/features5a.png)
+
+- **Find a Tutor**
+	- The Find a Tutor consists of five rows of tutors offering their tutoring services through this website. If more than five tutors are on a page, the pagination control will appear. It is a maximum of five tutors per page. Each tutor will consist of their profile picture and full name that slices their surname into one initial to protect their privacy, programming skills, and sign language skills. Also, it shows the tutor's set price per hour with a button to lead users to view the tutor's profile. [Click here to view the Find a Tutor page](https://signcoding-d529cc1ebf99.herokuapp.com/tutors/)
+
+![screenshot](documentation/features/features6a.png)
+![screenshot](documentation/features/features6b.png)
+
+- **Tutor Profile**
+	- The tutor profile displays the tutor's full details. The page contains complete programming skills, sign language skills, day availability, and time availability. The Edit or Delete button is hidden for non-superuser/admin users. They will only display if a user has admin privileges or is a superuser. It allows an admin to edit the tutor in the frontend view. An admin can add a new tutor to the website with the Add a New Tutor button in the header.
+
+![screenshot](documentation/features/features7a.png)
+![screenshot](documentation/features/features7b.png)
+![screenshot](documentation/features/features7c.png)
+![screenshot](documentation/features/features7d.png)
+![screenshot](documentation/features/features7e.png)
+
+- **Book a Tutor**
+	- The Book a Tutor page fetches the tutor ID from the tutor profile and renders the brief tutor profile at the top to ensure that a user is booking the correct tutor. It also fetches the user's full name. A user can view the tutor's day availability through Flatpickr's datetime picker widget, which displays green as available and red as unavailable (fully booked or less than 24 hours). Once a user selects the date, the session time slots will appear, and a user can choose one or more time slots using Select2. The total amount will be calculated automatically based on the session time slots a user chooses. The Stripe card payment details are included in this form, which handles the error. The Book Session button is disabled upon the page load until a user fills in all forms, and the button becomes clickable. When a user is ready to book the session, the loading screen will display, and the user will proceed to the next page if the payment is successfully processed.
+
+![screenshot](documentation/features/features8a.png)
+![screenshot](documentation/features/features8b.png)
+![screenshot](documentation/features/features8c.png)
+![screenshot](documentation/features/features8d.png)
+![screenshot](documentation/features/features8e.png)
+![screenshot](documentation/features/features8f.png)
+![screenshot](documentation/features/features8g.png)
+![screenshot](documentation/features/features8h.png)
+
+- **Booking Confirmation**
+	- The booking confirmation will appear once the payment has been successfully processed and will display all the details a user has booked. It also automatically sends the email to both the user and the tutor.
+
+![screenshot](documentation/features/features9.png)
+
+- **User Profile**
+	- A user can view their booking history through their user profile section. Also, a user can update their full name or delete the account.
+
+![screenshot](documentation/features/features10a.png)
+![screenshot](documentation/features/features10b.png)
+![screenshot](documentation/features/features10c.png)
+
+- **Contact**
+	- A user can contact the owner through the contact form. If the contact form is successfully submitted, it will proceed to the contact confirmation with the ticket ID and send it to a user's email address to retain the contact confirmation.
+
+![screenshot](documentation/features/features11a.png)
+![screenshot](documentation/features/features11b.png)
+
+### Future Features
+
+- Customisable themes for users to change the theme to their own preferred style.
+- Implement MFA (Multi-Factor Authentication) to secure their accounts from potential security breaches by bad hack players.
+- Introduce Notifications to receive a notification about their booking status.
+- Enable the search function using the tutor's name.
+- Add the review and feedback to the tutor's profile page.
+- Add the rating to the tutor's profile list and on the profile page.
+- Implement a filtering function to filter tutors by programming or sign languages.
+- Add the ability to rebook the same tutor under the booking history in the user profile.
+- Implement dark-mode support to reduce eye strains on users.
+- Redesign the website to include some intuitive, advanced UI design.
+
+---
