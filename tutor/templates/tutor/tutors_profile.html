@@ -13,13 +13,13 @@
     {% if user.is_superuser %}
     <div class="row d-flex justify-content-center align-items-center mb-3">
         <div class="col-auto">
-            <a class="btn btn-warning" role="button" href="{% url 'edit_tutor' tutor.id %}"><i
+            <a class="btn btn-warning mb-2" role="button" href="{% url 'edit_tutor' tutor.id %}"><i
                     class="fa-solid fa-pen-to-square"></i> Update a Tutor
                 Profile</a>
         </div>
         <div class="col-auto">
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteTutorModal"><i
-                    class="fa-solid fa-user-xmark"></i> Delete a Tutor</button>
+            <button type="button" class="btn btn-danger mb-2" data-bs-toggle="modal"
+                data-bs-target="#deleteTutorModal"><i class="fa-solid fa-user-xmark"></i> Delete a Tutor</button>
         </div>
     </div>
 

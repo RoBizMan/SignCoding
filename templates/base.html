@@ -105,15 +105,15 @@
                     <!-- Sign Out button appears once registered user is logged in / Add a New Tutor button for superuser -->
                     {% if user.is_authenticated %}
                     {% if user.is_superuser %}
-                    <a class="btn btn-warning signlog-button" role="button" href="{% url 'add_tutor' %}"><i
+                    <a class="btn signlog-button" role="button" href="{% url 'add_tutor' %}"><i
                             class="fa-solid fa-user-plus"></i> Add a New Tutor</a>
                     {% endif %}
-                    <a class="btn btn-outline-light signlog-button" role="button" href="{% url 'account_logout' %}">Sign
+                    <a class="btn signlog-button-sm" role="button" href="{% url 'account_logout' %}">Sign
                         Out <i class="fa-solid fa-right-from-bracket"></i></a>
                     {% else %}
-                    <a class="btn btn-warning signlog-button" role="button" href="{% url 'account_signup' %}"><i
+                    <a class="btn signlog-button" role="button" href="{% url 'account_signup' %}"><i
                             class="fa-solid fa-id-card"></i> Register</a>
-                    <a class="btn btn-outline-light signlog-button-sm" role="button" href="{% url 'account_login' %}"><i
+                    <a class="btn signlog-button-sm" role="button" href="{% url 'account_login' %}"><i
                             class="fa-solid fa-right-to-bracket"></i> Login</a>
                     {% endif %}
                 </div>
@@ -161,7 +161,8 @@
             <div class="horizontal-rule"></div>
             <div class="col-sm-4 col-xs-12 contact-footer-column">
                 <h6 class="custom-text-h6">If you have any enquiries, please contact us</h6>
-                <a class="btn btn-warning" role="button" href="{% url 'contact' %}"><i class="fa-solid fa-envelope"></i>
+                <a class="btn signlog-button" role="button" href="{% url 'contact' %}"><i
+                        class="fa-solid fa-envelope"></i>
                     Contact form</a>
             </div>
             <div class="horizontal-rule"></div>
@@ -211,9 +212,7 @@
         if (!$('.error-page').length) { // Exclude error pages
             setTimeout(function () {
                 const messageContainers = document.querySelectorAll('.alert');
-                console.log("Message containers found:", messageContainers.length); // Debugging
                 messageContainers.forEach(function (container) {
-                    console.log("Fading out message:", container.innerText); // Debugging
                     container.style.transition = 'opacity 1s ease-out';
                     container.style.opacity = 0;
                     setTimeout(function () {

@@ -88,9 +88,9 @@
         <form method="post" action="{% url 'subscribe_newsletter' %}">
             {% csrf_token %}
             <div class="input-group">
-                <input type="email" name="email" class="form-control" autocomplete="off" placeholder="Enter your email"
-                    required>
-                <button type="submit" class="btn btn-warning">Subscribe</button>
+                <input type="email" name="email" class="form-control news-input" autocomplete="off"
+                    placeholder="Enter your email" required>
+                <button type="submit" class="btn btn-land-color">Subscribe</button>
             </div>
         </form>
     </div>

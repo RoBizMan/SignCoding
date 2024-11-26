@@ -9,24 +9,28 @@
 /* Book Sessions & Cancel buttons */
 .btn-profile-color {
     background-color: #3C0008;
+    border: 1px solid #3C0008;
     color: #F9F6EE;
 }
 
-.btn-profile-color:hover {
+.btn-profile-color:hover,
+.btn-profile-color:focus {
     background-color: #F9F6EE;
-    border: 0.1rem solid #3C0008;
+    border: 1px solid #3C0008;
     color: #3C0008;
 }
 
 /* Cancel Button for Add or Update a Tutor */
 .btn-canc-color {
     background-color: #F9F6EE;
-    border: 0.1rem solid #3C0008;
+    border: 1px solid #3C0008;
     color: #3C0008;
 }
 
-.btn-canc-color:hover {
+.btn-canc-color:hover,
+.btn-canc-color:focus {
     background-color: #3C0008;
+    border: 1px solid #3C0008;
     color: #F9F6EE;
 }
 
