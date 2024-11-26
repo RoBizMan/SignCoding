@@ -21,15 +21,20 @@ main {
     color: #F9F6EE;
 }
 
-.logo-custom:hover {
+.logo-custom:hover,
+.logo-custom:focus {
     color: yellow;
 }
 
 .navbar-custom-color,
 .footer-custom-color,
-.container-custom-color,
+.container-custom-color {
+    background-color: #3C0008;
+}
+
 .btn-custom-color {
     background-color: #3C0008;
+    border: 1px solid #3C0008;
 }
 
 .nav-link {
@@ -46,7 +51,8 @@ main {
     position: relative;
 }
 
-.navbar-nav .nav-link:hover {
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link:focus {
     color: yellow;
 }
 
@@ -113,7 +119,8 @@ main {
     color: #F9F6EE;
 }
 
-.foot-logo:hover {
+.foot-logo:hover,
+.foot-logo:focus {
     color: yellow;
 }
 
@@ -123,7 +130,9 @@ main {
 }
 
 .social-media-custom:hover,
-.nav-footer-custom:hover {
+.social-media-custom:focus,
+.nav-footer-custom:hover,
+.nav-footer-custom:focus {
     color: yellow;
 }
 
@@ -151,6 +160,42 @@ main {
 }
 
 /* Override Django's default button */
+.signlog-button-sm {
+    background-color: #3C0008;
+    color: #F9F6EE;
+    border: 1px solid #F9F6EE;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+.signlog-button-sm:hover,
+.signlog-button-sm:focus {
+    background-color: #F9F6EE;
+    color: #3C0008;
+    border: 1px solid #F9F6EE;
+}
+
+.signlog-button {
+    background-color: #F9F6EE;
+    color: #3C0008;
+    border: 1px solid #F9F6EE;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: background-color 0.3s ease;
+}
+
+.signlog-button:hover,
+.signlog-button:focus {
+    background-color: #3C0008;
+    color: #F9F6EE;
+    border: 1px solid #F9F6EE;
+}
+
 button.btn-custom-color,
 .btn-acc-color {
     background-color: #3C0008;
@@ -165,7 +210,9 @@ button.btn-custom-color,
 }
 
 button.btn-custom-color:hover,
-.btn-acc-color:hover {
+button.btn-custom-color:focus,
+.btn-acc-color:hover,
+.btn-acc-color:focus {
     background-color: #F9F6EE;
     color: #3C0008;
     border: 1px solid #3C0008;

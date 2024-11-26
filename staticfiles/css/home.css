@@ -19,25 +19,33 @@ h4 {
 /* Find a Tutor button */
 .btn-land-color {
     background-color: #3C0008;
+    border: 1px solid #3C0008;
     color: #F9F6EE;
 }
 
-.btn-land-color:hover {
+.btn-land-color:hover,
+.btn-land-color:focus {
     background-color: #F9F6EE;
-    border: 0.1rem solid #3C0008;
+    border: 1px solid #3C0008;
     color: #3C0008;
 }
 
 /* Sign Up/Login buttons */
 .btnout-land-color {
     background-color: #F9F6EE;
-    border: 0.1rem solid #3C0008;
+    border: 1px solid #3C0008;
     color: #3C0008;
 }
 
-.btnout-land-color:hover {
+.btnout-land-color:hover,
+.btnout-land-color:focus {
     background-color: #3C0008;
+    border: 1px solid #3C0008;
     color: #F9F6EE;
+}
+
+.news-input {
+    border: 1px solid #3C0008;
 }
 
 /* Horizontal rules style */

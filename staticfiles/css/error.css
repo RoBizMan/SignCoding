@@ -1,10 +1,12 @@
 .btn-web-color {
     background-color: #3C0008;
+    border: 1px solid #3C0008;
     color: #F9F6EE;
 }
 
-.btn-web-color:hover {
+.btn-web-color:hover,
+.btn-web-color:focus {
     background-color: #F9F6EE;
-    border: 0.1rem solid #3C0008;
+    border: 1px solid #3C0008;
     color: #3C0008;
 }
