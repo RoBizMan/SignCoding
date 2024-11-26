@@ -73,7 +73,7 @@ main {
 
 .signlog-button,
 .signlog-button-sm {
-    margin: 0.5rem 0.25rem;
+    margin: 1rem 0.25rem 0.5rem 0.25rem;
 }
 
 .logbtn-sm {
@@ -164,11 +164,7 @@ main {
     background-color: #3C0008;
     color: #F9F6EE;
     border: 1px solid #F9F6EE;
-    font-size: 1rem;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 0.25rem;
-    transition: background-color 0.3s ease;
+    margin-left: 1rem;
 }
 
 .signlog-button-sm:hover,
@@ -182,11 +178,6 @@ main {
     background-color: #F9F6EE;
     color: #3C0008;
     border: 1px solid #F9F6EE;
-    font-size: 1rem;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 0.25rem;
-    transition: background-color 0.3s ease;
 }
 
 .signlog-button:hover,
@@ -202,11 +193,6 @@ button.btn-custom-color,
     color: #F9F6EE;
     border: 1px solid #3C0008;
     padding: 0.8rem;
-    font-size: 1rem;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 0.25rem;
-    transition: background-color 0.3s ease;
 }
 
 button.btn-custom-color:hover,
@@ -252,6 +238,7 @@ button.btn-custom-color:focus,
 
     .signlog-button-sm {
         margin: 0;
+        margin-left: 1rem !important;
     }
 
     .navbar-nav {
