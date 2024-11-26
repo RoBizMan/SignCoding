@@ -19,17 +19,22 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def get_available_dates(tutor):
     """
     Generate a list of available dates for the given tutor based on their day availability
-    for the next 30 days.
+    for the next 30 days. Today's date is excluded, and users must book at least 24 hours in advance.
     """
     today = datetime.today()
     available_dates = []
-
+    
     # Get a set of available weekday indices from tutor's day availability
     available_weekdays = {day.name: day.order for day in tutor.day_availability.all()}
 
     # Get the next 30 days
     for i in range(30):
         current_day = today + timedelta(days=i)
+        
+        # Skip today entirely
+        if current_day.date() == today.date():
+            continue
+        
         # Check if the current day's weekday is in the set of available weekdays
         if current_day.strftime('%A') in available_weekdays:
             # Check if all time slots are booked for this date
@@ -39,6 +44,9 @@ def get_available_dates(tutor):
             # If not all time slots are booked, add this date to available dates
             if booked_time_slots_count < total_time_slots:
                 available_dates.append(current_day.strftime('%d-%m-%Y'))  # Format as DD-MM-YYYY
+
+    # Filter out dates that are less than 24 hours from now
+    available_dates = [date for date in available_dates if (datetime.strptime(date, '%d-%m-%Y') - today).days >= 1]
 
     return available_dates
 
