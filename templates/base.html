@@ -18,6 +18,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+        content="SignCoding: Bridging programming and sign language tutoring. Empowering deaf and hard-of-hearing students to master programming languages like HTML, CSS, JavaScript, Python, and more in an inclusive environment.">
+    <meta name="keywords"
+        content="SignCoding, programming for deaf, sign language tutoring, inclusive learning, coding for deaf, sign language tutors, coding deaf education, accessible learning">
     {% endblock %}
 
     {% block extra_meta %}
@@ -105,6 +109,7 @@
                     <!-- Sign Out button appears once registered user is logged in / Add a New Tutor button for superuser -->
                     {% if user.is_authenticated %}
                     {% if user.is_superuser %}
+                    <!-- Display Add a New Tutor for superuser only -->
                     <a class="btn signlog-button" role="button" href="{% url 'add_tutor' %}"><i
                             class="fa-solid fa-user-plus"></i> Add a New Tutor</a>
                     {% endif %}
@@ -121,6 +126,7 @@
         </nav>
     </header>
 
+    <!-- Alert message container -->
     {% if messages %}
     <div class="message-container">
         {% for message in messages %}
@@ -140,8 +146,10 @@
         {% endblock %}
     </main>
 
+    <!-- Footer -->
     <footer class="footer-custom-color py-3 px-3">
         <div class="row">
+            <!-- Site Navigation -->
             <div class="col-sm-4 col-xs-12">
                 <h6 class="custom-text-h6"><strong>Site Navigation:</strong></h6>
                 <div class="col">
@@ -158,14 +166,18 @@
                     </ul>
                 </div>
             </div>
+            <!-- Customised horizontal rule to appear in smaller screen only -->
             <div class="horizontal-rule"></div>
+            <!-- Contact -->
             <div class="col-sm-4 col-xs-12 contact-footer-column">
                 <h6 class="custom-text-h6">If you have any enquiries, please contact us</h6>
                 <a class="btn signlog-button" role="button" href="{% url 'contact' %}"><i
                         class="fa-solid fa-envelope"></i>
                     Contact form</a>
             </div>
+            <!-- Customised horizontal rule to appear in smaller screen only -->
             <div class="horizontal-rule"></div>
+            <!-- Social media external links -->
             <div class="col-sm-4 col-xs-12">
                 <h6 class="custom-text-h6 custom-socmed-links-h6"><strong>Social Media:</strong></h6>
                 <ul class="nav flex-column custom-socmed-links">
@@ -190,6 +202,7 @@
                 </ul>
             </div>
         </div>
+        <!-- Copyright message with clickable to lead users to Home page -->
         <hr class="responsive-line-horizontal">
         <div class="row text-center">
             <div class="col">

@@ -1,3 +1,4 @@
+/* Override Django's default button style */
 .btn-web-color {
     background-color: #3C0008;
     border: 1px solid #3C0008;

@@ -7,18 +7,21 @@
 
 {% block content %}
 <div class="container mt-3">
+    <!-- Displays a user's personal details -->
     <h1 class="text-center mt-5 mb-5"><strong><i class="fa-solid fa-address-card"></i> User Profile</strong></h1>
 
     <div class="card mb-3">
         <div class="row mb-3">
             <div class="col-md-9">
                 <div class="card-body">
+                    <!-- Gets their First and Last names to display which were saved during the Sign Up process -->
                     <h5 class="card-title"><strong>First Name:</strong> {{ profile.personal_firstname }}</h5>
                     <h5 class="card-title"><strong>Last Name:</strong> {{ profile.personal_lastname }}</h5>
                 </div>
             </div>
             <div class="col-md-3 d-flex justify-content-center align-items-center">
                 <div class="text-center">
+                    <!-- Edit their First and Last names -->
                     <a class="btn btn-profile-color" href="{% url 'edit_profile' %}"><i
                             class="fa-solid fa-pen-to-square"></i> Edit Name</a>
                 </div>
@@ -30,6 +33,7 @@
         <div class="row mb-3">
             <div class="col-md-9">
                 <div class="card-body">
+                    <!-- Displays their username that was created during the Sign Up process -->
                     <h5 class="card-title"><strong>Userame:</strong> {{ profile.personal_details.username }}</h5>
                 </div>
             </div>
@@ -40,6 +44,7 @@
         <div class="row mb-3">
             <div class="col-md-9">
                 <div class="card-body">
+                    <!-- Displays their email address that was created during the Sign Up process -->
                     <h5 class="card-title"><strong>Email:</strong> {{ profile.personal_details.email }}</h5>
                 </div>
             </div>
@@ -48,6 +53,7 @@
 
     <div class="row mb-3 d-flex justify-content-center align-items-center">
         <div class="col-auto">
+            <!-- Delete your account button -->
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 <i class="fa-solid fa-trash-can"></i> Delete Your Account
             </button>
@@ -78,9 +84,11 @@
     </div>
 
     <div class="container mt-3">
+        <!-- Booking history list container -->
         <h2 class="text-center mt-5 mb-5"><strong><i class="fa-solid fa-receipt"></i> Booking History</strong></h2>
 
         <div class="card mb-3">
+            <!-- Fetch booking records from the database -->
             {% if bookings %}
             <div class="row">
                 {% for booking in bookings %}
@@ -100,6 +108,7 @@
                 {% endfor %}
             </div>
             {% else %}
+            <!-- Otherwise, display message if no booking records found in the database -->
             <div class="card-body">
                 <p>No bookings found.</p>
             </div>

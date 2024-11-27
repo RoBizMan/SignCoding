@@ -22,6 +22,7 @@
     <input type="hidden" id="stripe_pid" name="stripe_pid" value="">
     <input type="hidden" id="tutor-id" value="{{ tutor.id }}">
     <div class="container mt-3">
+        <!-- Fetch tutor's full name automatically based on current session request -->
         <h1 class="text-center mt-4 mb-4"><strong>You are booking {{ tutor.tutor_firstname }}
                 {{tutor.tutor_lastname|slice:":1" }}.
                 <i class="fa-solid fa-person-chalkboard"></i></strong></h1>
@@ -29,11 +30,13 @@
         <div class="card mb-3">
             <div class="row g-0">
                 <div class="col-md-4 d-flex justify-content-center align-items-center">
+                    <!-- Fetch tutor's profile image -->
                     <img src="{{ tutor.photo.url }}" class="img-fluid rounded-circle mt-2 mb-2"
                         style="width: 150px; height: 150px; object-fit: cover;" alt="Tutor Photo">
                 </div>
                 <div class="col-md-8 justify-content-center align-items-center">
                     <div class="card-body">
+                        <!-- Fetch tutor's programming skills -->
                         <p class="mb-0"><strong><i class="fa-solid fa-code"></i> Programming Languages:</strong></p>
                         <div>
                             {% for language in tutor.programming_languages.all %}
@@ -41,6 +44,7 @@
                             {% endfor %}
                         </div>
 
+                        <!-- Fetch tutor's sign languages -->
                         <p class="mt-3 mb-0"><strong><i class="fa-solid fa-hands"></i> Sign Languages:</strong></p>
                         <div>
                             {% for sign_language in tutor.sign_languages.all %}
@@ -59,12 +63,14 @@
     <div class="container mt-3">
         <h3 class="text-center mt-3 mb-3"><strong>Your details:</strong></h3>
         <div class="card mb-3 p-3">
+            <!-- Fetch user's full name automatically based on logged in session -->
             <h5 class="card-title"><strong>First Name:</strong> {{ profile.personal_firstname }}</h5>
             <h5 class="card-title"><strong>Last Name:</strong> {{ profile.personal_lastname }}</h5>
         </div>
     </div>
 
     <div class="container mt-3">
+        <!-- Book a tutor session -->
         <h3 class="text-center mt-3 mb-3"><strong>Your session with your tutor:</strong></h3>
         <div class="card mb-3 p-3">
             <p>It is not possible to book a tutor on the same day as their availability. Please book the next available session
@@ -92,17 +98,21 @@
     </div>
 
     <div class="container mt-3">
+        <!-- Display a total amount automatically based on user's chosen time slots -->
         <h3 class="text-center mt-3 mb-3"><strong>Amount:</strong></h3>
         <div class="card mb-3 p-3">
             <div class="d-flex justify-content-between align-items-center">
+                <!-- Based on tutor's set price -->
                 <h5>Hourly rate: </h5>
                 <p>€{{ tutor.price }}</p>
             </div>
             <div class="d-flex justify-content-between align-items-center">
+                <!-- Fetch from user's chosen time slots and update counts automatically -->
                 <h5>Time slots selected: </h5>
                 <p><span id="time-slots-count">0</span></p>
             </div>
             <div class="d-flex justify-content-between align-items-center">
+                <!-- Update total amount based on hourly rate and counts above automatically -->
                 <h5 class="card-title">Total amount to pay:</h5>
                 <p id="total-price"><strong>€0.00</strong></p>
             </div>
@@ -110,6 +120,7 @@
     </div>
 
     <div class="container mt-3">
+        <!-- Stripe card payment -->
         <h3 class="text-center mt-3 mb-3"><strong>Payment Details:</strong></h3>
         <div class="card mb-3 p-3">
             <div id="card-element" class="card p-3 mb-3" style="border: 1px solid #ddd; padding: 10px;"></div>

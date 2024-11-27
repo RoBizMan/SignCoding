@@ -8,6 +8,7 @@
 {% block content %}
 <div class="container mt-3 p-3">
     <div class="row">
+        <!-- A welcome message with Find a Tutor button -->
         <section class="col-sm-12 col-lg-8">
             <h1 class="mb-3"><i class="fa-solid fa-unlock-keyhole land-icon"></i> Unlock Your Potential with
                 SignCoding</h1>
@@ -19,12 +20,14 @@
                 learning experience!
             </p>
             <div class="row">
+                <!-- Find a Tutor button leads users to find a tutor page -->
                 <div class="col d-flex justify-content-center align-items-center mb-3">
                     <a class="btn btn-lg btn-land-color" role="button" href="{% url 'tutors' %}"><strong>Find a
                             Tutor now! <i class="fa-solid fa-magnifying-glass"></i></strong></a>
                 </div>
             </div>
         </section>
+        <!-- Image of students on the right in the larger screen and bottom in the smaller screen -->
         <aside class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
             <img src="{% static 'images/stud_comp.jpg' %}" class="img-fluid" alt="Student Computer">
         </aside>
@@ -33,9 +36,11 @@
 </div>
 <div class="container p-3">
     <div class="row">
+        <!-- Image of students on the left in the larger screen and bottom in the smaller screen -->
         <aside class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
             <img src="{% static 'images/asl_comp_2.jpg' %}" class="img-fluid" alt="Student Computer">
         </aside>
+        <!-- Reasons why choosing SignCoding -->
         <section class="col-sm-12 col-lg-8">
             <h1 class="mb-3"><i class="fa-solid fa-list-check land-icon"></i> Why Choose SignCoding?</h1>
             <h4 class="landing-h4 mb-3">Learn Faster with Programming Expert Sign Language Tutors</h4>
@@ -52,6 +57,7 @@
 </div>
 <div class="container p-3 mb-3">
     <div class="row">
+        <!-- Get users to join SignCoding by registering or logging if not logged or My Profile if logged -->
         <section class="col-sm-12 col-lg-8">
             <h1 class="mb-3"><i class="fa-solid fa-road land-icon"></i>Your Journey Starts Here!</h1>
             <p class="landing-p">Join SignCoding today and unlock your potential in coding. Together, we will turn
@@ -60,11 +66,13 @@
             </p>
             <div class="row justify-content-center mt-5 mb-3">
                 {% if user.is_authenticated %}
+                <!-- Display a My Profile button instead of Register and Login Button if user is logged in -->
                 <div class="col-auto">
                     <a class="btn btn-land-color" role="button" href="{% url 'user_profile' %}"><i
                             class="fa-solid fa-address-card"></i> My Profile</a>
                 </div>
                 {% else %}
+                <!-- Display Register and Login Button as user is not logged in -->
                 <div class="col-auto">
                     <a class="btn btn-lg btn-land-color" role="button" href="{% url 'account_signup' %}"><i
                             class="fa-solid fa-id-card"></i> Register</a>
@@ -76,11 +84,13 @@
                 {% endif %}
             </div>
         </section>
+        <!-- Image of group study on the right in the larger screen or bottom in the smaller screen -->
         <aside class="col-sm-12 col-lg-4 d-flex justify-content-center align-items-center">
             <img src="{% static 'images/signing_group_with_laptops.png' %}" class="img-fluid" alt="Student Computer">
         </aside>
     </div>
 </div>
+<!-- Newsletter container -->
 <div class="container p-3 mb-3 custom-newsletter">
     <h6 class="text-center"><strong>Sign up to our newsletters for discount
             coupons!</strong></h6>
