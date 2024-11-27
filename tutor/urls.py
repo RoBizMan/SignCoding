@@ -24,8 +24,12 @@ urlpatterns = [
     path('tutor/<int:tutor_id>/', views.tutor_profile, name='tutor_profile'),
     path('add/', views.add_tutor, name='add_tutor'),
     path('tutor/<int:tutor_id>/edit/', views.edit_tutor, name='edit_tutor'),
-    path('tutor/<int:tutor_id>/delete/', views.delete_tutor, name='delete_tutor'),
+    path(
+        'tutor/<int:tutor_id>/delete/', views.delete_tutor, name='delete_tutor'
+    ),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )

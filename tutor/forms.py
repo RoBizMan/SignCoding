@@ -1,22 +1,43 @@
-# forms.py
 from django import forms
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
 from django.core.validators import MinValueValidator, MaxValueValidator
-from .models import Tutor, ProgrammingLanguage, SignLanguage, DayAvailability, TimeSlot
+from .models import (
+    Tutor, ProgrammingLanguage, SignLanguage, DayAvailability, TimeSlot
+)
 from cloudinary.forms import CloudinaryFileField
 import re
+
 
 class TutorAdminForm(forms.ModelForm):
     """
     Custom form for validating Tutor fields in the admin.
-    Ensures that at least one of the many-to-many fields is selected.
+
+    This form ensures that at least one of the many-to-many fields
+    (programming languages, sign languages, day availability, and
+    time availability) is selected before a tutor can be saved.
+
+    Attributes:
+        model (Type[Tutor]): The model associated with this form.
+        fields (list): All fields from the Tutor model.
     """
+
     class Meta:
         model = Tutor
         fields = '__all__'
 
     def clean(self):
+        """
+        Custom validation to ensure that required Many-to-Many fields
+        are selected.
+
+        Raises:
+            ValidationError: If any of the required Many-to-Many fields
+            are empty.
+
+        Returns:
+            dict: Cleaned data from the form.
+        """
         cleaned_data = super().clean()
 
         # Get the ManyToMany fields
@@ -27,41 +48,69 @@ class TutorAdminForm(forms.ModelForm):
 
         # Custom validation: check if any of the M2M fields are empty
         if not programming_languages:
-            raise ValidationError("Please select at least one programming language.")
+            raise ValidationError(
+                "Please select at least one programming language."
+            )
         if not sign_languages:
-            raise ValidationError("Please select at least one sign language.")
+            raise ValidationError(
+                "Please select at least one sign language."
+            )
         if not day_availability:
-            raise ValidationError("Please select at least one day of availability.")
+            raise ValidationError(
+                "Please select at least one day of availability."
+            )
         if not time_availability:
             raise ValidationError("Please select at least one time slot.")
 
         return cleaned_data
 
+
 class TutorForm(forms.ModelForm):
     """
     A form for creating and updating Tutor instances.
-    This form handles the validation and presentation of fields related to the tutor, including
-    programming languages, sign languages, availability, price, and a profile picture.
+
+    This form handles the validation and presentation of fields related
+    to the tutor, including programming languages, sign languages,
+    availability, price, and a profile picture.
+
+    Attributes:
+        programming_languages (ModelMultipleChoiceField): The programming
+            languages that the tutor can teach.
+        sign_languages (ModelMultipleChoiceField): The sign languages that
+            the tutor can teach.
+        day_availability (ModelMultipleChoiceField): The days of the week
+            when the tutor is available.
+        time_availability (ModelMultipleChoiceField): The time slots when
+            the tutor is available.
+        price (DecimalField): The hourly rate of the tutor.
+        photo (CloudinaryFileField): The profile picture of the tutor.
     """
+
     programming_languages = forms.ModelMultipleChoiceField(
         queryset=ProgrammingLanguage.objects.all(),
         widget=forms.SelectMultiple(attrs={'size': '5'}),
         required=True,
-        error_messages={'required': _("Please select at least one programming language.")}
+        error_messages={
+            'required': _("Please select at least one programming language.")
+        }
     )
 
     sign_languages = forms.ModelMultipleChoiceField(
         queryset=SignLanguage.objects.all(),
         widget=forms.SelectMultiple(attrs={'size': '5'}),
         required=True,
-        error_messages={'required': _("Please select at least one sign language.")}
+        error_messages={
+            'required': _("Please select at least one sign language.")
+        }
     )
 
     day_availability = forms.ModelMultipleChoiceField(
         queryset=DayAvailability.objects.all(),
         widget=forms.SelectMultiple(attrs={'size': '5'}),
         required=True,
-        error_messages={'required': _("Please select at least one day of availability.")}
+        error_messages={
+            'required': _("Please select at least one day of availability.")
+        }
     )
 
     time_availability = forms.ModelMultipleChoiceField(
@@ -84,18 +133,21 @@ class TutorForm(forms.ModelForm):
         })
     )
 
-    photo = CloudinaryFileField(required=True, error_messages={'required': _("Please upload a profile picture."), 'invalid': _("Invalid image file.")})
+    photo = CloudinaryFileField(
+        required=True,
+        error_messages={
+            'required': _("Please upload a profile picture."),
+            'invalid': _("Invalid image file.")
+        }
+    )
 
     class Meta:
-        """
-        The Meta class defines the model and fields that should be used in the form.
-        It links this form to the Tutor model and specifies the fields to include.
-
-        The widgets dictionary customises the form fields' HTML output.
-        It sets placeholders and CSS classes for the first name, last name, and email input fields.
-        """
         model = Tutor
-        fields = ['tutor_firstname', 'tutor_lastname', 'tutor_email', 'programming_languages', 'sign_languages', 'day_availability', 'time_availability', 'price', 'photo']
+        fields = [
+            'tutor_firstname', 'tutor_lastname', 'tutor_email',
+            'programming_languages', 'sign_languages',
+            'day_availability', 'time_availability', 'price', 'photo'
+        ]
         widgets = {
             'tutor_firstname': forms.TextInput(attrs={
                 'placeholder': 'Enter your first name',
@@ -113,11 +165,14 @@ class TutorForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         """
-        The constructor method initialises the form and sets the default photo URL if the photo is not uploaded.
-        It is called whenever the form is instantiated, either empty or with data.
+        Initializes the form and sets a default photo URL if not uploaded.
+
+        Args:
+            args: Positional arguments for form initialization.
+            kwargs: Keyword arguments for form initialization.
         """
         super().__init__(*args, **kwargs)
-        
+
         # If the form is invalid, set the default photo URL
         if self.instance and not self.instance.photo:
             self.fields['photo'].initial = 'tutor_images/default.jpg'
@@ -125,9 +180,12 @@ class TutorForm(forms.ModelForm):
     def clean_tutor_firstname(self):
         """
         Validates and cleans the tutor's first name.
-        - Strips leading/trailing spaces and replaces multiple spaces with a single space.
-        - Validates that the first name contains only letters, spaces, apostrophes, and hyphens.
-        - Ensures the first name is not empty and contains at least one letter.
+
+        Raises:
+            ValidationError: If the first name is invalid or empty.
+
+        Returns:
+            str: The cleaned first name.
         """
         firstname = self.cleaned_data.get('tutor_firstname')
 
@@ -137,63 +195,81 @@ class TutorForm(forms.ModelForm):
         # Replace multiple spaces with a single space in the output to the DB
         legible_firstname = re.sub(r'\s+', ' ', legible_firstname)
 
-        # Ensure no leading or trailing spaces around hyphens prior to the output to the DB
+        # Ensure no leading or trailing spaces around hyphens before output DB
         legible_firstname = re.sub(r'\s*-\s*', '-', legible_firstname)
 
-        # Check if the first name contains only letters, spaces, apostrophes, and hyphens
+        # Check if first name contains only valid characters
         if not re.match(r"^[A-Za-z\s' -]*$", legible_firstname):
-            raise ValidationError("First name must contain only letters, spaces, apostrophes, and hyphens.")
+            raise ValidationError(
+                "First name must contain only letters, \
+                spaces, apostrophes, and hyphens."
+            )
 
-        # Check for empty input after legible first name
+        # Check for empty input after cleaning
         if not legible_firstname:
             raise ValidationError("First name cannot be empty.")
 
         # Ensure at least one letter is present
         if not re.search(r"[A-Za-z]", legible_firstname):
-            raise ValidationError("First name must contain at least one letter.")
+            raise ValidationError(
+                "First name must contain at least one letter."
+            )
 
-        return legible_firstname  # Return the legible first name
+        return legible_firstname  # Return cleaned first name
 
     def clean_tutor_lastname(self):
         """
         Validates and cleans the tutor's last name.
-        - Strips leading/trailing spaces and replaces multiple spaces with a single space.
-        - Validates that the last name contains only letters, spaces, apostrophes, and hyphens.
-        - Ensures the last name is not empty and contains at least one letter.
+
+        Raises:
+            ValidationError: If the last name is invalid or empty.
+
+        Returns:
+            str: The cleaned last name.
         """
         lastname = self.cleaned_data.get('tutor_lastname')
 
-        # Remove leading/trailing spaces in the output to the DB
+        # Remove leading/trailing spaces in output to DB
         legible_lastname = lastname.strip()
 
-        # Replace multiple spaces with a single space in the output to the DB
+        # Replace multiple spaces with a single space in output to DB
         legible_lastname = re.sub(r'\s+', ' ', legible_lastname)
 
-        # Ensure no leading or trailing spaces around hyphens prior to the output to the DB
+        # Ensure no leading or trailing spaces around hyphens before output DB
         legible_lastname = re.sub(r'\s*-\s*', '-', legible_lastname)
 
-        # Check if the last name contains only letters, spaces, apostrophes, and hyphens
+        # Check if last name contains only valid characters
         if not re.match(r"^[A-Za-z\s' -]*$", legible_lastname):
-            raise ValidationError("Last name must contain only letters, spaces, apostrophes, and hyphens.")
+            raise ValidationError(
+                "Last name must contain only letters, \
+                spaces, apostrophes, and hyphens."
+            )
 
-        # Check for empty input after legible first name
+        # Check for empty input after cleaning
         if not legible_lastname:
             raise ValidationError("Last name cannot be empty.")
 
         # Ensure at least one letter is present
         if not re.search(r"[A-Za-z]", legible_lastname):
-            raise ValidationError("Last name must contain at least one letter.")
+            raise ValidationError(
+                "Last name must contain at least one letter."
+            )
 
-        return legible_lastname  # Return the legible last name
+        return legible_lastname  # Return cleaned last name
 
     def clean_tutor_email(self):
         """
         Validates the tutor's email.
-        - Checks if the email is provided and raises a validation error if empty.
+
+        Raises:
+            ValidationError: If email is empty or invalid.
+
+        Returns:
+            str: The cleaned email address.
         """
         email = self.cleaned_data.get('tutor_email')
 
-        # Check if the email is valid using Django's built-in email validator
+        # Check if email is valid using Django's built-in email validator
         if not email:
             raise ValidationError("Email address cannot be empty.")
-        return email  # Return the valid email
+        return email  # Return valid email address

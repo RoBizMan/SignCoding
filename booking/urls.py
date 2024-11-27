@@ -1,17 +1,23 @@
 """signcoding URL Configuration
 
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.2/topics/http/urls/
+The `urlpatterns` list routes URLs to views. For more information please
+see: https://docs.djangoproject.com/en/3.2/topics/http/urls/
+
 Examples:
 Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+    1. Add an import: from my_app import views
+    2. Add a URL to urlpatterns:
+        path('', views.home, name='home')
+
 Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+    1. Add an import: from other_app.views import Home
+    2. Add a URL to urlpatterns:
+        path('', Home.as_view(), name='home')
+
 Including another URLconf
     1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+    2. Add a URL to urlpatterns:
+        path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
 from django.urls import path
@@ -22,12 +28,22 @@ from .webhooks import stripe_webhook
 
 urlpatterns = [
     path('create/', views.booking_create, name='booking_create'),
-    path('get-available-time-slots/', views.get_available_time_slots, name='get_available_time_slots'),
-    path('create-payment-intent/', views.create_payment_intent, name='create_payment_intent'),
-    path('booking-success/<int:booking_id>', views.booking_success, name='booking_success'),
+    path(
+        'get-available-time-slots/', views.get_available_time_slots,
+        name='get_available_time_slots'
+    ),
+    path(
+        'create-payment-intent/', views.create_payment_intent,
+        name='create_payment_intent'
+    ),
+    path(
+        'booking-success/<int:booking_id>/', views.booking_success,
+        name='booking_success'
+    ),
     path('wh/stripe/', stripe_webhook, name='stripe-webhook'),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+        )

@@ -7,6 +7,7 @@ from django.views.decorators.http import require_http_methods
 from django.shortcuts import get_object_or_404
 from booking.models import Booking
 
+# Set the Stripe API key and endpoint secret from settings
 stripe.api_key = settings.STRIPE_SECRET_KEY
 endpoint_secret = settings.STRIPE_WH_SECRET
 
@@ -14,6 +15,16 @@ endpoint_secret = settings.STRIPE_WH_SECRET
 @csrf_exempt  # Disable CSRF protection for this view
 @require_http_methods(["POST"])
 def stripe_webhook(request):
+    """
+    Handle incoming webhook events from Stripe.
+
+    Args:
+        request (HttpRequest): The HTTP request object containing the event.
+
+    Returns:
+        JsonResponse: A JSON response indicating the status of the webhook
+                        handling.
+    """
     payload = request.body
     sig_header = request.META.get('HTTP_STRIPE_SIGNATURE')
     event = None
@@ -47,12 +58,17 @@ def stripe_webhook(request):
 
 
 def handle_payment_intent_succeeded(event):
-    # Retrieve the payment intent and associated metadata
+    """
+    Handle successful payment intent events.
+
+    Args:
+        event (dict): The Stripe event data containing payment intent info.
+    """
     payment_intent = event['data']['object']  # Contains a stripe.PaymentIntent
     stripe_pid = payment_intent['id']
 
     try:
-        # Find the corresponding booking
+        # Find the corresponding booking using the Stripe PID
         booking = Booking.objects.get(stripe_pid=stripe_pid)
     except Booking.DoesNotExist:
         print(f"No booking found for Payment Intent ID {stripe_pid}.")
@@ -62,17 +78,25 @@ def handle_payment_intent_succeeded(event):
     booking.payment_status = 'paid'
     booking.save()
 
-    print(f"Payment successful for {booking.user.personal_details.username} "
-          f"with tutor {booking.tutor.tutor_firstname} {booking.tutor.tutor_lastname}.")
+    print(
+        f"Payment successful for {booking.user.personal_details.username} "
+        f"with tutor {booking.tutor.tutor_firstname} "
+        f"{booking.tutor.tutor_lastname}."
+    )
 
 
 def handle_payment_intent_failed(event):
-    # Handle failed payments if needed (e.g., sending a failure notification to the user)
+    """
+    Handle failed payment intent events.
+
+    Args:
+        event (dict): The Stripe event data containing payment intent info.
+    """
     payment_intent = event['data']['object']
     stripe_pid = payment_intent['id']
 
     try:
-        # Find the corresponding booking
+        # Find the corresponding booking using the Stripe PID
         booking = Booking.objects.get(stripe_pid=stripe_pid)
     except Booking.DoesNotExist:
         print(f"No booking found for Payment Intent ID {stripe_pid}.")
@@ -82,17 +106,38 @@ def handle_payment_intent_failed(event):
     booking.payment_status = 'failed'
     booking.save()
 
-    print(f"Payment failed for {booking.user.personal_details.username} "
-          f"with tutor {booking.tutor.tutor_firstname} {booking.tutor.tutor_lastname}.")
+    print(
+        f"Payment failed for {booking.user.personal_details.username} "
+        f"with tutor {booking.tutor.tutor_firstname} "
+        f"{booking.tutor.tutor_lastname}."
+    )
 
 
 def handle_charge_succeeded(event):
-    # Handle successful charge events if needed
+    """
+    Handle successful charge events.
+
+    Args:
+        event (dict): The Stripe event data containing charge info.
+    """
+
     charge = event['data']['object']  # Contains a stripe.Charge
-    print(f"Charge was successful! Charge ID: {charge['id']}, Amount: {charge['amount']}")
+    print(
+        f"Charge was successful! Charge ID: {charge['id']}, "
+        f"Amount: {charge['amount']}"
+    )
 
 
 def handle_charge_updated(event):
-    # Handle updated charge events if needed
+    """
+    Handle updated charge events.
+
+    Args:
+        event (dict): The Stripe event data containing charge info.
+    """
+
     charge = event['data']['object']  # Contains a stripe.Charge
-    print(f"Charge updated! Charge ID: {charge['id']}, Status: {charge['status']}")
+    print(
+        f"Charge updated! Charge ID: {charge['id']}, Status: "
+        f"{charge['status']}"
+    )
