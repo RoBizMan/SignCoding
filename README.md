@@ -326,8 +326,8 @@ Contact
 - [![Balsamiq](https://img.shields.io/badge/Balsamiq-grey?logo=barmenia&logoColor=CE0908)](https://balsamiq.com/wireframes) used for creating wireframes.
 - [![Font Awesome](https://img.shields.io/badge/Font_Awesome-grey?logo=fontawesome&logoColor=528DD7)](https://fontawesome.com) used for the icons.
 - [![ChatGPT](https://img.shields.io/badge/ChatGPT-grey?logo=chromatic&logoColor=75A99C)](https://chat.openai.com) used to help debug, troubleshoot, and explain things.
-- [Perplexity AI](https://www.perplexity.ai/) used to help explain things, troubleshoot, and debug.
-- [CodePen](https://codepen.io/) used for toying and testing with CSS design before committing changes to the actual website design.
+- [![Perplexity AI](https://img.shields.io/badge/Perplexity_AI-grey?logo=perplexity&logoColor=1FB8CD)](https://www.perplexity.ai) used to help explain things, troubleshoot, and debug.
+- [![CodePen](https://img.shields.io/badge/CodePen-grey?logo=codepen&logoColor=000000)](https://codepen.io) used for toying and testing with CSS design before committing changes to the actual website design.
 
 ---
 
@@ -528,6 +528,69 @@ INSTALLED_APPS = [
 
 ![erd](documentation/erd.png)
 source: [medium.com](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
+
+I have used `Mermaid` to generate an interactive ERD of my project.
+
+```mermaid
+erDiagram
+    Booking {
+        string booking_id
+        datetime booking_date
+        string stripe_pid
+        string user_fullname
+        string user_email
+        string tutor_fullname
+        string tutor_email
+        decimal total_price
+        date session_date
+        char payment_status
+    }
+    Profile {
+        string personal_firstname
+        string personal_lastname
+    }
+    Contact {
+        uuid ticket_id
+        datetime date_submitted
+        string full_name
+        email email
+        text message
+    }
+    NewsletterSubscription {
+        email email
+    }
+    ProgrammingLanguage {
+        string name
+    }
+    SignLanguage {
+        string name
+    }
+    DayAvailability {
+        string name
+        integer order
+    }
+    TimeSlot {
+        time start_time
+        time end_time
+    }
+    Tutor {
+        string tutor_firstname
+        string tutor_lastname
+        email tutor_email
+        decimal price
+        image photo
+    }
+
+    Booking ||--o{ Profile : "user"
+    Booking ||--o{ Tutor : "tutor"
+    Booking }o--o{ TimeSlot : "session_time"
+    Tutor }o--o{ ProgrammingLanguage : "programming_languages"
+    Tutor }o--o{ SignLanguage : "sign_languages"
+    Tutor }o--o{ DayAvailability : "day_availability"
+    Tutor }o--o{ TimeSlot : "time_availability"
+```
+
+source: [Mermaid](https://mermaid.live/edit#pako:eNqVVE1v2zAM_SuGzunQIG0D-Latx2EYkJ2GAAZjM44QWTIkaquX5r-PspzEX8swXWyTj0_k05NPIjcFilSgfZVQWqi2OuH1yZij1GVyip9hObIhsouZTBa3VAGEJCu8JkNgUhkeNWZ1v7JLeYc223ulNFQ4n8UKpJqkyJO5UxnTo9ICc1mBSsgQqKy2MsfhKIlD56TRozHyA9ikhqZCTZkjIO9i8hwf36zZS4UzmtVondG82V5aR7OdXiEK-oiO-rPRBDn1qb2XRUIyPyLNn0V4yZzfVZIIp5IHzbJhK61OyUgtwjdKKhYEymFPX_GXU8jcduN3LuezJdas3-KE7yZUcFrFbXwBXXpmnhFtIsJGlvp_8K_QfPzJe8NOKknN3ZKwpCYs0SbGFmgHTN9Zz40yA_1bjdkFlrLwOkqgLnrhC01w40wbnYn_6o2YHxrjpu9dj4_czTHWrj4YMtfOhhf-_f3hwZyuXk6TrQjXbytmYXGiAGq7GKPOJqIu8gXg5W616oi-MB16zh2hsL7FWYuYcLMMA6O0e3LgHzVjs4SyApoMesHZwsFwYahJiViICi2fT8H_2fb0GXjAMH7cxR4D7Mw4YOZNo3ORkvW4EL4Ot7j7M4t0D8pxtAYt0pN4E-njQjQiXS7XH57WL6vV0_L55flxuVqfF-K3MVyxbNE_2vdIaY0vDx3V-Q9ES-9O)
 
 ---
 
@@ -758,7 +821,6 @@ Deployment steps are as follows, after account setup:
 | `STRIPE_PUBLIC_KEY` | user's own value |
 | `STRIPE_SECRET_KEY` | user's own value |
 | `STRIPE_WH_SECRET` | user's own value |
-| `USE_AWS` | True |
 
 Heroku needs three additional files in order to deploy properly.
 
