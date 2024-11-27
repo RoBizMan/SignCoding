@@ -1,0 +1,3 @@
+User-agent: *
+Disallow:
+Sitemap: https://signcoding-d529cc1ebf99.herokuapp.com/sitemap.xml

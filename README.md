@@ -531,3 +531,126 @@ source: [medium.com](https://medium.com/@yathomasi1/1-using-django-extensions-to
 
 ---
 
+## Agile Development Process
+
+### GitHub Projects
+
+[GitHub Projects](https://github.com/RoBizMan/SignCoding/projects) served as an Agile tool for this project.
+It isn't a specialised tool, but with the right tags and project creation/issue assignments, it can work.
+
+Through it, user stories, issues, and milestone tasks were planned and tracked weekly using the basic Kanban board.
+
+![screenshot](documentation/agile/gh_projects.png)
+
+### GitHub Issues
+
+[GitHub Issues](https://github.com/RoBizMan/SignCoding/issues) served as another Agile tool.
+I used my own **User Story Template** to manage user stories there.
+
+It also helped with milestone iterations weekly.
+
+- [Open Issues](https://github.com/RoBizMan/SignCoding/issues) [![GitHub issues](https://img.shields.io/github/issues/RoBizMan/SignCoding)](https://github.com/RoBizMan/SignCoding/issues)
+
+    ![screenshot](documentation/agile/gh_open.png)
+
+- [Closed Issues](https://github.com/RoBizMan/SignCoding/issues?q=is%3Aissue+is%3Aclosed) [![GitHub closed issues](https://img.shields.io/github/issues-closed/RoBizMan/SignCoding)](https://github.com/RoBizMan/SignCoding/issues?q=is%3Aissue+is%3Aclosed)
+
+    ![screenshot](documentation/agile/gh_closed.png)
+
+### MoSCoW Prioritization
+
+I've decomposed my Epics into stories before prioritising and implementing them.
+Using this approach, I could apply the [MoSCow prioritisation](https://github.com/users/RoBizMan/projects/6/views/2) and labels to my user stories within the Issues tab.
+
+- **Must Have**: guaranteed to be delivered (*max 60% of stories*)
+- **Should Have**: adds significant value, but not vital (*the rest ~20% of stories*)
+- **Could Have**: has small impact if left out (*20% of stories*)
+- **Won't Have**: not a priority for this iteration
+
+![screenshot](documentation/agile/gh_moscow.png)
+
+Furthermore, based on MoSCoW prioritisation, I calculated the story points based on the [Estimation Matrix](https://www.7pace.com/wp-content/uploads/2022/08/01_Image_Estimation-Matrix-1-scaled.jpg) to score each MoSCoW prioritisation based on my knowledge and skills and the requirements of the project.
+
+![screenshot](documentation/agile/gh_estmatrix.png)
+
+Finally, I assigned each MoSCoW prioritisation into one of four sprint weeks.
+
+![screenshot](documentation/agile/gh_sprintweek.png)
+
+## E-commerce Business Model
+
+SignCoding operates on a B2C (Business to Customer) model, offering an innovative platform that combines programming education with sign language tutoring. By focusing on empowering deaf and hard-of-hearing individuals, SignCoding creates a direct connection between expert tutors and students, ensuring seamless, individualised learning experiences.
+
+This business model prioritises one-on-one tutoring sessions without requiring long-term subscriptions. Students can book sessions tailored to their specific goals, enabling flexibility and accessibility in their educational journey.
+
+Although developing, SignCoding has implemented features like a newsletter and social media integration to foster community engagement. Social media platforms such as Facebook and Instagram help increase visibility and create a sense of belonging among users. The newsletter serves as a channel to provide updates, such as new tutors joining the platform, special offers, new programming courses, and community events.
+
+By combining these features with its unique value proposition, SignCoding is building a dynamic and inclusive ecosystem to support aspiring programmers in achieving their goals.
+
+## Search Engine Optimization (SEO) & Social Media Marketing
+
+### Keywords
+
+I've identified some appropriate keywords to align with my site, which should help users find my page easily from a search engine when searching online.
+This included a series of the following keyword types
+
+- Short-tail (head terms) keywords
+- Long-tail keywords
+
+I also played around with [Word Tracker](https://www.wordtracker.com) a bit to check the frequency of some of my site's primary keywords (only until the free trial expired).
+
+### Sitemap
+
+I've used [XML-Sitemaps](https://www.xml-sitemaps.com) to generate a sitemap.xml file.
+This was generated using my deployed site URL: https://signcoding-d529cc1ebf99.herokuapp.com
+
+After crawling the entire site, it created a
+[sitemap.xml](sitemap.xml), which I've downloaded and included in the repository.
+
+### Robots
+
+I've created the [robots.txt](robots.txt) file at the root-level.
+Inside, I've included the default settings:
+
+```
+User-agent: *
+Disallow:
+Sitemap: https://signcoding-d529cc1ebf99.herokuapp.com/sitemap.xml
+```
+
+Further links for future implementation:
+- [Google search console](https://search.google.com/search-console)
+- [Creating and submitting a sitemap](https://developers.google.com/search/docs/advanced/sitemaps/build-sitemap)
+- [Managing your sitemaps and using sitemaps reports](https://support.google.com/webmasters/answer/7451001)
+- [Testing the robots.txt file](https://support.google.com/webmasters/answer/6062598)
+
+### Social Media Marketing
+
+Creating a strong social base (with participation) and linking that to the business site can help drive sales.
+Using more popular providers with a wider user base, such as Facebook, typically maximises site views.
+
+I've created a mockup Facebook business account:
+
+![screenshot](documentation/agile/facebook_mock.png)
+
+### Newsletter Marketing
+
+I have incorporated a newsletter sign-up form on my application to allow users to supply their email addresses if they want to learn more right above the footer section.
+
+- **Internal newsletter (Django)**
+
+![screenshot](documentation/features/features5a.png)
+
+- **Sign Up message success**
+
+![screenshot](documentation/features/features4a.png)
+
+- **Sign Up email confirmation**
+
+![screenshot](documentation/features/features5b.png)
+
+- **Django admin newsletter subscription control**
+
+![screenshot](documentation/features/features5c.png)
+
+---

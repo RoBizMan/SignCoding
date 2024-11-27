@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+      xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+            http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
+
+
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>1.00</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/signup/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/contact/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/15/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/16/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/17/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/18/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/19/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/?page=2</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/?page=3</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/password/reset/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/15/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/16/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/17/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/18/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/19/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/21/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/22/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/23/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/24/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/25/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/?page=1</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/tutors/tutor/26/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.51</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/21/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/22/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/23/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/24/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/25/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+<url>
+  <loc>https://signcoding-d529cc1ebf99.herokuapp.com/accounts/login/?next=/tutors/tutor/26/</loc>
+  <lastmod>2024-11-27T09:31:16+00:00</lastmod>
+  <priority>0.41</priority>
+</url>
+
+
+</urlset>
