@@ -240,6 +240,7 @@ Contact
 	- The newsletter is located above the Home Page footer, allowing users to sign up for the newsletter to receive future discount offers or the latest news about the website.
 
 ![screenshot](documentation/features/features5a.png)
+![screenshot](documentation/features/features5b.png)
 
 - **Find a Tutor**
 	- The Find a Tutor consists of five rows of tutors offering their tutoring services through this website. If more than five tutors are on a page, the pagination control will appear. It is a maximum of five tutors per page. Each tutor will consist of their profile picture and full name that slices their surname into one initial to protect their privacy, programming skills, and sign language skills. Also, it shows the tutor's set price per hour with a button to lead users to view the tutor's profile. [Click here to view the Find a Tutor page](https://signcoding-d529cc1ebf99.herokuapp.com/tutors/)
@@ -271,7 +272,8 @@ Contact
 - **Booking Confirmation**
 	- The booking confirmation will appear once the payment has been successfully processed and will display all the details a user has booked. It also automatically sends the email to both the user and the tutor.
 
-![screenshot](documentation/features/features9.png)
+![screenshot](documentation/features/features9a.png)
+![screenshot](documentation/features/features9b.png)
 
 - **User Profile**
 	- A user can view their booking history through their user profile section. Also, a user can update their full name or delete the account.
@@ -285,6 +287,7 @@ Contact
 
 ![screenshot](documentation/features/features11a.png)
 ![screenshot](documentation/features/features11b.png)
+![screenshot](documentation/features/features11c.png)
 
 ### Future Features
 
@@ -327,3 +330,204 @@ Contact
 - [CodePen](https://codepen.io/) used for toying and testing with CSS design before committing changes to the actual website design.
 
 ---
+
+## Database Design
+
+Entity Relationship Diagrams (ERD) help to visualise database architecture before creating models.
+Understanding the relationships between different tables can save time later in the project.
+
+##### Tutor
+
+```python
+class ProgrammingLanguage(models.Model):
+	
+    name = models.CharField(max_length=50, unique=True)
+    def __str__(self):
+        return self.name
+```
+
+```python
+class SignLanguage(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+```
+
+```python
+class DayAvailability(models.Model):
+    name = models.CharField(max_length=20, unique=True)
+    order = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['order']
+        verbose_name = "Day Availability"
+        verbose_name_plural = "Day Availabilities"
+```
+
+```python
+class TimeSlot(models.Model):
+    start_time = models.TimeField()
+    end_time = models.TimeField()
+
+    def __str__(self):
+        return f"{self.start_time.strftime('%H:%M')} - {self.end_time.strftime('%H:%M')}"
+
+    def clean(self):
+        if self.start_time >= self.end_time:
+            raise ValidationError("Start time must be before end time.")
+        if self.end_time <= self.start_time:
+            raise ValidationError("End time must be after start time.")
+```
+
+```python
+class Tutor(models.Model):
+    tutor_firstname = models.CharField(max_length=50, verbose_name="Tutor's First Name")
+    tutor_lastname = models.CharField(max_length=50, verbose_name="Tutor's Surname")
+    tutor_email = models.EmailField(max_length=254, unique=True, verbose_name="Tutor's Email Address", validators=[EmailValidator()])
+    programming_languages = models.ManyToManyField(ProgrammingLanguage, related_name="tutors")
+    sign_languages = models.ManyToManyField(SignLanguage, related_name="tutors")
+    day_availability = models.ManyToManyField(DayAvailability)
+    time_availability = models.ManyToManyField(TimeSlot, related_name="tutors")
+    price = models.DecimalField(max_digits=6, decimal_places=2)
+    photo = CloudinaryField('profile_picture', default='images/default_tutor.jpg')
+
+    def __str__(self):
+        return f"{self.tutor_firstname} {self.tutor_lastname} | {self.tutor_email}"
+
+    def get_full_name(self):
+        return f"{self.tutor_firstname} {self.tutor_lastname}"
+```
+
+##### Personal User
+```python
+class Profile(models.Model):
+    personal_details = models.OneToOneField(User, on_delete=models.CASCADE, verbose_name="Username")
+    personal_firstname = models.CharField(max_length=50, blank=True, null=True, verbose_name="User's First Name")
+    personal_lastname = models.CharField(max_length=50, blank=True, null=True, verbose_name="User's Last Name")
+
+    def __str__(self):
+        return self.personal_details.username
+
+    def get_full_name(self):
+        return f"{self.personal_firstname} {self.personal_lastname}"
+```
+
+```python
+@receiver(post_save, sender=User)
+def create_or_update_user_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(
+            personal_details=instance,
+            personal_firstname=instance.first_name,
+            personal_lastname=instance.last_name
+        )
+    else:
+        profile = Profile.objects.get(personal_details=instance)
+        profile.personal_firstname = instance.first_name
+        profile.personal_lastname = instance.last_name
+        profile.save()
+```
+
+##### Booking
+```python
+class Booking(models.Model):
+    PAYMENT_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+        ('failed', 'Failed'),
+    ]
+
+    booking_id = models.CharField(max_length=32, unique=True, editable=False, verbose_name="Booking ID")
+    booking_date = models.DateTimeField(auto_now_add=True, editable=False, verbose_name="Booking Date")
+    stripe_pid = models.CharField(max_length=254, unique=True, null=False, blank=False, default='', editable=False, verbose_name="Stripe Payment ID")
+    user = models.ForeignKey(Profile, on_delete=models.SET_NULL, related_name="bookings", null=True)
+    user_fullname = models.CharField(max_length=101, null=True, blank=False, verbose_name="User's Full Name")
+    user_email = models.CharField(max_length=254, null=True, blank=False, verbose_name="User's Email address")
+    tutor = models.ForeignKey(Tutor, on_delete=models.SET_NULL, related_name="bookings", null=True)
+    tutor_fullname = models.CharField(max_length=101, null=True, blank=False, verbose_name="Tutor's Full Name")
+    tutor_email = models.CharField(max_length=254, null=True, blank=False, verbose_name="Tutor's Email address")
+    total_price = models.DecimalField(max_digits=6, decimal_places=2)
+    session_date = models.DateField()
+    session_time = models.ManyToManyField(TimeSlot, related_name="bookings")
+    payment_status = models.CharField(max_length=10, choices=PAYMENT_STATUS_CHOICES, default='pending')
+
+    class Meta:
+        ordering = ['-booking_date']
+
+    def _generate_booking_id(self):
+        return uuid.uuid4().hex.upper()
+
+    def save(self, *args, **kwargs):
+        if not self.booking_id:
+            self.booking_id = self._generate_booking_id()
+
+        if not self.stripe_pid:
+            self.stripe_pid = self._generate_stripe_pid()
+
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Booking Number {self.booking_id}"
+
+    def is_available(tutor, session_date, time_slot):
+        bookings = Booking.objects.filter(
+            tutor=tutor,
+            session_date=session_date,
+            session_time=time_slot
+        )
+        return not bookings.exists()
+```
+
+##### Newsletter
+
+```python
+class NewsletterSubscription(models.Model):
+    email = models.EmailField(unique=True)
+
+    def __str__(self):
+        return self.email
+```
+
+##### Contact
+
+```python
+class Contact(models.Model):
+    ticket_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    date_submitted = models.DateTimeField(auto_now_add=True)
+    full_name = models.CharField(max_length=255)
+    email = models.EmailField()
+    message = models.TextField()
+
+    def __str__(self):
+        return f"Ticket {self.ticket_id} - {self.full_name}"
+```
+
+I have used `pygraphviz` and `django-extensions` to auto-generate an ERD.
+
+The steps taken were as follows:
+- In the terminal: `sudo apt update`
+- then: `sudo apt-get install python3-dev graphviz libgraphviz-dev pkg-config`
+- then type `Y` to proceed
+- then: `pip3 install django-extensions pygraphviz`
+- in my `settings.py` file, I added the following to my `INSTALLED_APPS`:
+```python
+INSTALLED_APPS = [
+    ...
+    'django_extensions',
+    ...
+]
+```
+- back in the terminal: `python3 manage.py graph_models -a -o erd.png`
+- dragged the new `erd.png` file into my `documentation/` folder
+- removed `'django_extensions',` from my `INSTALLED_APPS`
+- finally, in the terminal: `pip3 uninstall django-extensions pygraphviz -y`
+
+![erd](documentation/erd.png)
+source: [medium.com](https://medium.com/@yathomasi1/1-using-django-extensions-to-visualize-the-database-diagram-in-django-application-c5fa7e710e16)
+
+---
+
