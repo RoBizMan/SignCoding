@@ -109,3 +109,26 @@ I've tested my deployed project on multiple devices to check for responsiveness 
 | Google Nexus 4 | ![screenshot](documentation/responsiveness/mobile1.png) | ![screenshot](documentation/responsiveness/mobile2.png) | ![screenshot](documentation/responsiveness/mobile4.png) | ![screenshot](documentation/responsiveness/mobile3.png) | ![screenshot](documentation/responsiveness/mobile5.png) | ![screenshot](documentation/responsiveness/mobile6.png) | ![screenshot](documentation/responsiveness/mobile7.png) | ![screenshot](documentation/responsiveness/mobile8.png) | ![screenshot](documentation/responsiveness/mobile9.png) | ![screenshot](documentation/responsiveness/mobile10.png) | ![screenshot](documentation/responsiveness/mobile11.png) | ![screenshot](documentation/responsiveness/mobile12.png) | ![screenshot](documentation/responsiveness/mobile13.png) | ![screenshot](documentation/responsiveness/mobile14.png) | ![screenshot](documentation/responsiveness/mobile15.png) | ![screenshot](documentation/responsiveness/mobile16.png) | ![screenshot](documentation/responsiveness/mobile17.png) | ![screenshot](documentation/responsiveness/mobile18.png) | ![screenshot](documentation/responsiveness/mobile19.png) | ![screenshot](documentation/responsiveness/mobile20.png) | ![screenshot](documentation/responsiveness/mobile21.png) | ![screenshot](documentation/responsiveness/mobile22.png) | ![screenshot](documentation/responsiveness/mobile23.png) | ![screenshot](documentation/responsiveness/mobile24.png) | Works as expected |
 
 ---
+
+## Lighthouse Audit
+
+I've tested my deployed project using the Lighthouse Audit tool to check for any major issues.
+
+| Page | Mobile | Desktop | Notes |
+| --- | --- | --- | --- |
+| Home | ![screenshot](documentation/lighthouse/mobile1.png) | ![screenshot](documentation/lighthouse/desktop1.png) | Some minor and warnings |
+| Tutor List | ![screenshot](documentation/lighthouse/mobile2.png) | ![screenshot](documentation/lighthouse/desktop2.png) | Some minor and warnings |
+| Tutor Profile | ![screenshot](documentation/lighthouse/mobile3.png) | ![screenshot](documentation/lighthouse/desktop3.png) | Some minor and warnings |
+| Tutor Add | ![screenshot](documentation/lighthouse/mobile4.png) | ![screenshot](documentation/lighthouse/desktop4.png) | Some minor warnings |
+| Tutor Edit | ![screenshot](documentation/lighthouse/mobile5.png) | ![screenshot](documentation/lighthouse/desktop5.png) | Some minor warnings |
+| Booking | ![screenshot](documentation/lighthouse/mobile6.png) | ![screenshot](documentation/lighthouse/desktop6.png) | Some minor warnings |
+| Profile | ![screenshot](documentation/lighthouse/mobile7.png) | ![screenshot](documentation/lighthouse/desktop7.png) | Some minor warnings |
+| Contact | ![screenshot](documentation/lighthouse/mobile8.png) | ![screenshot](documentation/lighthouse/desktop8.png) | Some minor warnings |
+| Sign Out | ![screenshot](documentation/lighthouse/mobile9.png) | ![screenshot](documentation/lighthouse/desktop9.png) | Some minor warnings |
+| Register | ![screenshot](documentation/lighthouse/mobile10.png) | ![screenshot](documentation/lighthouse/desktop10.png) | Some minor warnings |
+| Login | ![screenshot](documentation/lighthouse/mobile11.png) | ![screenshot](documentation/lighthouse/desktop11.png) | Some minor warnings |
+| Reset Password | ![screenshot](documentation/lighthouse/mobile12.png) | ![screenshot](documentation/lighthouse/desktop12.png) | Some minor warnings |
+| 403 | ![screenshot](documentation/lighthouse/mobile13.png) | ![screenshot](documentation/lighthouse/desktop13.png) | Some minor warnings |
+| 404 | ![screenshot](documentation/lighthouse/mobile14.png) | ![screenshot](documentation/lighthouse/desktop14.png) | Some minor warnings |
+
+---
