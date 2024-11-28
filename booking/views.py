@@ -404,7 +404,7 @@ def send_booking_confirmation_email(user_profile, booking):
     user_email = user_profile.personal_details.email
 
     email_to_user = EmailMultiAlternatives(
-        subject='', body='', from_email='arsenalpure95@gmail.com',
+        subject=subject, body='', from_email='arsenalpure95@gmail.com',
         to=[user_email]
     )
 
@@ -417,7 +417,7 @@ def send_booking_confirmation_email(user_profile, booking):
     tutor_email = booking.tutor.tutor_email
 
     email_to_tutor = EmailMultiAlternatives(
-        subject='', body='', from_email='arsenalpure95@gmail.com',
+        subject=subject, body='', from_email='arsenalpure95@gmail.com',
         to=[tutor_email]
     )
 
