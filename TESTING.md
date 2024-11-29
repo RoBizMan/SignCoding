@@ -196,3 +196,47 @@ Defensive programming was manually tested with the below user acceptance testing
 | As a site administrator, I should be able to handle booking requests, so that I can ensure smooth scheduling and session management. | ![screenshot](documentation/ustesting/feature9.png) |
 
 ---
+
+### GitHub **Issues**
+
+**Fixed Bugs**
+
+[![GitHub issue custom search](https://img.shields.io/github/issues-search?query=repo%3ARoBizMan%2FSignCoding%20label%3Abug&label=bugs)](https://github.com/RoBizMan/SignCoding/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
+
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/RoBizMan/SignCoding)](https://github.com/RoBizMan/SignCoding/issues?q=is%3Aissue+is%3Aclosed)
+
+All previously closed/fixed bugs can be tracked [here](https://github.com/RoBizMan/SignCoding/issues?q=is%3Aissue+is%3Aclosed).
+
+| Bug | Status |
+| --- | --- |
+| [Hamburger icon not transforming into X icon when opening the menu](https://github.com/RoBizMan/SignCoding/issues/28) | Closed |
+| [Footer nav links clickable area is full width instead of within text area](https://github.com/RoBizMan/SignCoding/issues/29) | Closed |
+| [Images order stacked incorrectly in smaller screens](https://github.com/RoBizMan/SignCoding/issues/30) | Closed |
+| [Sign Up & Login buttons in the landing page are stacked each other in smaller screens](https://github.com/RoBizMan/SignCoding/issues/31) | Closed |
+| [Element div not allowed as child of element button for menu toggler in the mobile view](https://github.com/RoBizMan/SignCoding/issues/32) | Closed |
+| [End tag h2 seen, but there were open elements in the index.html](https://github.com/RoBizMan/SignCoding/issues/33) | Closed |
+| [Profile picture does not restore to the default image upon the page reload to display the error](https://github.com/RoBizMan/SignCoding/issues/34) | Closed |
+| [Django's default allauth signup form does not prevent users from submitting the form with the already registered email](https://github.com/RoBizMan/SignCoding/issues/35) | Closed |
+| [The terminal output shows the error "<The file path> SyntaxWarning: invalid escape sequence '\s'"](https://github.com/RoBizMan/SignCoding/issues/36) | Closed |
+| [The terminal output shows the error "<The file path> UnorderedObjectListWarning: Pagination may yield inconsistent results with an unordered object_list: <class 'tutor.models.Tutor'> QuerySet. paginator = Paginator(tutors_list, 5)"](https://github.com/RoBizMan/SignCoding/issues/37) | Closed |
+| [Session time slots initialise before picking the date from the session date](https://github.com/RoBizMan/SignCoding/issues/38) | Closed |
+| [Login page does not display the error message](https://github.com/RoBizMan/SignCoding/issues/39) | Closed |
+| [Pagination number displays {{ num }} instead of the actual page number](https://github.com/RoBizMan/SignCoding/issues/40) | Closed |
+| [Today's date that is already past all available time slots are displaying in the session date datetime picker widget](https://github.com/RoBizMan/SignCoding/issues/41) | Closed |
+| [Fully booked status not displaying properly](https://github.com/RoBizMan/SignCoding/issues/42) | Closed |
+| [Booking form Submit/Cancel button width overflow in the mobile view](https://github.com/RoBizMan/SignCoding/issues/43) | Closed |
+| [Booking Confirmation sends out the email with (no subject)](https://github.com/RoBizMan/SignCoding/issues/44) | Closed |
+
+**Open Issues**
+
+[![GitHub issues](https://img.shields.io/github/issues/RoBizMan/SignCoding)](https://github.com/RoBizMan/SignCoding/issues)
+
+
+Any remaining open issues can be tracked [here](https://github.com/RoBizMan/SignCoding/issues).
+
+No open issues so far.
+
+## Unfixed Bugs
+
+> [!NOTE]  
+> There are no remaining bugs that I am aware of.
