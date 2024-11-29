@@ -61,7 +61,12 @@
                 <div class="mb-3">
                     <label for="id_message" class="form-label">Message:</label>
                     <textarea name="message" id="id_message" class="form-control" rows="5"
-                        placeholder="Type your message here" required>{{ form.message.value|default:'' }}</textarea>
+                        placeholder="Type your message here" maxlength="1000"
+                        required>{{ form.message.value|default:'' }}</textarea>
+                    <div class="text-end">
+                        <!-- Character count display -->
+                        <span id="charCount">1000 characters left.</span>
+                    </div>
                     {% if form.message.errors %}
                     <div class="text-danger">
                         {% for error in form.message.errors %}
@@ -81,4 +86,30 @@
         </div>
     </div>
 </div>
+
+<script>
+    // JavaScript to handle live character count
+    document.addEventListener('DOMContentLoaded', function () {
+        const messageField = document.getElementById('id_message');
+        const charCount = document.getElementById('charCount');
+        const maxLength = messageField.getAttribute('maxlength');
+
+        // Update character count on input
+        messageField.addEventListener('input', function () {
+            const remainingChars = maxLength - this.value.length;
+            charCount.textContent = remainingChars + ' characters left.';
+
+            // Change color if nearing limit
+            if (remainingChars <= 100) {
+                charCount.style.color = 'red';
+            } else {
+                charCount.style.color = 'black';
+            }
+        });
+
+        // Initialize character count on page load
+        charCount.textContent = maxLength + ' characters left.';
+    });
+</script>
+
 {% endblock content %}
