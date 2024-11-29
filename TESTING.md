@@ -180,3 +180,19 @@ Defensive programming was manually tested with the below user acceptance testing
 | | The login page is expected to display the error message and stop the logged-in non-superuser user from accessing the Django admin panel when attempting to brute force the URL of the Django admin panel. | Brute forces the URL of the Django admin panel while logged in as a non-superuser user. | The feature behaved as expected, prevented the non-superuser from accessing the Django admin panel, and displayed the error message. | Test concluded and passed | ![screenshot](documentation/defprog/defprog30.png) |
 
 ---
+
+## User Story Testing
+
+| User Story | Screenshot |
+| --- | --- |
+| As a new site user, I would like to create an account, so that I can access tutoring services. | ![screenshot](documentation/ustesting/feature1.png) |
+| As a new site user, I would like to browse available tutors, so that I can find the right match for my learning needs. | ![screenshot](documentation/ustesting/feature2.png) |
+| As a new site user, I would like to book a tutoring session, so that I can start learning programming with a sign language tutor. | ![screenshot](documentation/ustesting/feature3.png) |
+| As a returning site user, I would like to view my booking history, so that I can keep track of my past sessions. | ![screenshot](documentation/ustesting/feature4.png) |
+| As a returning site user, I would like to check tutor profiles' date and time availability, so that I can book new sessions as per my schedule. | ![screenshot](documentation/ustesting/feature5a.png) ![screenshot](documentation/ustesting/feature5b.png) ![screenshot](documentation/ustesting/feature5c.png) |
+| As a returning site user, I would like to update my profile information, so that my details remain current. | ![screenshot](documentation/ustesting/feature6.png) |
+| As a site administrator, I should be able to manage user accounts, so that I can ensure a secure and efficient platform. | ![screenshot](documentation/ustesting/feature7.png) |
+| As a site administrator, I should be able to monitor tutor availability, so that I can maintain an up-to-date list of available sessions. | ![screenshot](documentation/ustesting/feature8.png) |
+| As a site administrator, I should be able to handle booking requests, so that I can ensure smooth scheduling and session management. | ![screenshot](documentation/ustesting/feature9.png) |
+
+---
